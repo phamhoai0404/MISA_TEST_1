@@ -1,0 +1,35 @@
+input {
+    font-family: Notosans;
+}
+
+.m-input {
+    height: 32px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    outline: none;
+    padding: 0 12px 0 10px;
+    /* Kiểu này nó sẽ giữ nguyên cái độ rộng độ cao mà nó set mà nó không cộng cái padding */
+    box-sizing: border-box;
+    width: 100%;
+    font-family: Notosans;
+}
+
+.m-input:focus {
+    border-color: #31B404;
+}
+
+.m-input.m-input-icon {
+    background-image: url(../../assets/icon/search.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: calc(100% - 12px) center;
+    padding: 0 28px 0 10px;
+}
+
+.m-border-red {
+    border: 1px solid red !important;
+}
+
+.m-border-green {
+    border: 1px solid #31B404 !important;
+}

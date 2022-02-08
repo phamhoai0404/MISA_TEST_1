@@ -1,0 +1,84 @@
+.m-message {
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .4);
+    /* Dòng này là đi copy ở trong trang chủ cũng không hiểu lắm */
+    transition: all .25s ease;
+    z-index: 10;
+}
+
+.m-message .m-message-content {
+    position: absolute;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 32px;
+}
+
+.m-message .m-message-content .m-messages-body {
+    display: flex;
+    align-items: flex-start;
+}
+
+.m-message .m-message-content .m-messages-body .m-mess-icon {
+    min-width: 48px;
+    min-height: 48px;
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+}
+
+.m-message .m-message-content .m-messages-body .m-mess-title {
+    max-height: 400px;
+    margin-bottom: 32px;
+    padding-left: 16px;
+    padding-top: 12px;
+}
+
+.m-message .m-message-line {
+    height: 1px;
+    background: #b8bcc3;
+    margin-bottom: 20px;
+}
+
+
+/* Footer mess */
+
+.m-message .m-messages-footer-info {
+    text-align: center;
+}
+
+.m-message .m-messages-footer-question {
+    display: flex;
+    justify-content: space-between;
+}
+
+.m-message .m-messages-footer-question .m-footer-right {
+    display: flex;
+    /* background-color: red; */
+}
+
+.m-message .m-messages-footer-question .m-footer-right button~button {
+    margin-left: 8px;
+}
+
+
+/* các icon */
+
+.m-icon-info {
+    background-position: -24px -954px;
+}
+
+.m-exclamation-question {
+    background-position: -826px -456px;
+}
+
+.m-icon-warning {
+    background-position: -592px -456px;
+}

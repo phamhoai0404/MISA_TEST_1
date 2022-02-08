@@ -1,0 +1,71 @@
+/* Đây là import thêm fontawesome để sử dụng  */
+
+@import url('../assets/fonts/fontawesome-5.15.1/css/all.min.css');
+
+/* import cái dùng chung nó còn sử dụng cho các .vue khác  */
+
+@import url('./base/combobox.css');
+@import url('./base/button.css');
+@import url('./base/input.css');
+
+/* Cái file css này dùng nhiều cho component ở trong view/empolyee nên mình import ở đây luôn */
+
+@import url('./view/employee/employee-message.css');
+body {
+    font-family: Notosans;
+    font-size: 13px;
+    color: #454545;
+    padding: unset;
+    margin: unset;
+}
+
+@font-face {
+    font-family: Notosans;
+    src: url('../assets/fonts/notosans-regular.2cb88a13.woff2');
+}
+
+@font-face {
+    font-family: Notosans-Bold;
+    src: url('../assets/fonts/notosans-bold.3ede5aff.woff2');
+}
+
+@font-face {
+    font-family: Notosans-Semi-bold;
+    src: url('../assets/fonts/notosans-semibold.df3e6dc4.woff2');
+}
+
+@font-face {
+    font-family: Notosans-Italic;
+    src: url('../assets/fonts/notosans-italic.1c1aaac9.woff2');
+}
+
+.m-heading {
+    font-size: 24px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.m-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.m-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.text-align-center {
+    text-align: center !important;
+}
+
+.text-align-left {
+    text-align: left !important;
+}
+
+.text-align-right {
+    text-align: right !important;
+}

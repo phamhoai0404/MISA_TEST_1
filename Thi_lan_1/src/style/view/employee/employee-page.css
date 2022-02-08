@@ -1,0 +1,31 @@
+.m-table-paging {
+    display: flex;
+    justify-content: space-between;
+    height: 56px;
+    align-items: center;
+    box-sizing: border-box;
+    /* background-color: red; */
+    padding-left: 0;
+    padding-right: 35px;
+    bottom: 0;
+}
+
+.m-table-paging .m-paging-right {
+    display: flex;
+    align-items: center;
+}
+
+.m-table-paging .m-paging-right .m-right {
+    display: flex;
+    margin-left: 20px;
+}
+
+.m-page-number,
+.m-paging-title {
+    border: unset;
+    background: unset;
+}
+
+.m-page-active {
+    font-weight: 600;
+}

@@ -1,0 +1,76 @@
+.m-header-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: red; */
+    height: 48px;
+}
+
+.m-header-top .m-left {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+}
+
+.m-header-top .m-left .icon {
+    font-size: 24px;
+}
+
+.m-header-top .m-left .m-combobox.m-combobox-header {
+    border: unset !important;
+    width: auto;
+}
+
+.m-header-top .m-left .m-combobox.m-combobox-header .m-combobox-data {
+    display: none;
+}
+
+.m-header-top .m-left .m-combobox.m-combobox-header input {
+    font-family: Notosans;
+    /* background-color: green; */
+    box-sizing: border-box;
+    width: auto;
+    padding-right: 10px;
+}
+
+.m-header-top .m-left .m-combobox-header button {
+    padding-left: 0px !important;
+    margin-left: 0px !important;
+    width: unset;
+    font-size: 20px;
+}
+
+.m-header-top .m-right {
+    display: flex;
+    line-height: 48px;
+    padding-right: 11px;
+}
+
+.m-header-top .m-right button {
+    padding: unset;
+    border: unset;
+    margin: unset;
+    background-color: unset;
+}
+
+.m-header-top .m-right button i {
+    font-size: 24px;
+}
+
+.m-header-top .m-right .m-image {
+    width: 24px;
+    background-image: url(../../assets/icon/avatar-default.png);
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-position: center center;
+    margin: 0 16px;
+}
+
+.m-header-top .m-right .m-icon {
+    width: 24px;
+    background-image: url(../../assets/icon/option.png);
+    background-repeat: no-repeat;
+    background-size: 15px 24px;
+    background-position: center center;
+    margin: 0 16px;
+}

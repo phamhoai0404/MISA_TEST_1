@@ -1,0 +1,18 @@
+.m-function-group {
+    display: none;
+    background: #fff;
+    padding: 2px 1px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    width: 120px;
+    z-index: 1000;
+}
+
+.m-function-group .m-function-item {
+    padding: 5px 10px;
+}
+
+.m-function-group .m-function-item:hover {
+    color: #2ca01c;
+    background-color: rgb(230, 224, 224);
+}

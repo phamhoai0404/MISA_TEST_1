@@ -1,0 +1,59 @@
+.m-combobox {
+    position: relative;
+    display: flex;
+    color: #000000;
+    height: 30px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    /* box-sizing: border-box; */
+}
+
+.m-combobox .m-combobox-data {
+    /* display: none; */
+    width: 100%;
+    position: absolute;
+    background-color: #fff;
+    top: calc(100% + 1px);
+    box-shadow: 1px 1px 2px #bfbdbd;
+    border-radius: 2px;
+}
+
+.m-combobox button {
+    width: 32px !important;
+    background-color: unset;
+    border: unset;
+    cursor: pointer;
+}
+
+.m-combobox input {
+    width: 100%;
+    border: none;
+    padding: 0 0 0 10px;
+    border-radius: 4px;
+}
+
+.m-combobox input:focus {
+    border: none;
+    outline: none;
+}
+
+.m-combobox .m-combobox-item {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 36px;
+}
+
+.m-combobox .m-combobox-item:hover {
+    cursor: pointer;
+    background-color: #E9EBEE;
+}
+
+.m-combobox .m-combobox-item.m-combobox-item-selected {
+    background-color: wheat;
+    color: #fff;
+    padding-left: 36px;
+    background-image: url(../../assets/icon/check.png);
+    background-size: 8px 8px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}

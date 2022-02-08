@@ -1,0 +1,183 @@
+.m-menu {
+    /* background-color: white; */
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+}
+
+.m-menu .m-menu-top {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0px 24px;
+    box-sizing: border-box;
+    background-color: #111;
+}
+
+.m-menu .m-menu-top .m-icon {
+    width: 24px;
+    height: 24px;
+    /* background-color: red; */
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    background-position-x: -424px;
+    background-position-y: -86px;
+    margin-right: 10px;
+}
+
+.m-menu .m-menu-top .m-logo {
+    width: 100%;
+    height: 32px;
+    /* background-color: yellow; */
+    background-image: url(../../assets/img/Logo_Module_TiengViet_White.66947422.svg);
+    background-repeat: no-repeat;
+    background-size: auto 32px;
+}
+
+.m-menu .m-menu-body {
+    padding-top: 14px;
+    color: white;
+    background-color: #111;
+    /* height: 500px; */
+    overflow-y: scroll;
+}
+
+
+/* Css cho thanh cuộn dọc của menu */
+
+#menu-body::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+}
+
+#menu-body::-webkit-scrollbar-thumb {
+    background-color: #b8bcc3;
+}
+
+#menu-body::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+
+/* Css cho phần item */
+
+.m-menu .m-menu-body a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.m-menu .m-menu-body .menu-item {
+    font-size: 13px;
+    padding: 0px 14px 0 8px;
+    height: 42px;
+    line-height: 42px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-left: 6px solid #111;
+}
+
+.m-menu .m-menu-body .menu-item:hover {
+    background-color: #ebedf026;
+    border-left: none;
+    padding-left: 14px;
+}
+
+.m-menu .m-menu-body .menu-item:hover.router-link-active {
+    padding: 0px 14px 0 8px;
+}
+
+.m-menu .m-menu-body .menu-item.router-link-active {
+    border-left: 6px solid green;
+    background-color: #ebedf026;
+    font-weight: 600;
+    /* color: #fff;
+    text-decoration: none; */
+}
+
+.m-menu .m-menu-body .menu-item.router-link-active .m-item-icon {
+    opacity: 1;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    background-image: url(../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+    opacity: 0.4;
+}
+
+
+/* Các icon -item  */
+
+.m-menu .m-menu-body .menu-item .m-item-icon.overview {
+    background-position-x: -30px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.cash {
+    background-position-x: -73px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.deposits {
+    background-position: -117px -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.purchase {
+    background-position-x: -161px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.sell {
+    background-position-x: -204px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.order-management {
+    background-position-x: -249px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.warehouse {
+    background-position-x: -291px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.tools {
+    background-position-x: -336px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.fixed-assets {
+    background-position-x: -378px;
+    background-position-y: -1630px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.tax {
+    background-position-x: -423px;
+    background-position-y: -1630px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.aggregate-cost {
+    background-position: -467px -1628px;
+    background-position-x: -467px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.budget {
+    background-position-x: -510px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.report {
+    background-position-x: -547px;
+    background-position-y: -1628px;
+}
+
+.m-menu .m-menu-body .menu-item .m-item-icon.financial-analysis {
+    background-position-x: -204px;
+    background-position-y: -1664px;
+}

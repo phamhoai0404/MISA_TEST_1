@@ -1,0 +1,396 @@
+.m-dialog {
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .4);
+    transition: all .25s ease;
+    z-index: 10;
+}
+
+.m-dialog .m-dialog-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header {
+    display: flex;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-title {
+    width: 822px;
+    height: 73px;
+    box-sizing: border-box;
+    /* background-color: red; */
+    padding: 20px 32px;
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-title .m-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-title .m-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 0 19.5px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-title .m-checkbox input {
+    width: 18px;
+    height: 16px;
+    padding: unset;
+    margin: unset;
+    box-sizing: border-box;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-title .m-checkbox .m-label {
+    margin: 0px 0px 0px 10px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-close {
+    width: 78px;
+    height: 73px;
+    box-sizing: border-box;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.m-dialog .m-dialog-content .m-dialog-header .m-dialog-close .m-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+}
+
+.m-icon-help {
+    background-position: -89px -144px;
+}
+
+.m-icon-close {
+    background-position: -144px -144px;
+}
+
+
+/* Đây là phần content */
+
+.m-dialog .m-dialog-content .m-dialog-body {
+    width: 900px;
+    /* height: 552px; */
+    padding: 0 32px 20px;
+    box-sizing: border-box;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-one {
+    display: flex;
+    width: 100%;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-one .m-dialog-left {
+    width: 392px;
+    padding-right: 26px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-one .m-row-one {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 12px 0;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-content-combobox {
+    width: 100%;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-content-combobox .m-dialog-combobox {
+    position: relative;
+    display: flex;
+    color: #000000;
+    height: 30px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-content-combobox .m-dialog-combobox .m-dialog-combobox-data {
+    /* display: none; */
+    width: 100%;
+    position: absolute;
+    background-color: #fff;
+    top: calc(100% + 1px);
+    box-shadow: 1px 1px 4px #bfbdbd;
+    border-radius: 2px;
+    left: -1px;
+}
+
+.m-content-combobox .m-dialog-combobox .m-dialog-combobox-data .m-dialog-combobox-item {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 0 0 10px;
+}
+
+.m-content-combobox .m-dialog-combobox .m-dialog-combobox-data .m-dialog-combobox-item:hover {
+    background-color: rgba(187, 187, 187, 0.239);
+}
+
+.m-dialog .m-dialog-content .m-content-combobox .m-dialog-combobox input {
+    padding: 0 0 0 10px;
+    border: none;
+    width: 358px;
+    margin: unset;
+    /* background-color: green; */
+    box-sizing: border-box;
+}
+
+.m-dialog .m-dialog-content .m-content-combobox .m-dialog-combobox input:focus {
+    border: none;
+    outline: none;
+}
+
+.m-dialog .m-dialog-content .m-content-combobox .m-dialog-combobox button {
+    width: 32px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    /* background-color: red; */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: unset;
+}
+
+.m-dialog .m-dialog-content .m-content-combobox .m-dialog-combobox button .m-icon-button {
+    width: 16px;
+    height: 16px;
+    background-image: url(../../../assets/img/Sprites.64af8f61.svg);
+    background-repeat: no-repeat;
+}
+
+.m-icon-button.m-icon-down {
+    background-position: -560px -359px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-right {
+    /* background-color: rgba(255, 0, 0, 0.041); */
+    width: 418px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-right .m-groud-content-radio {
+    display: flex;
+    height: 32px;
+    align-items: center;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-right .m-groud-content-radio .m-item {
+    display: flex;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.m-groud-content-radio .m-item .m-item-radio {
+    padding: unset;
+    margin: unset;
+    height: 18px;
+    width: 18px;
+    margin-right: 7px;
+    /* color: red; */
+}
+
+
+/* customer checkbox */
+
+.m-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.m-checkbox label {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.m-checkbox label span {
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    align-items: center;
+    margin-left: 1px;
+    background: none;
+}
+
+.m-checkbox label::before {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border: 0.5px solid #bbb;
+    border-radius: 2px;
+    /* margin-right: 7px; */
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.m-checkbox input[type="checkbox"]:checked+label:before {
+    transform: rotate(-90deg);
+    transition: all .2s ease;
+    height: 18px;
+    width: 18px;
+    box-sizing: border-box;
+    border: 1px solid #2ca01c;
+}
+
+.m-checkbox input[type="checkbox"]:checked+label span {
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat;
+    background-position: -1224px -360px;
+}
+
+
+/* end */
+
+
+/* customer radio */
+
+.m-content-radio input[type="radio"] {
+    display: none;
+}
+
+.m-content-radio label {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.m-content-radio label span {
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    display: flex;
+    align-items: center;
+    margin-left: 3px;
+    border-radius: 50%;
+    /* background-color: red; */
+}
+
+.m-content-radio label::before {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border: 0.5px solid #bbb;
+    border-radius: 50%;
+    margin-right: 7px;
+    box-sizing: border-box;
+    /* background-color: red; */
+}
+
+.m-content-radio input[type="radio"]:checked+label:before {
+    height: 18px;
+    width: 18px;
+    box-sizing: border-box;
+    /* background-color: white; */
+    border: 1px solid #2ca01c;
+    /* box-shadow: 5px 5px 5px 5px red; */
+}
+
+.m-content-radio input[type="radio"]:checked+label span {
+    background-color: #2ca01c !important;
+}
+
+
+/* end */
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-two .m-row-two {
+    display: flex;
+    /* background-color: red; */
+    padding: 12px 0 0 0;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-dialog-two .m-row-two div~div {
+    margin-left: 6px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-label {
+    font-weight: 700;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-ct .m-label span {
+    color: red;
+    font-weight: 400;
+}
+
+.m-dialog-line {
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    margin: 32px 0 20px;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-footer .m-footer-right {
+    display: flex;
+}
+
+.m-dialog .m-dialog-content .m-dialog-body .m-dialog-footer .m-footer-right button~button {
+    margin-left: 5px;
+}
+
+
+/* css form date */
+
+.form-date {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    height: 32px;
+    box-sizing: border-box;
+    /* background-color: green; */
+    display: flex;
+    align-items: center;
+}
+
+.form-date input {
+    margin: unset;
+    padding: unset;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    padding: 0 12px 0 10px;
+    /* border: 1px solid red; */
+    box-sizing: border-box;
+    font-family: Notosans;
+}
+
+.m-icon- {
+    padding: 0 8px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    /* background-color: red; */
+}
+
+.m-icon-:hover {
+    background-color: #e0e0e0;
+}
+
+.m-icon-date {
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -128px -312px;
+    width: 16px;
+    height: 16px;
+}
+
+input.m-title-date::placeholder {
+    font-style: italic;
+    font-family: Notosans;
+}

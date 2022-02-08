@@ -1,0 +1,34 @@
+.m-button {
+    background-color: #31B404;
+    border-radius: 3px;
+    height: 36px;
+    color: #fff;
+    padding: 6px 16px;
+    text-align: center;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-family: Notosans;
+    font-size: 13px;
+    font-weight: 600 !important;
+}
+
+.m-button:hover {
+    background-color: #40FF00;
+}
+
+.m-button:active {
+    background-color: #74DF00;
+}
+
+.m-button.m-button-not-color {
+    background-color: unset;
+    border: 1px solid #8d9096;
+    color: #111;
+    font-weight: 500;
+}
+
+.m-button.m-button-not-color:hover {
+    background-color: #d2d3d6;
+    ;
+}
