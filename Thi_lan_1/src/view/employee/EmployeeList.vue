@@ -10,9 +10,10 @@
             <div style="width:220px;">
                 <input type="text" class="m-input m-input-icon search" placeholder="Tìm theo mã, tên nhân viên" v-model="keywordSearch">
             </div>
-            <div class="button-refresh" title="Load lại dữ liệu" @click="btnRefresh()">
+            <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
             </div>
-
+            <div class="button- btn-excel " title="Xuất re Excel" >
+            </div>
         </div>
         <div class="m-grid" id="m-grid">
             <table border="1" class="m-table">
@@ -54,10 +55,10 @@
                         <td>{{employee.BankName}}</td>
                         <td>{{employee.BankBranchName}}</td>
 
-                        <td class="m-funtionsss sticky-function" >
+                        <td class="m-funtionsss sticky-function">
                             <div class="m-function">
                                 <div class="m-title" @click="btnEditEmployeeDetail(employee)">Sửa</div>
-                                <button class="m-button-function" >
+                                <button class="m-button-function">
                                     <div class="m-button-icon" @click="showFunction($event, employee, index)" id="clickFunction">
                                     </div>
                                 </button>
@@ -77,7 +78,7 @@
                 <b v-if=" listEmployee==null ">0</b>
                 bản ghi
             </div>
-            <div class="m-paging-right" >
+            <div class="m-paging-right">
                 <div class="m-left">
                     <div class="m-combobox" style="width: 200px;">
                         <input type="text">
@@ -138,7 +139,7 @@ export default {
             isShowRemoveEmployee: false,
             editMode: 1,
             employeeIdSelected: {},
-           
+
             keywordSearch: null,
 
             myTimeout: "",
@@ -149,7 +150,7 @@ export default {
         this.getData();
 
     },
-    
+
     watch: {
         keywordSearch: function (value) {
             var me = this;
@@ -166,10 +167,10 @@ export default {
 
     methods: {
         getData() {
-             //Chắc chắn là con trỏ this đang ở đây;
+            //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
 
-            me.isShowLoading = true;//Hiển thị đang load
+            me.isShowLoading = true; //Hiển thị đang load
 
             axios.get('http://amis.manhnv.net/api/v1/Employees')
                 .then(function (res) {
@@ -211,14 +212,14 @@ export default {
                 }
             }
         },
-        removeOrBatchExecution(employeeId){
-            if(document.getElementById(employeeId).checked){
+        removeOrBatchExecution(employeeId) {
+            if (document.getElementById(employeeId).checked) {
                 document.getElementById('hangloat').checked = false;
-            }else{
-                var me  = this;
+            } else {
+                var me = this;
                 for (let i = 0; i < me.listEmployee.length; i++) {
                     let id = me.listEmployee[i].EmployeeId;
-                    if(id != employeeId && !document.getElementById(id).checked){
+                    if (id != employeeId && !document.getElementById(id).checked) {
                         return;
                     }
                 }
@@ -237,7 +238,7 @@ export default {
             this.employeeIdSelected = employee;
         },
         positionFunction(y, index) {
-            y = index != (this.listEmployee.length - 1) ? (y +14) : (y - 105);
+            y = index != (this.listEmployee.length - 1) ? (y + 14) : (y - 105);
             document.getElementById('function-ground').style.position = 'fixed';
             document.getElementById('function-ground').style.right = '70px';
             document.getElementById('function-ground').style.top = `${y}px`;
@@ -268,12 +269,12 @@ export default {
             this.isShowRemoveEmployee = true;
 
         },
-        btnRefresh(){
+        btnRefresh() {
             var me = this;
-            if(me.keywordSearch == null){
-                me.getData();//nếu mà ô tìm kiếm không có dữ liệu thì load lại dữ liệu
-            }else{
-                me.keywordSearch = null;//ô tìm kiếm có dữ liệu thì sẽ set về null rồi tự khắc ở phần watch nó sẽ theo dõi cái keyworkSearch để thực hiện load lại dữ liệu
+            if (me.keywordSearch == null) {
+                me.getData(); //nếu mà ô tìm kiếm không có dữ liệu thì load lại dữ liệu
+            } else {
+                me.keywordSearch = null; //ô tìm kiếm có dữ liệu thì sẽ set về null rồi tự khắc ở phần watch nó sẽ theo dõi cái keyworkSearch để thực hiện load lại dữ liệu
             }
 
         }
@@ -357,18 +358,28 @@ export default {
 
 }
 
-.button-refresh {
-    margin-left: 10px;
+.button- {
+    margin-left: 12px;
     width: 24px;
     height: 24px;
     background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat;
-    background-position: -423px -201px;
-    opacity: .5;
 }
 
-.button-refresh:hover {
-    opacity: 2;
+.button-.btn-refresh {
+    background-position: -423px -201px;
+}
+.button-.btn-excel {
+    background-position: -704px -200px;
+}
+
+.button-:hover {
     cursor: pointer;
+}
+.button-:hover.btn-refresh {
+    background-position: -1096px -88px;
+}
+.button-:hover.btn-excel{
+    background-position: -1264px -88px;
 }
 
 /* Tạo chữ nghiêng trong ô search */
@@ -376,6 +387,6 @@ input.search::placeholder {
     font-style: italic;
     font-family: Notosans;
 }
-/* end */
 
+/* end */
 </style>
