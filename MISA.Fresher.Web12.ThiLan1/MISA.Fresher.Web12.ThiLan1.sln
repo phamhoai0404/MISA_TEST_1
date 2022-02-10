@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.Fresher.Web12.Infrastructure", "MISA.Fresher.Web12.Infrastructure\MISA.Fresher.Web12.Infrastructure.csproj", "{2BD0E002-B7D5-4FD1-8A1A-6644E15442F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.Fresher.Web12.Core", "MISA.Fresher.Web12.Core\MISA.Fresher.Web12.Core.csproj", "{33BC89C4-302E-4799-BCF7-9ED98EB00195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.Fresher.Web12.API", "MISA.Fresher.Web12.API\MISA.Fresher.Web12.API.csproj", "{A63A8337-2662-447C-BB9E-37905B765B9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BD0E002-B7D5-4FD1-8A1A-6644E15442F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD0E002-B7D5-4FD1-8A1A-6644E15442F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD0E002-B7D5-4FD1-8A1A-6644E15442F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD0E002-B7D5-4FD1-8A1A-6644E15442F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BC89C4-302E-4799-BCF7-9ED98EB00195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BC89C4-302E-4799-BCF7-9ED98EB00195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BC89C4-302E-4799-BCF7-9ED98EB00195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BC89C4-302E-4799-BCF7-9ED98EB00195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A63A8337-2662-447C-BB9E-37905B765B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A63A8337-2662-447C-BB9E-37905B765B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A63A8337-2662-447C-BB9E-37905B765B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A63A8337-2662-447C-BB9E-37905B765B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {737F4AEB-D391-4ED1-8D0E-9E0DFC263D27}
+	EndGlobalSection
+EndGlobal

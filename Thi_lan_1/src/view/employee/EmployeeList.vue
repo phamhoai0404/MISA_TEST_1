@@ -172,7 +172,7 @@ export default {
 
             me.isShowLoading = true; //Hiển thị đang load
 
-            axios.get('http://amis.manhnv.net/api/v1/Employees')
+            axios.get('http://localhost:7116/api/v1/Employees')
                 .then(function (res) {
                     me.listEmployee = res.data;
                     console.log(res.data);

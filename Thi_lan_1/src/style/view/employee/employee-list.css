@@ -60,14 +60,15 @@ td.sticky-function {
     background-color: #fff;
 }
 
-tr:hover td.sticky-function {
+
+/* tr:hover td.sticky-function {
     background-color: #f5fbf9;
     ;
 }
 
 tr:hover td.sticky-checkbox {
     background-color: #f5fbf9;
-}
+} */
 
 tbody .sticky-checkbox {
     background-color: #fff;
@@ -133,7 +134,7 @@ table.m-table tbody tr {
     background-color: #fff;
 }
 
-table.m-table tbody tr:hover {
+table.m-table tbody tr:hover td {
     background-color: #f5fbf9;
     cursor: pointer;
 }

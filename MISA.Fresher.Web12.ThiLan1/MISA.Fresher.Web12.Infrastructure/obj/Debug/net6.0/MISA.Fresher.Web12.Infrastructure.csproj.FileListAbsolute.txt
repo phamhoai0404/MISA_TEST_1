@@ -1,0 +1,15 @@
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.deps.json
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\ref\MISA.Fresher.Web12.Infrastructure.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.pdb
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\MISA.Fresher.Web12.Core.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\bin\Debug\net6.0\MISA.Fresher.Web12.Core.pdb
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.csproj.AssemblyReference.cache
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.AssemblyInfoInputs.cache
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.AssemblyInfo.cs
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.csproj.CoreCompileInputs.cache
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.csproj.CopyComplete
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\ref\MISA.Fresher.Web12.Infrastructure.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Infrastructure\obj\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.pdb
