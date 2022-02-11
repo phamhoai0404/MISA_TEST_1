@@ -15,6 +15,11 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
         public string GetEmployeeCodeNew()
         {
             //var listEmployee = this.GetAll();
+            //var hoa = new
+            //{
+            //    xinh = true,
+
+            //};
             return "hoa";
         }
     }

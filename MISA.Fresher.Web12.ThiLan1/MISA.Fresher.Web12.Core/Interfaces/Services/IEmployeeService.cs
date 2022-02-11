@@ -9,6 +9,6 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Services
 {
     public interface IEmployeeService : IBaseService<Employee>
     {
-
+        //Object exportExcel();
     }
 }

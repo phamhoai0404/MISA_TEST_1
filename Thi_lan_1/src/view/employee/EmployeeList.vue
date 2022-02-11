@@ -12,7 +12,7 @@
             </div>
             <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
             </div>
-            <div class="button- btn-excel " title="Xuất re Excel">
+            <div class="button- btn-excel " title="Xuất re Excel" @click="btnExportExcel()">
             </div>
         </div>
         <div class="m-grid" id="m-grid">
@@ -144,6 +144,7 @@ export default {
             keywordSearch: null,
 
             myTimeout: "",
+            testExport: "xinhxinh",
         }
     },
     created() {
@@ -282,7 +283,7 @@ export default {
         showRemoveEmployee(employee) {
             //Thực hiện gán dữ liệu và mở message lên
             this.employeeIdSelected = employee;
-            
+
             this.isShowRemoveEmployee = true;
 
         },
@@ -299,13 +300,33 @@ export default {
             var me = this;
             if (me.listDepartmentTable) {
                 for (let i = 0; i < me.listDepartmentTable.length; i++) {
-                    if (value== me.listDepartmentTable[i].DepartmentId) {
+                    if (value == me.listDepartmentTable[i].DepartmentId) {
                         return me.listDepartmentTable[i].DepartmentName;
                     }
                 }
                 return "";
             }
-           
+
+        },
+        btnExportExcel() {
+            // alert("hoa");
+            //Chắc chắn là con trỏ this đang ở đây;
+            var me = this;
+            me.isShowLoading = true; //Hiển thị đang load
+            axios.get('https://localhost:44338/api/v1/Employees/excel', {
+                responseType: 'blob',
+            }).then((response) => {
+                const url = URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute(
+                    'download',
+                    `${this.testExport}-${new Date().toLocaleDateString()}.xlsx`
+                )
+                document.body.appendChild(link)
+                link.click();
+                me.isShowLoading = false;
+            })
         }
     },
     filters: {
@@ -344,7 +365,7 @@ export default {
             return value;
 
         },
-        
+
     }
 
 }
