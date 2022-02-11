@@ -154,6 +154,7 @@ namespace MISA.Fresher.Web12.Core.Entities
         /// </summary>
         [PropertyName("Ngày cập nhật")]
         public DateTime? ModifiedDate { get; set; }
+        
 
         /// <summary>
         /// Người cập nhật

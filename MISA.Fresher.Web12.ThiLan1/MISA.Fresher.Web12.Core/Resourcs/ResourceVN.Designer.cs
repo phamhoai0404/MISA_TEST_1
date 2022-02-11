@@ -131,5 +131,14 @@ namespace MISA.Fresher.Web12.Core.Resourcs {
                 return ResourceManager.GetString("InforNotExistId", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 00000000-0000-0000-0000-000000000000.
+        /// </summary>
+        public static string NotGuid {
+            get {
+                return ResourceManager.GetString("NotGuid", resourceCulture);
+            }
+        }
     }
 }

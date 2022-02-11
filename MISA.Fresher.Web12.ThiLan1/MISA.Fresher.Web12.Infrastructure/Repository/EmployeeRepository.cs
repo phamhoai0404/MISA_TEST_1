@@ -12,5 +12,10 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
+        public string GetEmployeeCodeNew()
+        {
+            //var listEmployee = this.GetAll();
+            return "hoa";
+        }
     }
 }

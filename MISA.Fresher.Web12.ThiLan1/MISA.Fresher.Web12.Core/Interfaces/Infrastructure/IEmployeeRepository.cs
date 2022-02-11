@@ -9,5 +9,6 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Infrastructure
 {
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
+        string GetEmployeeCodeNew();
     }
 }

@@ -83,6 +83,8 @@ namespace MISA.Fresher.Web12.Core.Services
             //Lấy ra tất cả các porperty được đánh dấu là NotEmpty không được để trống 
             var propNotEmpties = entity.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(NotEmpty)));
 
+            var x = 1;
+
             foreach (var prop in propNotEmpties)
             {
                 var propValue = prop.GetValue(entity);
@@ -95,14 +97,14 @@ namespace MISA.Fresher.Web12.Core.Services
                 {
                     nameDisplay = (propertyNames[0] as PropertyName).Name;
                 }
-                //|| ((propValue == String.Format(Core.Resourcs.ResourceVN.NotGuid))&& (prop.PropertyType == typeof(Guid)))
+               // ((propValue == String.Format(Core.Resourcs.ResourceVN.NotGuid)) && (prop.PropertyType == typeof(Guid)))
                 if (propValue == null || string.IsNullOrEmpty(propValue.ToString()))
                 {
                     //Kiểm tra xem nó có tồn tại cái propertyName không
                     //nếu tồn tại thì lấy còn nếu không thì lấy chính cái tên property có sẵn
                     nameDisplay = (nameDisplay != string.Empty) ? nameDisplay : propName;
 
-                    throw new MISAValidateException(String.Format(Core.Resourcs.ResourceVN.InforNotEmpty,nameDisplay));
+                    throw new MISAValidateException(String.Format(Core.Resourcs.ResourceVN.InforNotEmpty, nameDisplay));
                 }
             }
 

@@ -28,6 +28,19 @@ namespace MISA.Fresher.Web12.API.Controllers
         }
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Lấy ra mã thêm mới tiếp theo
+        /// </summary>
+        /// <returns></returns>
+        /// Created: HoaiPT(11/02/2022)
+        [HttpGet("CodeNew")]
+        public string GetHoa()
+        {
+            return _employeeRepository.GetEmployeeCodeNew();
+        }
+        #endregion
 
 
 
