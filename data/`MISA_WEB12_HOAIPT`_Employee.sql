@@ -17,7 +17,7 @@
   BankName varchar(255) DEFAULT NULL COMMENT 'Tên ngân hàng',
   IsSupplier tinyint(1) DEFAULT NULL COMMENT 'true: là khách hàng; false,null: không phải là khách hàng',
   IsCustomer tinyint(1) DEFAULT NULL COMMENT 'true: là nhà cung cấp; false,null: không phải là nhà cung cấp',
-  DeparmentId char(36) NOT NULL DEFAULT '' COMMENT 'Mã phòng ban',
+  DepartmentId char(36) NOT NULL DEFAULT '' COMMENT 'Mã phòng ban',
   CreatedDate datetime DEFAULT NULL COMMENT 'Thời gian tạo nhân viên',
   CreatedBy varchar(255) DEFAULT NULL COMMENT 'Người tạo nhân viên',
   ModifiedDate datetime DEFAULT NULL COMMENT 'Thời  gian sửa nhân viên',
@@ -34,5 +34,5 @@ ALTER TABLE `MISA.WEB12.HOAIPT`.Employee
 ADD UNIQUE INDEX UK_Employee_EmployeeCode (EmployeeCode);
 
 ALTER TABLE `MISA.WEB12.HOAIPT`.Employee
-ADD CONSTRAINT FK_Employee_DeparmentId FOREIGN KEY (DeparmentId)
+ADD CONSTRAINT FK_Employee_DeparmentId FOREIGN KEY (DepartmentId)
 REFERENCES `MISA.WEB12.HOAIPT`.Department (DepartmentId) ON DELETE NO ACTION;

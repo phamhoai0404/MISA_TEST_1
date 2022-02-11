@@ -31,3 +31,7 @@ D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.dll
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\MISA.Fresher.Web12.Core.pdb
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\MISA.Fresher.Web12.Infrastructure.pdb
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

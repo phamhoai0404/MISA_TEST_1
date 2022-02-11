@@ -12,7 +12,7 @@
             </div>
             <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
             </div>
-            <div class="button- btn-excel " title="Xuất re Excel" >
+            <div class="button- btn-excel " title="Xuất re Excel">
             </div>
         </div>
         <div class="m-grid" id="m-grid">
@@ -31,8 +31,8 @@
                         <th style="min-width:100px;">CHỨC DANH</th>
                         <th style="min-width:150px">TÊN ĐƠN VỊ</th>
                         <th style="min-width:100px">SỐ TÀI KHOẢN</th>
-                        <th style="min-width:120px">TÊN NGÂN HÀNG</th>
-                        <th style="min-width:170px">CHI NHÁNH NGÂN HÀNG</th>
+                        <th style="min-width:170px">TÊN NGÂN HÀNG</th>
+                        <th style="min-width:150px">CHI NHÁNH NGÂN HÀNG</th>
                         <th class="sticky-function text-align-center">CHỨC NĂNG</th>
 
                     </tr>
@@ -45,12 +45,12 @@
                             <label :for="employee.EmployeeId" @click="removeOrBatchExecution(employee.EmployeeId)"><span></span></label>
                         </td>
                         <td style="border-left:unset;">{{employee.EmployeeCode}}</td>
-                        <td>{{employee.EmployeeName}} </td>
+                        <td>{{employee.FullName}} </td>
                         <td>{{employee.Gender | formatGender }} </td>
                         <td class="text-align-center">{{employee.DateOfBirth | formatDate}}</td>
                         <td class="text-align-left">{{employee.IdentityNumber}}</td>
-                        <td>{{employee.EmployeePosition}}</td>
-                        <td>{{employee.DepartmentName}}</td>
+                        <td>{{employee.PositionName}}</td>
+                        <td>{{ filterDepartmentName(employee.DepartmentId) }}</td>
                         <td>{{employee.BankAccountNumber}}</td>
                         <td>{{employee.BankName}}</td>
                         <td>{{employee.BankBranchName}}</td>
@@ -107,7 +107,7 @@
         </div>
     </div>
     <EmployeeFunction @openRemoveEmployee="isShowRemoveEmployee=!isShowRemoveEmployee" />
-    <EmployeeDetail v-if='isShowEmployeeDetail' @openDialog='isShowEmployeeDetail =!isShowEmployeeDetail' :editMode='editMode' :employee='employeeIdSelected' @reloadData='getData' />
+    <EmployeeDetail v-if='isShowEmployeeDetail' @openDialog='isShowEmployeeDetail =!isShowEmployeeDetail' :editMode='editMode' :employee='employeeIdSelected' @reloadData='getData' :listDepartment='listDepartmentTable' />
 
     <MessageRemoveEmployee v-if='isShowRemoveEmployee' :employee='employeeIdSelected' @openMessageRemove='isShowRemoveEmployee= !isShowRemoveEmployee' @reloadData='getData' />
 
@@ -134,6 +134,7 @@ export default {
     data() { //Các biến có trong component
         return {
             listEmployee: null,
+            listDepartmentTable: null,
             isShowLoading: false,
             isShowEmployeeDetail: false,
             isShowRemoveEmployee: false,
@@ -147,6 +148,7 @@ export default {
     },
     created() {
         //Gọi API lấy dữ liệu
+        this.getDataListDepartment();
         this.getData();
 
     },
@@ -171,8 +173,7 @@ export default {
             var me = this;
 
             me.isShowLoading = true; //Hiển thị đang load
-
-            axios.get('http://localhost:7116/api/v1/Employees')
+            axios.get('https://localhost:44338/api/v1/Employees')
                 .then(function (res) {
                     me.listEmployee = res.data;
                     console.log(res.data);
@@ -181,6 +182,19 @@ export default {
                 })
                 .catch(function (res) {
                     console.log(res);
+
+                })
+        },
+        getDataListDepartment() {
+            //Chắc chắn là con trỏ this đang ở đây;
+            var me = this;
+            axios.get('https://localhost:44338/api/v1/Departments')
+                .then(function (res) {
+                    console.log(res.data);
+                    me.listDepartmentTable = res.data;
+                })
+                .catch(function (res) {
+                    console.err(res);
                 })
         },
         getDataByKeywordSearch(keyword) {
@@ -261,11 +275,14 @@ export default {
 
             this.editMode = 2;
             this.employeeIdSelected = employee;
+            this.employeeIdSelected.DepartmentName = this.filterDepartmentName(employee.DepartmentId);
+
             this.isShowEmployeeDetail = true;
         },
         showRemoveEmployee(employee) {
             //Thực hiện gán dữ liệu và mở message lên
             this.employeeIdSelected = employee;
+            
             this.isShowRemoveEmployee = true;
 
         },
@@ -277,6 +294,18 @@ export default {
                 me.keywordSearch = null; //ô tìm kiếm có dữ liệu thì sẽ set về null rồi tự khắc ở phần watch nó sẽ theo dõi cái keyworkSearch để thực hiện load lại dữ liệu
             }
 
+        },
+        filterDepartmentName(value) {
+            var me = this;
+            if (me.listDepartmentTable) {
+                for (let i = 0; i < me.listDepartmentTable.length; i++) {
+                    if (value== me.listDepartmentTable[i].DepartmentId) {
+                        return me.listDepartmentTable[i].DepartmentName;
+                    }
+                }
+                return "";
+            }
+           
         }
     },
     filters: {
@@ -314,7 +343,8 @@ export default {
             }
             return value;
 
-        }
+        },
+        
     }
 
 }
@@ -368,6 +398,7 @@ export default {
 .button-.btn-refresh {
     background-position: -423px -201px;
 }
+
 .button-.btn-excel {
     background-position: -704px -200px;
 }
@@ -375,10 +406,12 @@ export default {
 .button-:hover {
     cursor: pointer;
 }
+
 .button-:hover.btn-refresh {
     background-position: -1096px -88px;
 }
-.button-:hover.btn-excel{
+
+.button-:hover.btn-excel {
     background-position: -1264px -88px;
 }
 

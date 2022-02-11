@@ -32,12 +32,12 @@
                             </div>
                             <div class="m-content-input" style="width: 58%;">
                                 <div class="m-label">Tên <span>*</span></div>
-                                <input type="text" class="m-input" v-model="employee.EmployeeName" @input="inputOnChange(employee.EmployeeName, $event)" id="employeeName" title="Tên không được để trống!">
+                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!">
                             </div>
                         </div>
                         <div class="m-content-combobox" style="padding: 0 0 12px 0">
                             <div class="m-label">Đơn vị <span>*</span> </div>
-                            <div class="m-dialog-combobox" id="departmentName" @mouseleave="isShowDepartment = false" @mouseover ="isShowDepartment = true">
+                            <div class="m-dialog-combobox" id="departmentName" @mouseleave="isShowDepartment = false" @mouseover="isShowDepartment = true">
                                 <input type="text" v-model="employee.DepartmentName" readonly title="Đơn vị không được để trống!">
                                 <button class="" @click='btnSelectDepartment()'>
                                     <div class="m-icon-button m-icon-down"></div>
@@ -49,14 +49,14 @@
                         </div>
                         <div class="m-content-input ">
                             <div class="m-label ">Chức danh</div>
-                            <input type="text " class="m-input" v-model="employee.EmployeePosition">
+                            <input type="text " class="m-input" v-model="employee.PositionName">
                         </div>
                     </div>
                     <div class="m-dialog-right ">
                         <div class="m-row-one">
                             <div class="m-content-input" style="width: 40%">
                                 <div class="m-label">Ngày sinh</div>
-                                <v-date-picker v-model="employee.DateOfBirth" format="MM/DD/YYYY" color="green" :max-date='new Date()' :masks="masks">
+                                <v-date-picker v-model="employee.DateOfBirth" color="green" :max-date='new Date()' :masks="masks">
                                     <template v-slot="{ inputValue, inputEvents ,togglePopover }">
                                         <div class="form-date">
                                             <input type="text" class="m-title-date" placeholder="DD/MM/YYYY" :value="inputValue" v-on="inputEvents">
@@ -104,7 +104,7 @@
                                 <v-date-picker v-model="employee.IdentityDate" color="green" :max-date='new Date()' :masks="masks">
                                     <template v-slot="{ inputValue, inputEvents ,togglePopover }">
                                         <div class="form-date">
-                                            <input type="text" class="m-title-date" placeholder="DD/MM/YYYY" :value="inputValue" v-on="inputEvents" >
+                                            <input type="text" class="m-title-date" placeholder="DD/MM/YYYY" :value="inputValue" v-on="inputEvents">
                                             <div class="m-icon-" @click="togglePopover()">
                                                 <div class="m-icon-date"></div>
                                             </div>
@@ -128,11 +128,11 @@
                     <div class="m-row-two">
                         <div class="m-content-input">
                             <div class="m-label">ĐT di động</div>
-                            <input type="text" class="m-input" v-model="employee.PhoneNumber">
+                            <input type="text" class="m-input" v-model="employee.MobilephoneNumber">
                         </div>
                         <div class="m-content-input">
                             <div class="m-label">ĐT cố định</div>
-                            <input type="text" class="m-input">
+                            <input type="text" class="m-input" v-model="employee.TelephoneNumber">
                         </div>
                         <div class="m-content-input">
                             <div class="m-label">Email</div>
@@ -185,7 +185,7 @@ export default {
         MessageWarningEmployee,
         MessageConfirmEdit
     },
-    props: ['editMode', 'employee'],
+    props: ['editMode', 'employee', 'listDepartment'],
 
     data() {
         return {
@@ -196,7 +196,7 @@ export default {
             isShowInfoMessage: false,
             isShowWarningMessage: false,
             isShowEditMessage: false,
-            listDepartment: null,
+    
             isShowDepartment: false,
             employeeCode: "",
 
@@ -205,9 +205,7 @@ export default {
             departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi thằng employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
         }
     },
-    created() {
-        this.getDataListDepartment();
-    },
+   
     watch: {
         departmentName: function (value) {
             if (!value) {
@@ -227,19 +225,6 @@ export default {
     },
 
     methods: {
-        getDataListDepartment() {
-            //Chắc chắn là con trỏ this đang ở đây;
-            var me = this;
-            me.isShowLoading = true;
-            axios.get('http://amis.manhnv.net/api/v1/Departments')
-                .then(function (res) {
-                    console.log(res.data);
-                    me.listDepartment = res.data;
-                })
-                .catch(function (res) {
-                    console.err(res);
-                })
-        },
         btnSelectDepartment() {
             this.isShowDepartment = !this.isShowDepartment;
 
@@ -273,12 +258,21 @@ export default {
                 var me = this;
 
                 //Phải format về dạng này thì nó mới nhận đúng
-                me.employee.DateOfBirth = this.formatDate(me.employee.DateOfBirth);
-                me.employee.IdentityDate = this.formatDate(me.employee.IdentityDate);
+                me.employee.DateOfBirth = me.formatDate(me.employee.DateOfBirth);
+                me.employee.IdentityDate = me.formatDate(me.employee.IdentityDate);
 
-                switch (this.editMode) {
+                //Lưu lại thời gian tạo nếu là tạo nhân viên mới
+                if(me.editMode==1){
+                    me.employee.CreatedDate = me.formatDateAndTimeNow();
+                }
+                
+                //Lưu lại thời gian cập nhật  dữ liệu
+                me.employee.ModifiedDate = me.formatDateAndTimeNow();
+               
+
+                switch (me.editMode) {
                     case 1:
-                        axios.post('http://amis.manhnv.net/api/v1/Employees', me.employee)
+                        axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
                                 me.$emit('openDialog', null);
                                 me.$emit('reloadData', null);
@@ -288,7 +282,7 @@ export default {
                             })
                         break;
                     case 2:
-                        axios.put(`http://amis.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`, this.employee)
+                        axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
                             .then(function () {
                                 //Đóng dialog detail
                                 me.$emit('openDialog', null);
@@ -317,14 +311,14 @@ export default {
         },
         inputOnChange(valueField, ee) {
             if (!valueField) {
-               ee.target.classList.add('m-border-red');   
+                ee.target.classList.add('m-border-red');
             } else {
                 ee.target.classList.remove('m-border-red');
             }
         },
         validateData() {
             //Không được để trống mã, họ tên và đơn vị
-            if (!this.employee.EmployeeCode || !this.employee.EmployeeName || !this.employee.DepartmentName) {
+            if (!this.employee.EmployeeCode || !this.employee.FullName || !this.employee.DepartmentName) {
 
                 //Phải style cho border nếu để trống
                 if (!this.employee.DepartmentName) {
@@ -333,7 +327,7 @@ export default {
                     this.errorInfo = "Đơn vị";
                 }
 
-                if (!this.employee.EmployeeName) {
+                if (!this.employee.FullName) {
                     let employeeName = document.getElementById("employeeName");
                     employeeName.classList.add('m-border-red');
                     this.errorInfo = "Tên";
@@ -370,6 +364,17 @@ export default {
             } else value = "";
             return value;
         },
+        formatDateAndTimeNow() {
+            var curDate = new Date();
+            let hours = curDate.getHours(); //Lấy giờ hiện tại
+            hours = hours < 10 ? `0${hours}` : hours;
+            let minutes = curDate.getMinutes() + 1; //Lấy phút hiện tại
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
+            let seconds = curDate.getSeconds(); //Lấy giây hiện tại
+            seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+            return `${this.formatDate(curDate)}T${hours}:${minutes}:${seconds}`;
+        }
     },
 
 }

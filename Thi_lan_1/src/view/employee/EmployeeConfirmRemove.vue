@@ -32,7 +32,7 @@ export default {
         btnConfirmRemove(){
             try {
                 var me = this;
-                axios.delete(`http://amis.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`)
+                axios.delete(`https://localhost:44338/api/v1/Employees/${this.employee.EmployeeId}`)
                    .then(function () {          
                     //Đóng message 
                     me.$emit('openMessageRemove');

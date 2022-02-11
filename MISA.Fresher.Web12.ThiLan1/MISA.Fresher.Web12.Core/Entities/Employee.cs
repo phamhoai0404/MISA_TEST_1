@@ -134,7 +134,7 @@ namespace MISA.Fresher.Web12.Core.Entities
         /// </summary>
         [NotEmpty]
         [PropertyName("Phòng ban")]
-        public Guid DeparmentId { get; set; }
+        public Guid DepartmentId { get; set; }
 
         /// <summary>
         /// Ngày tạo nhân viên
@@ -153,7 +153,7 @@ namespace MISA.Fresher.Web12.Core.Entities
         /// Ngày cập nhật
         /// </summary>
         [PropertyName("Ngày cập nhật")]
-        public string? ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
         /// <summary>
         /// Người cập nhật

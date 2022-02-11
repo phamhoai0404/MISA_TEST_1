@@ -2,21 +2,29 @@
 using MISA.Fresher.Web12.Core.Interfaces.Services;
 using MISA.Fresher.Web12.Core.Services;
 using MISA.Fresher.Web12.Infrastructure.Repository;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-//builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins,
-//                      builder =>
-//                      {
-//                          builder.WithOrigins("https://localhost:8080")
-//                          .AllowAnyMethod()
-//                          .AllowAnyHeader();
-//                      }));
+
+/// <summary>
+/// Add CORS
+/// </summary>
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                      }));
+
+//Đúng định dạng của các property
+builder.Services.AddMvc()
+        .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -41,6 +49,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+/// <summary>
+/// Add CORS
+/// </summary>
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 

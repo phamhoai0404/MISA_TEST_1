@@ -70,7 +70,7 @@
             <SeedValue>1</SeedValue>
             <Unique>true</Unique>
             <IsAlwaysUnique>false</IsAlwaysUnique>
-            <Expression>(Phòng Nhân sự)|(Phòng Maketing)|(Phòng Kế toán)|(Phòng Nghiên cứu)|(Phòng Đào tạo)</Expression>
+            <Expression>(Phòng Nhân sự)|(Phòng Maketing)|(Phòng Kế toán)|(Phòng nghiên cứu)|(Phòng Đào tạo)</Expression>
           </GeneratorOptions>
           <GeneratorType>MySqlStringRegularExpressionGenerator</GeneratorType>
           <GeneratorName>Reg Exp</GeneratorName>
@@ -716,7 +716,7 @@
           <GeneratorOptions p6:type="MySqlDateTimeGeneratorOptions" xmlns:p6="http://www.w3.org/2001/XMLSchema-instance">
             <AllowNulls>false</AllowNulls>
             <NullProportion>10</NullProportion>
-            <Unique>true</Unique>
+            <Unique>false</Unique>
             <IsAlwaysUnique>false</IsAlwaysUnique>
             <UseDefault>false</UseDefault>
             <ValueDistributionMode>Seed</ValueDistributionMode>
