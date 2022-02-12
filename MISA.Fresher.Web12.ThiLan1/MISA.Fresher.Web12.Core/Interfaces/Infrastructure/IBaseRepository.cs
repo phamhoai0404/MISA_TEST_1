@@ -69,5 +69,7 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Infrastructure
         /// </returns>
         bool CheckDuplicate_IsUpdate(bool isUpate, Guid? id, string propName, string propValue );
 
+
+        public IEnumerable<MISAEnity> GetDataExport();
     }
 }

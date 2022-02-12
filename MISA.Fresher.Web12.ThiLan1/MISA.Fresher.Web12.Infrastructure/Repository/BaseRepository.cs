@@ -198,6 +198,23 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
                 return res;
             }
         }
+
+        /// <summary>
+        /// Thực hiện lấy dữ liệu export excel theo bảng
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: HoaiPT(11/02/2022)
+        /// Update: HoaiPT(12/02/2022)
+        public IEnumerable<MISAEntity> GetDataExport()
+        {
+            //Thực hiện khởi tạo kết nối và sau khi làm xong là nó tự ngắt kết nối luôn
+            using (SqlConnection = new MySqlConnection(ConnectionString))
+            {
+                //Thực hiện truy vấn dữ liệu trong database
+                var enities = SqlConnection.Query<MISAEntity>($"SELECT * FROM View_Export{className};");
+                return enities;
+            }
+        }
         #endregion
 
         #region Methods Validate
@@ -269,6 +286,8 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
         }
         #endregion
 
+
+       
         #endregion
 
     }

@@ -144,7 +144,7 @@ export default {
             keywordSearch: null,
 
             myTimeout: "",
-            testExport: "xinhxinh",
+            testExport: "Danh_sach_nhan_vien",
         }
     },
     created() {

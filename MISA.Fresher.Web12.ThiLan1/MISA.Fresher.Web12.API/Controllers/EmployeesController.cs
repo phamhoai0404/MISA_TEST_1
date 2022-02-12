@@ -1,18 +1,10 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISA.Fresher.Web12.Core.Entities;
-using MISA.Fresher.Web12.Core.Exceptions;
 using MISA.Fresher.Web12.Core.Interfaces.Infrastructure;
 using MISA.Fresher.Web12.Core.Interfaces.Services;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+
+
 
 namespace MISA.Fresher.Web12.API.Controllers
 {
@@ -49,50 +41,60 @@ namespace MISA.Fresher.Web12.API.Controllers
         [HttpGet("excel")]
         public IActionResult exportExcel()
         {
+            //Thực hiện tạo ra file excel mới và sau khi làm xong  đóng lại luôn
             using (var workbook = new XLWorkbook())
             {
+                //Tạo ra sheet mới trong file excel có tên là DANH SÁCH NHÂN VIÊN
                 var worksheet = workbook.Worksheets.Add("DANH SÁCH NHÂN VIÊN");
-           
+                
+                //Thực hiện style cho title
                 var title = worksheet.Range("A1:I1");
                 title.Value = "DANH SÁCH NHÂN VIÊN";
                 title.Merge();
                 this.StyleTitle(title, 16, "Arial");
 
+                //Cách ra một cell và gộp các cell ấy lại
                 var distance = worksheet.Range("A2:I2");
                 distance.Merge();
 
+                //Thực hiện style cho title của table
                 var titleTable = worksheet.Range("A3:I3");
-                titleTable.Style.Fill.BackgroundColor = XLColor.Gray;
-                this.StyleBorder(titleTable);
+                titleTable.Style.Fill.BackgroundColor = XLColor.Gray;//Thiết lập màu cho background
+                this.StyleBorder(titleTable);//Thiết lập các border cho cell của title
                 this.StyleTitle(titleTable, 10, "Arial");
                 this.SetValueTitle(worksheet, 3);
 
+                //Thực hiện lấy dữ liệu từ database gồm các list Emloyee
                 var listEmployee =  _employeeRepository.GetDataExport();
-                int index = 4; int number = 1;
+                int index = 4;//dòng đầu tiên của dữ liệu
+                int number = 1;//Dùng đếm số thứ tự của các dòng
                 foreach (var emloyee in listEmployee)
                 {
                     worksheet.Cell(index, 1).Value = number++;
                     worksheet.Cell(index, 2).Value = emloyee.EmployeeCode;
-                    worksheet.Cell(index, 3).Value = emloyee.FullName.ToUpper();
+                    worksheet.Cell(index, 3).Value = emloyee.FullName.ToUpper();//Thực hiện In hoa tất cả
                     worksheet.Cell(index, 4).Value = emloyee.GenderName;
                     worksheet.Cell(index, 5).Value = emloyee.DateOfBirth;
                     worksheet.Cell(index, 6).Value = emloyee.PositionName;
                     worksheet.Cell(index, 7).Value = emloyee.DepartmentName;
-                    worksheet.Cell(index, 8).Value = $"'{emloyee.BankAccountNumber}";
+                    worksheet.Cell(index, 8).Value = $"'{emloyee.BankAccountNumber}";//Để excel nhận biết được đây là string chứ không phải số
                     worksheet.Cell(index, 9).Value = emloyee.BankName;
 
-                    index++;
+                    index++;//Sau khi nhập dữ liệu của một Employee thì tiếp tục nhập  dòng kế tiếp
                 }
-                var rangeData = worksheet.Range($"A4:I{index-1}");
-                this.StyleBorder(rangeData);
-                rangeData.Style.Font.SetFontName("Times New Roman");
+                var rangeData = worksheet.Range($"A4:I{index-1}");//Tất cả dữ 
+                this.StyleBorder(rangeData);//Thiết lập các border cho cell của data 
+                rangeData.Style.Font.SetFontName("Times New Roman");//Thiết lập font chữ cho từng cell của data là dạng Times New Roman
 
+                //Thiết lập độ rộng cho các cột của sheet A, B, C
                 this.SetColumnWidth(worksheet);
 
                 using (var stream = new MemoryStream())
                 {
+                    //Lưu lại file excel
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
+                    //Trả về cho client file excel
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "test.xlsx");
 
                 }
