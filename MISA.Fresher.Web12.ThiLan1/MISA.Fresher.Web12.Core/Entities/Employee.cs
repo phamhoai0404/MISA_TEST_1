@@ -181,6 +181,9 @@ namespace MISA.Fresher.Web12.Core.Entities
                 }
             }
         }
+
+        [NotMapSQL]
+        public string DepartmentName { get; set; }
         #endregion
     }
 }

@@ -82,9 +82,7 @@ namespace MISA.Fresher.Web12.Core.Services
         {
             //Lấy ra tất cả các porperty được đánh dấu là NotEmpty không được để trống 
             var propNotEmpties = entity.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(NotEmpty)));
-
-            
-
+         
             foreach (var prop in propNotEmpties)
             {
                 var propValue = prop.GetValue(entity);
