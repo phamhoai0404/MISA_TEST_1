@@ -50,7 +50,7 @@
                         <td class="text-align-center">{{employee.DateOfBirth | formatDate}}</td>
                         <td class="text-align-left">{{employee.IdentityNumber}}</td>
                         <td>{{employee.PositionName}}</td>
-                        <td>{{ filterDepartmentName(employee.DepartmentId) }}</td>
+                        <td>{{ employee.DepartmentName }}</td>
                         <td>{{employee.BankAccountNumber}}</td>
                         <td>{{employee.BankName}}</td>
                         <td>{{employee.BankBranchName}}</td>
@@ -106,7 +106,7 @@
 
         </div>
     </div>
-    <EmployeeFunction @openRemoveEmployee="isShowRemoveEmployee=!isShowRemoveEmployee" />
+    <EmployeeFunction @openRemoveEmployee="isShowRemoveEmployee=!isShowRemoveEmployee" @openDuplication='btnDuplicate' />
     <EmployeeDetail v-if='isShowEmployeeDetail' @openDialog='isShowEmployeeDetail =!isShowEmployeeDetail' :editMode='editMode' :employee='employeeIdSelected' @reloadData='getData' :listDepartment='listDepartmentTable' />
 
     <MessageRemoveEmployee v-if='isShowRemoveEmployee' :employee='employeeIdSelected' @openMessageRemove='isShowRemoveEmployee= !isShowRemoveEmployee' @reloadData='getData' />
@@ -145,6 +145,7 @@ export default {
 
             myTimeout: "",
             testExport: "Danh_sach_nhan_vien",
+            tessst: null
         }
     },
     created() {
@@ -169,6 +170,20 @@ export default {
     },
 
     methods: {
+        async getCodeNew() {
+            var me = this;
+            me.isShowLoading = true; //Hiển thị đang load
+            await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
+                .then(function (res) {
+                    me.employeeIdSelected.EmployeeCode = res.data;
+                    me.isShowLoading = false; //đóng
+                })
+                .catch(function (res) {
+                    console.error(res);
+                })
+
+        },
+
         getData() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
@@ -186,6 +201,7 @@ export default {
 
                 })
         },
+
         getDataListDepartment() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
@@ -259,26 +275,43 @@ export default {
             document.getElementById('function-ground').style.top = `${y}px`;
 
         },
-        showAddEmployeeDetail() {
-            //Đóng hộp thoại function
-            document.getElementById('function-ground').style.display = 'none';
+        async showAddEmployeeDetail() {
+            var me = this;
 
             //Khởi tạo đối tượng rỗng với giá trị của giới tính mặc định là Nam và gán giá trị editMode = 1 là thuộc kiểu thêm
-            this.editMode = 1;
-            this.employeeIdSelected = {};
-            this.employeeIdSelected.Gender = "1";
+            me.editMode = 1;
+            me.employeeIdSelected = {};
+            me.employeeIdSelected.Gender = "1";
+            await me.getCodeNewAndShowDialog();
+
+        },
+        btnEditEmployeeDetail(employee) {
+            // //Đóng hộp thoại function
+            // document.getElementById('function-ground').style.display = 'none';
+
+            this.editMode = 2; //Thể hiện là đang sửa
+            this.employeeIdSelected = employee;
 
             this.isShowEmployeeDetail = true;
         },
-        btnEditEmployeeDetail(employee) {
-            //Đóng hộp thoại function
-            document.getElementById('function-ground').style.display = 'none';
+        btnDuplicate() {
+            var me = this;
+            me.editMode = 1; //Thực hiện thêm mới
+            me.getCodeNewAndShowDialog();
+        },
+        async getCodeNewAndShowDialog() {
+            var me = this;
+            me.isShowLoading = true; //Hiển thị đang load
+            await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
+                .then(function (res) {
+                    me.employeeIdSelected.EmployeeCode = res.data;
+                    me.isShowLoading = false; //đóng
+                    me.isShowEmployeeDetail = true;
+                })
+                .catch(function (res) {
+                    console.error(res);
+                })
 
-            this.editMode = 2;
-            this.employeeIdSelected = employee;
-            this.employeeIdSelected.DepartmentName = this.filterDepartmentName(employee.DepartmentId);
-
-            this.isShowEmployeeDetail = true;
         },
         showRemoveEmployee(employee) {
             //Thực hiện gán dữ liệu và mở message lên
@@ -293,18 +326,6 @@ export default {
                 me.getData(); //nếu mà ô tìm kiếm không có dữ liệu thì load lại dữ liệu
             } else {
                 me.keywordSearch = null; //ô tìm kiếm có dữ liệu thì sẽ set về null rồi tự khắc ở phần watch nó sẽ theo dõi cái keyworkSearch để thực hiện load lại dữ liệu
-            }
-
-        },
-        filterDepartmentName(value) {
-            var me = this;
-            if (me.listDepartmentTable) {
-                for (let i = 0; i < me.listDepartmentTable.length; i++) {
-                    if (value == me.listDepartmentTable[i].DepartmentId) {
-                        return me.listDepartmentTable[i].DepartmentName;
-                    }
-                }
-                return "";
             }
 
         },

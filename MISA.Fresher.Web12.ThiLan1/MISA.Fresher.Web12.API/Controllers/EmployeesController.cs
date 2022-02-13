@@ -27,6 +27,7 @@ namespace MISA.Fresher.Web12.API.Controllers
 
         #region Methods
 
+        #region Methods Public
         /// <summary>
         /// Lấy ra mã thêm mới tiếp theo
         /// </summary>
@@ -35,9 +36,13 @@ namespace MISA.Fresher.Web12.API.Controllers
         [HttpGet("CodeNew")]
         public string GetHoa()
         {
-            return _employeeRepository.GetEmployeeCodeNew();
+            return _employeeService.GetEmployeeCodeNew();
         }
 
+        /// <summary>
+        /// Thực hiện xuất ra file excel danh sách nhân viên
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("excel")]
         public IActionResult exportExcel()
         {
@@ -101,6 +106,14 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
 
         }
+        #endregion
+
+        #region Method Private For Style Export Excel
+
+        /// <summary>
+        /// Thực hiện style cho border của cell excel
+        /// </summary>
+        /// <param name="titleTable"></param>
         private void StyleBorder(IXLRange titleTable)
         {
             titleTable.Style.Border.SetBottomBorder(XLBorderStyleValues.Thin);
@@ -108,6 +121,13 @@ namespace MISA.Fresher.Web12.API.Controllers
             titleTable.Style.Border.SetRightBorder(XLBorderStyleValues.Thin);
             titleTable.Style.Border.SetLeftBorder(XLBorderStyleValues.Thin);
         }
+
+        /// <summary>
+        /// Thực hiện style cho tiêu đề với cỡ chữ, kiểu chữ
+        /// </summary>
+        /// <param name="titleTable"></param>
+        /// <param name="fontSize">cỡ chữ</param>
+        /// <param name="fontName">kiểu chữ</param>
         private void StyleTitle(IXLRange titleTable, int fontSize, string fontName)
         {
             titleTable.Style.Font.Bold = true;
@@ -115,6 +135,12 @@ namespace MISA.Fresher.Web12.API.Controllers
             titleTable.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
             titleTable.Style.Font.SetFontName(fontName);
         }
+
+        /// <summary>
+        /// Thiết lập giá trị cho title table
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="first">dòng bắt đầu</param>
         private void SetValueTitle(IXLWorksheet worksheet, int first)
         {
             worksheet.Cell(first, 1).Value = "STT";
@@ -127,6 +153,11 @@ namespace MISA.Fresher.Web12.API.Controllers
             worksheet.Cell(first, 8).Value = "Số tài khoản";
             worksheet.Cell(first, 9).Value = "Tên ngân hàng";
         }
+
+        /// <summary>
+        /// Thiết lập độ rộng của từng cột cell A, B, C
+        /// </summary>
+        /// <param name="worksheet"></param>
         private void SetColumnWidth(IXLWorksheet worksheet)
         {
             worksheet.Column("A").Width = 4;
@@ -139,8 +170,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             worksheet.Column("H").Width = 17;
             worksheet.Column("I").Width = 40;
         }
-
-
+        #endregion
 
         #endregion
 

@@ -42,7 +42,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.AllException(ex);
+                return this.AllException(ex,null);
             }
 
 
@@ -64,7 +64,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.AllException(ex);
+                return this.AllException(ex,null);
             }
             
         }
@@ -83,13 +83,9 @@ namespace MISA.Fresher.Web12.API.Controllers
                 var res = _baseService.InsertService(enity);
                 return StatusCode(201, res);
             }
-            catch (MISAValidateException ex)
-            {
-                return this.BadRequestException(ex, enity);
-            }
             catch(Exception ex)
             {
-                return this.AllException(ex);
+                return this.AllException(ex,null);
             }
         }
 
@@ -109,13 +105,9 @@ namespace MISA.Fresher.Web12.API.Controllers
                 var res = _baseService.UpdateService(enityId, enity);
                 return StatusCode(200, res);
             }
-            catch (MISAValidateException ex)
-            {
-                return this.BadRequestException(ex, enity);
-            }
             catch (Exception ex)
             {
-                return this.AllException(ex);
+                return this.AllException(ex,enity);
             }
 
         }
@@ -140,10 +132,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             {
                 return this.BadRequestException(ex,null);
             }
-            catch(Exception ex)
-            {
-                return this.AllException(ex);
-            }
+            
         }
         #endregion
 
@@ -170,8 +159,17 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// </summary>
         /// <param name="ex">Error</param>
         /// <returns></returns>
-        private IActionResult AllException(Exception ex)
+        private IActionResult AllException(Exception ex, Object? enity)
         {
+            if(typeof(MISAValidateException) == ex.GetType()){
+                var respo = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = ex.Message,
+                    data = enity,
+                };
+                return BadRequest(respo);
+            }
             var response = new
             {
                 devMsg = ex.Message,

@@ -9,6 +9,11 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Services
 {
     public interface IEmployeeService : IBaseService<Employee>
     {
-        //Object exportExcel();
+        /// <summary>
+        /// Thực hiện lấy ra mã nhân viên mới để phục vụ cho mã tự tăng khi thêm mới
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: HoaiPT(13/02/2022)
+        string GetEmployeeCodeNew();
     }
 }

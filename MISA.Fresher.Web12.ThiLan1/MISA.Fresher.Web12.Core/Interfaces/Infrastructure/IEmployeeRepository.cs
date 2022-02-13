@@ -9,7 +9,11 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Infrastructure
 {
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
-        string GetEmployeeCodeNew();
+        /// <summary>
+        /// Lấy ra toàn bộ mã nhân viên
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<string> GetAllEmployeeCode();
 
     }
 }

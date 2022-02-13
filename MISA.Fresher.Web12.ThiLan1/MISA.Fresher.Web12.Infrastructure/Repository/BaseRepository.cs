@@ -38,7 +38,7 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
             using (SqlConnection = new MySqlConnection(ConnectionString))
             {
                 //Thực hiện truy vấn dữ liệu trong database
-                var enities = SqlConnection.Query<MISAEntity>($"SELECT * FROM {className} ORDER BY ModifiedDate DESC;");
+                var enities = SqlConnection.Query<MISAEntity>($"SELECT * FROM View_All{className};");
                 return enities;
             }
         }
@@ -118,7 +118,7 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
                     var primaryKey = Attribute.IsDefined(prop, typeof(Primarykey));
                     if (primaryKey == true || propName == $"{className}Id")
                     {
-                        if (prop.PropertyType == typeof(Guid))
+                        if (prop.PropertyType == typeof(Guid?))
                         {
                             propValue = Guid.NewGuid();
                         }

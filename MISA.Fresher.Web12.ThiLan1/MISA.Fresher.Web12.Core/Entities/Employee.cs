@@ -20,7 +20,7 @@ namespace MISA.Fresher.Web12.Core.Entities
         /// Khóa chính
         /// </summary>
         [Primarykey]
-        public Guid EmployeeId { get; set; }
+        public Guid? EmployeeId { get; set; }
 
         /// <summary>
         /// Mã nhân viên
@@ -183,7 +183,7 @@ namespace MISA.Fresher.Web12.Core.Entities
         }
 
         [NotMapSQL]
-        public string DepartmentName { get; set; }
+        public string? DepartmentName { get; set; }
         #endregion
     }
 }

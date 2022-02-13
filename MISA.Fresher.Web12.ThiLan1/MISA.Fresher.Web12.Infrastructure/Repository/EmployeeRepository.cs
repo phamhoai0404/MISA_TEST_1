@@ -12,16 +12,17 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
-       
-        public string GetEmployeeCodeNew()
-        {
-            //var listEmployee = this.GetAll();
-            //var hoa = new
-            //{
-            //    xinh = true,
 
-            //};
-            return "hoa";
+        public IEnumerable<string> GetAllEmployeeCode()
+        {
+            //Thực hiện khởi tạo kết nối và sau khi làm xong là nó tự ngắt kết nối luôn
+            using (SqlConnection = new MySqlConnection(ConnectionString))
+            {
+                //Thực hiện truy vấn dữ liệu trong database
+                var enities = SqlConnection.Query<string>($"SELECT * FROM View_AllEmployeeCode;");
+                return enities;
+            }
+
         }
     }
 }

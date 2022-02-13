@@ -28,7 +28,7 @@
                         <div class="m-row-one">
                             <div class="m-content-input" style="width: 40%;">
                                 <div class="m-label">Mã <span>*</span></div>
-                                <input type="text" class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event)" id="employeeCode" title="Mã không được để trống!">
+                                <input type="text" ref='focusMe' class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event)" id="employeeCode" title="Mã không được để trống!">
                             </div>
                             <div class="m-content-input" style="width: 58%;">
                                 <div class="m-label">Tên <span>*</span></div>
@@ -161,15 +161,15 @@
                     <button class="m-button m-button-not-color " @click="btnCancelDialogDetail()">Hủy</button>
                 </div>
                 <div class="m-footer-right ">
-                    <button class="m-button m-button-not-color" @click="btnSaveOnClick()">Cất</button>
-                    <button class="m-button ">Cất và Thêm</button>
+                    <button class="m-button m-button-not-color" @click="btnSaveOnClick(1)">Cất</button>
+                    <button class="m-button" @click="btnSaveOnClick(2)">Cất và Thêm</button>
                 </div>
             </div>
         </div>
     </div>
     <MessageInfoEmployee v-if="isShowInfoMessage" @openInfoEmployee="isShowInfoMessage =!isShowInfoMessage" :errorData='errorInfo' />
     <MessageWarningEmployee v-if="isShowWarningMessage" @openWarningMessage="isShowWarningMessage =!isShowWarningMessage" :employeeCode='employeeCode' />
-    <MessageConfirmEdit v-if="isShowEditMessage" @openEditEmployee="isShowEditMessage=!isShowEditMessage" @closeDialogDetail="closeDialogDetail()" @closeDialogDetailAndSave="btnSaveOnClick()" />
+    <MessageConfirmEdit v-if="isShowEditMessage" @openEditEmployee="isShowEditMessage=!isShowEditMessage" @closeDialogDetail="closeDialogDetail()" @closeDialogDetailAndSave="btnSaveOnClick(1)" />
 </div>
 </template>
 
@@ -196,7 +196,7 @@ export default {
             isShowInfoMessage: false,
             isShowWarningMessage: false,
             isShowEditMessage: false,
-    
+
             isShowDepartment: false,
             employeeCode: "",
 
@@ -205,7 +205,11 @@ export default {
             departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi thằng employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
         }
     },
-   
+    mounted() {
+        this.$refs.focusMe.focus();
+        console.log(this.employee);
+    },
+
     watch: {
         departmentName: function (value) {
             if (!value) {
@@ -247,7 +251,7 @@ export default {
             var me = this;
             me.isShowEditMessage = true;
         },
-        btnSaveOnClick() {
+        async btnSaveOnClick(value) {
             try {
                 //Validate dữ liệu nếu mà nó không thỏa mãn thì kết thúc luôn
                 if (!this.validateData()) {
@@ -262,33 +266,29 @@ export default {
                 me.employee.IdentityDate = me.formatDate(me.employee.IdentityDate);
 
                 //Lưu lại thời gian tạo nếu là tạo nhân viên mới
-                if(me.editMode==1){
+                if (me.editMode == 1) {
                     me.employee.CreatedDate = me.formatDateAndTimeNow();
                 }
-                
+
                 //Lưu lại thời gian cập nhật  dữ liệu
                 me.employee.ModifiedDate = me.formatDateAndTimeNow();
-               
 
                 switch (me.editMode) {
                     case 1:
-                        axios.post('https://localhost:44338/api/v1/Employees', me.employee)
+                        await axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
-                                me.$emit('openDialog', null);
-                                me.$emit('reloadData', null);
+                                me.checkAction(value);
+
                             })
                             .catch(function () {
                                 me.openWarning(me);
                             })
                         break;
                     case 2:
-                        axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
+                        await axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
                             .then(function () {
-                                //Đóng dialog detail
-                                me.$emit('openDialog', null);
+                                me.checkAction(value);
 
-                                //Load lại dữ liệu table
-                                me.$emit('reloadData', null);
                             })
                             .catch(function () {
                                 me.openWarning(me);
@@ -374,9 +374,41 @@ export default {
             seconds = seconds < 10 ? `0${seconds}` : seconds;
 
             return `${this.formatDate(curDate)}T${hours}:${minutes}:${seconds}`;
-        }
-    },
+        },
+        async checkAction(value) {
+            var me = this;
+            switch (value) {
+                case 1: //Nếu là cất
+                    me.$emit('openDialog', null); //Đóng dialog detail
+                    me.$emit('reloadData', null); //Load lại dữ liệu table
+                    break;
+                case 2:
+                    me.editMode = 1;
+                    await me.$parent.getCodeNew();
+                    me.resetForm();
 
+                    me.$refs.focusMe.focus();
+                    break;
+                default:
+                    break;
+
+            }
+        },
+        resetForm() {
+            var me = this;
+            
+            for (var propName in me.employee) {
+                if(propName !="EmployeeCode"){
+                    me.employee[propName] = null;
+                }     
+            }
+
+            me.employee.Gender = "1";
+            console.log(me.employee);
+
+        }
+
+    }
 }
 </script>
 

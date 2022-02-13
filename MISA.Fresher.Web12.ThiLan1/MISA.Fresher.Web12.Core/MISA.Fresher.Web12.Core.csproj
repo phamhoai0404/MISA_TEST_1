@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.95.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Resourcs\ResourceVN.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

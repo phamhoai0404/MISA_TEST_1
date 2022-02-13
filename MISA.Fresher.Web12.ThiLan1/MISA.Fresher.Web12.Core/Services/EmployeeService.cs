@@ -1,13 +1,9 @@
-﻿using ClosedXML.Excel;
+﻿
 using MISA.Fresher.Web12.Core.Entities;
 using MISA.Fresher.Web12.Core.Exceptions;
 using MISA.Fresher.Web12.Core.Interfaces.Infrastructure;
 using MISA.Fresher.Web12.Core.Interfaces.Services;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MISA.Fresher.Web12.Core.Services
 {
@@ -27,7 +23,7 @@ namespace MISA.Fresher.Web12.Core.Services
 
 
         #region Methods
-        
+
         protected override void ValidateInsertCustomer(Employee employee)
         {
             //2. Ngày sinh không được lớn hơn ngày hiện tại
@@ -50,6 +46,38 @@ namespace MISA.Fresher.Web12.Core.Services
             {
                 throw new MISAValidateException(String.Format(Core.Resourcs.ResourceVN.ErrorDateOfBirth));
             }
+        }
+
+
+        public string GetEmployeeCodeNew()
+        {
+            List<string> listEmployeeCode = this._employeeRepository.GetAllEmployeeCode() as List<string>;
+
+            var z = "";
+            List<int> listNumberEmployeeCode = new List<int>();
+            for (int i = 0; i < listEmployeeCode.Count; i++)
+            {
+                int u = int.Parse(listEmployeeCode[i].Substring(3));
+                listNumberEmployeeCode.Add(u);
+            }
+            int k = listNumberEmployeeCode.Max();
+            z += k+1;
+            switch (z.Length)
+            {
+                case 1:
+                    z = "NV-000" + z;
+                    break;
+                case 2:
+                    z = "NV-00" + z;
+                    break;
+                case 3:
+                    z = "NV-0" + z;
+                    break;
+                default:
+                    z = "NV-" + z;
+                    break;
+            }
+            return z;
         }
         #endregion
 

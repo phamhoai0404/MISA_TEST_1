@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "MISA.Fresher.Web12.API/1.0.0": {
         "dependencies": {
+          "ClosedXML": "0.95.4",
           "MISA.Fresher.Web12.Core": "1.0.0",
           "MISA.Fresher.Web12.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "6.0.2",
@@ -893,9 +894,6 @@
         }
       },
       "MISA.Fresher.Web12.Core/1.0.0": {
-        "dependencies": {
-          "ClosedXML": "0.95.4"
-        },
         "runtime": {
           "MISA.Fresher.Web12.Core.dll": {}
         }
