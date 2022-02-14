@@ -1,9 +1,10 @@
 ﻿
+using Dapper;
 using MISA.Fresher.Web12.Core.Entities;
 using MISA.Fresher.Web12.Core.Exceptions;
 using MISA.Fresher.Web12.Core.Interfaces.Infrastructure;
 using MISA.Fresher.Web12.Core.Interfaces.Services;
-
+using System.Text;
 
 namespace MISA.Fresher.Web12.Core.Services
 {
@@ -78,6 +79,26 @@ namespace MISA.Fresher.Web12.Core.Services
                     break;
             }
             return z;
+        }
+
+        public int DeleteManyService(List<string> listEmployeeId)
+        {
+            
+            for (int i = 0; i < listEmployeeId.Count; i++)
+                {
+                    if (listEmployeeId[i].Length != 36)
+                    {
+                        listEmployeeId.RemoveAt(i);
+                        i--;
+                    }
+                }
+            int res = 0;
+            if(listEmployeeId.Count > 0)
+            {
+                 res = _employeeRepository.DeleteManyId(listEmployeeId);
+            }
+            return res;
+           
         }
         #endregion
 

@@ -1,0 +1,130 @@
+.employee-list {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.employee-list .row-one {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    width: 100% !important;
+}
+
+.employee-list .row-one .row-title {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.employee-list .row-two {
+    background-color: #fff;
+    padding: 0 20px;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+.row-two-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+}
+
+
+/* left */
+
+.row-two-top .row-two-left .m-button-group {
+    display: flex;
+    border: 2px solid #3b3c3f;
+    height: 36px;
+    align-items: center;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0 16px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.row-two-top .row-two-left .m-button-group .m-button-title {
+    padding-right: 4px;
+    /* background-color: red; */
+}
+
+.row-two-top .row-two-left .m-button-group .m-button-icon {
+    width: 16px;
+    height: 16px;
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -560px -359px;
+}
+
+.row-two-top .row-two-left .m-button-group .m-button-function {
+    position: absolute;
+    /* background-color: red; */
+    right: 0;
+    top: 35px;
+    background-color: white;
+    border: 1px solid #bbb;
+    transition: all .2s ease;
+    height: 34px;
+    width: 104px;
+    box-sizing: border-box;
+    font-weight: 500;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+}
+
+.row-two-top .row-two-left .m-button-group .m-button-function div {
+    padding: 6px 10px;
+    margin: 2px 2px;
+    width: 98%;
+}
+
+.row-two-top .row-two-left .m-button-group .m-button-function div:hover {
+    background-color: rgba(245, 245, 245, 0.753);
+    /* background-color: red; */
+}
+
+
+/* right */
+
+.row-two-top .row-two-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.button- {
+    margin-left: 12px;
+    width: 24px;
+    height: 24px;
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat;
+}
+
+.button-.btn-refresh {
+    background-position: -423px -201px;
+}
+
+.button-.btn-excel {
+    background-position: -704px -200px;
+}
+
+.button-:hover {
+    cursor: pointer;
+}
+
+.button-:hover.btn-refresh {
+    background-position: -1096px -88px;
+}
+
+.button-:hover.btn-excel {
+    background-position: -1264px -88px;
+}
+
+
+/* Tạo chữ nghiêng trong ô search */
+
+input.search::placeholder {
+    font-style: italic;
+    font-family: Notosans;
+}

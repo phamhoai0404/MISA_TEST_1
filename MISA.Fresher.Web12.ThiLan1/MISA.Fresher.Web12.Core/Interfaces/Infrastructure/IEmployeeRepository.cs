@@ -13,7 +13,16 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Infrastructure
         /// Lấy ra toàn bộ mã nhân viên
         /// </summary>
         /// <returns></returns>
+        /// Created: HoaiPT(13/02/2022)
         IEnumerable<string> GetAllEmployeeCode();
+
+        /// <summary>
+        /// Thực hiện xóa nhiều dòng theo list EmployeeId truyền vào
+        /// </summary>
+        /// <param name="listEmployeeId"></param>
+        /// <returns></returns>
+        /// Created: HoaiPT(14/02/2022)
+        int DeleteManyId(List<string> listEmployeeId);
 
     }
 }

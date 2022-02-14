@@ -26,7 +26,7 @@ namespace MISA.Fresher.Web12.API.Controllers
         #region Methods
 
         #region Methods Basic
-        
+
         /// <summary>
         /// Lấy toàn bộ danh sách
         /// </summary>
@@ -42,7 +42,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.AllException(ex,null);
+                return this.AllException(ex, null);
             }
 
 
@@ -64,9 +64,9 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.AllException(ex,null);
+                return this.AllException(ex, null);
             }
-            
+
         }
         /// <summary>
         /// Thực hiện thêm mới
@@ -83,9 +83,9 @@ namespace MISA.Fresher.Web12.API.Controllers
                 var res = _baseService.InsertService(enity);
                 return StatusCode(201, res);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return this.AllException(ex,null);
+                return this.AllException(ex, null);
             }
         }
 
@@ -107,7 +107,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
             catch (Exception ex)
             {
-                return this.AllException(ex,enity);
+                return this.AllException(ex, enity);
             }
 
         }
@@ -128,31 +128,15 @@ namespace MISA.Fresher.Web12.API.Controllers
 
                 return StatusCode(200, res);
             }
-            catch (MISAValidateException ex)
+            catch (Exception ex)
             {
-                return this.BadRequestException(ex,null);
+                return this.AllException(ex, null);
             }
-            
+
         }
         #endregion
 
-        #region Methods Private
-        /// <summary>
-        /// Thực hiện trả về BadRequest khi vào vào exception
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <param name="enity"></param>
-        /// <returns></returns>
-        private IActionResult BadRequestException(MISAValidateException ex, Object? enity)
-        {
-            var response = new
-            {
-                devMsg = ex.Message,
-                userMsg = ex.Message,
-                data = enity,
-            };
-            return BadRequest(response);
-        }
+        #region Methods Exception
 
         /// <summary>
         /// Khi do người lập trình code sai thì sẽ nhảy vào cái exception cuối cùng này
@@ -161,22 +145,27 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// <returns></returns>
         private IActionResult AllException(Exception ex, Object? enity)
         {
-            if(typeof(MISAValidateException) == ex.GetType()){
+            if (typeof(MISAValidateException) == ex.GetType())
+            {
                 var respo = new
                 {
                     devMsg = ex.Message,
                     userMsg = ex.Message,
                     data = enity,
                 };
-                return BadRequest(respo);
+                return StatusCode(400,respo);
             }
-            var response = new
+            else
             {
-                devMsg = ex.Message,
-                userMsg = Core.Resourcs.ResourceVN.ErrorException
-            };
+                var response = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = Core.Resourcs.ResourceVN.ErrorException
+                };
 
-            return StatusCode(500, response);
+                return StatusCode(500, response);
+            }
+            
         }
         #endregion
 

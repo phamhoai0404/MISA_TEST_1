@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using MISA.Fresher.Web12.Core.Entities;
+using MISA.Fresher.Web12.Core.Exceptions;
 using MISA.Fresher.Web12.Core.Interfaces.Infrastructure;
 using MISA.Fresher.Web12.Core.Interfaces.Services;
 
@@ -39,6 +40,22 @@ namespace MISA.Fresher.Web12.API.Controllers
             return _employeeService.GetEmployeeCodeNew();
         }
 
+        [HttpPost("DeleteMany")]
+        public IActionResult DeleteMany(List<string> listEmployeeId)
+        {
+            try
+            {
+                var res = _employeeService.DeleteManyService(listEmployeeId);
+                return StatusCode(200, res);
+            }
+            catch (Exception ex)
+            {
+                return this.AllException(ex, null);
+            }
+        }
+       
+
+
         /// <summary>
         /// Thực hiện xuất ra file excel danh sách nhân viên
         /// </summary>
@@ -51,7 +68,7 @@ namespace MISA.Fresher.Web12.API.Controllers
             {
                 //Tạo ra sheet mới trong file excel có tên là DANH SÁCH NHÂN VIÊN
                 var worksheet = workbook.Worksheets.Add("DANH SÁCH NHÂN VIÊN");
-                
+
                 //Thực hiện style cho title
                 var title = worksheet.Range("A1:I1");
                 title.Value = "DANH SÁCH NHÂN VIÊN";
@@ -70,7 +87,7 @@ namespace MISA.Fresher.Web12.API.Controllers
                 this.SetValueTitle(worksheet, 3);
 
                 //Thực hiện lấy dữ liệu từ database gồm các list Emloyee
-                var listEmployee =  _employeeRepository.GetDataExport();
+                var listEmployee = _employeeRepository.GetDataExport();
                 int index = 4;//dòng đầu tiên của dữ liệu
                 int number = 1;//Dùng đếm số thứ tự của các dòng
                 foreach (var emloyee in listEmployee)
@@ -87,7 +104,7 @@ namespace MISA.Fresher.Web12.API.Controllers
 
                     index++;//Sau khi nhập dữ liệu của một Employee thì tiếp tục nhập  dòng kế tiếp
                 }
-                var rangeData = worksheet.Range($"A4:I{index-1}");//Tất cả dữ 
+                var rangeData = worksheet.Range($"A4:I{index - 1}");//Tất cả dữ 
                 this.StyleBorder(rangeData);//Thiết lập các border cho cell của data 
                 rangeData.Style.Font.SetFontName("Times New Roman");//Thiết lập font chữ cho từng cell của data là dạng Times New Roman
 
@@ -106,6 +123,23 @@ namespace MISA.Fresher.Web12.API.Controllers
             }
 
         }
+
+        //[HttpDelete("deleteMany/{listEmployeeId}")]
+        //public IActionResult DeleteMany(string listEmployeeId)
+        //{
+        //    try
+        //    {
+        //        //Validate dữ liệu
+        //        var res = _employeeService.DeleteManyService(listEmployeeId);
+
+        //        return StatusCode(200, res);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, ex);
+        //    }
+
+        //}
         #endregion
 
         #region Method Private For Style Export Excel
@@ -172,12 +206,31 @@ namespace MISA.Fresher.Web12.API.Controllers
         }
         #endregion
 
+
+        private IActionResult AllException(Exception ex, Object? enity)
+        {
+            if (typeof(MISAValidateException) == ex.GetType())
+            {
+                var respo = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = ex.Message,
+                    data = enity,
+                };
+                return StatusCode(400, respo);
+            }
+            else
+            {
+                var response = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = Core.Resourcs.ResourceVN.ErrorException
+                };
+
+                return StatusCode(500, response);
+            }
+
+        }
         #endregion
-
-
-
-
-
-
     }
 }

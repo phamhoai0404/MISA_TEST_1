@@ -894,6 +894,9 @@
         }
       },
       "MISA.Fresher.Web12.Core/1.0.0": {
+        "dependencies": {
+          "Dapper": "2.0.123"
+        },
         "runtime": {
           "MISA.Fresher.Web12.Core.dll": {}
         }

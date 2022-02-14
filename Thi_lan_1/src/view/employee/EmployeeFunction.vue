@@ -14,6 +14,7 @@ export default {
             document.getElementById('function-ground').style.display = 'none';
 
             var me = this;
+            me.$parent.actions = 1;
             me.$emit('openRemoveEmployee');
         },
 

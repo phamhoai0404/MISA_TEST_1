@@ -7,13 +7,25 @@
 
     <div class="row-two">
         <div class="row-two-top">
-            <div style="width:220px;">
-                <input type="text" class="m-input m-input-icon search" placeholder="Tìm theo mã, tên nhân viên" v-model="keywordSearch">
+            <div class="row-two-left">
+                <div class="m-button-group">
+                    <div class="m-button-title">Thực hiện hàng loạt</div>
+                    <div class="m-button-icon"></div>
+                    <div class="m-button-function">
+                        <div @click="btnRemoveMany()"> Xóa</div>
+                    </div>
+                </div>
             </div>
-            <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
+            <div class="row-two-right">
+                <div style="width:220px;">
+                    <input type="text" class="m-input m-input-icon search" placeholder="Tìm theo mã, tên nhân viên" v-model="keywordSearch">
+                </div>
+                <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
+                </div>
+                <div class="button- btn-excel " title="Xuất re Excel" @click="btnExportExcel()">
+                </div>
             </div>
-            <div class="button- btn-excel " title="Xuất re Excel" @click="btnExportExcel()">
-            </div>
+
         </div>
         <div class="m-grid" id="m-grid">
             <table border="1" class="m-table">
@@ -109,7 +121,7 @@
     <EmployeeFunction @openRemoveEmployee="isShowRemoveEmployee=!isShowRemoveEmployee" @openDuplication='btnDuplicate' />
     <EmployeeDetail v-if='isShowEmployeeDetail' @openDialog='isShowEmployeeDetail =!isShowEmployeeDetail' :editMode='editMode' :employee='employeeIdSelected' @reloadData='getData' :listDepartment='listDepartmentTable' />
 
-    <MessageRemoveEmployee v-if='isShowRemoveEmployee' :employee='employeeIdSelected' @openMessageRemove='isShowRemoveEmployee= !isShowRemoveEmployee' @reloadData='getData' />
+    <MessageRemoveEmployee v-if='isShowRemoveEmployee' :employee='employeeIdSelected' @openMessageRemove='openMessage' @reloadData='getData' :action="actions" />
 
     <Loading v-show="isShowLoading" />
 
@@ -145,7 +157,9 @@ export default {
 
             myTimeout: "",
             testExport: "Danh_sach_nhan_vien",
-            tessst: null
+            tessst: null,
+
+            actions: 0,//0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
         }
     },
     created() {
@@ -170,6 +184,29 @@ export default {
     },
 
     methods: {
+        openMessage(){
+            var me = this;
+            me.isShowRemoveEmployee = !me.isShowRemoveEmployee;//Thực hiện đóng nếu mở hoặc mở nếu đóng
+        },
+        btnRemoveMany() {
+            var me = this;
+            me.isShowLoading = true; //Hiển thị đang load
+            var arr = new Array();
+            arr.push("6a763a51-4322-5c5a-b5d2-89b22d10517e");
+            arr.push("197fda97-5a35-781d-0e77-d9ebc53aac3d");
+            console.log(arr);
+            if (arr.length >= 1) {
+                axios.post('https://localhost:44338/api/v1/Employees/DeleteMany',arr)
+                    .then(function () {
+                        me.getData();
+                    })
+                    .catch(function (res) {
+                        console.error(res);
+                    })
+            }
+
+
+        },
         async getCodeNew() {
             var me = this;
             me.isShowLoading = true; //Hiển thị đang load
@@ -181,7 +218,6 @@ export default {
                 .catch(function (res) {
                     console.error(res);
                 })
-
         },
 
         getData() {
@@ -395,73 +431,7 @@ export default {
 <style scoped>
 @import url(../../style/view/employee/employee-list.css);
 @import url(../../style/view/employee/employee-page.css);
-
-.employee-list {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.employee-list .row-one {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-    width: 100% !important;
-}
-
-.employee-list .row-one .row-title {
-    font-size: 25px;
-    font-weight: 800;
-}
-
-.employee-list .row-two {
-    background-color: #fff;
-    padding: 0 20px;
-    width: 100% !important;
-    box-sizing: border-box;
-
-}
-
-.row-two-top {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 0;
-
-}
-
-.button- {
-    margin-left: 12px;
-    width: 24px;
-    height: 24px;
-    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat;
-}
-
-.button-.btn-refresh {
-    background-position: -423px -201px;
-}
-
-.button-.btn-excel {
-    background-position: -704px -200px;
-}
-
-.button-:hover {
-    cursor: pointer;
-}
-
-.button-:hover.btn-refresh {
-    background-position: -1096px -88px;
-}
-
-.button-:hover.btn-excel {
-    background-position: -1264px -88px;
-}
-
-/* Tạo chữ nghiêng trong ô search */
-input.search::placeholder {
-    font-style: italic;
-    font-family: Notosans;
-}
+@import url(../../style/view/employee/employee-list-add.css);
 
 /* end */
 </style>

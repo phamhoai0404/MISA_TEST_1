@@ -2,7 +2,6 @@ D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\bin\Debug\net6.0\MISA.Fresher.Web12.Core.dll
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\bin\Debug\net6.0\ref\MISA.Fresher.Web12.Core.dll
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\bin\Debug\net6.0\MISA.Fresher.Web12.Core.pdb
-D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.csproj.AssemblyReference.cache
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.Resourcs.ResourceVN.resources
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.csproj.GenerateResource.cache
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.GeneratedMSBuildEditorConfig.editorconfig
@@ -12,3 +11,4 @@ D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.dll
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\ref\MISA.Fresher.Web12.Core.dll
 D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.pdb
+D:\THUC_TAP_MISA\z_kiem_tra_1\MISA.Fresher.Web12.ThiLan1\MISA.Fresher.Web12.Core\obj\Debug\net6.0\MISA.Fresher.Web12.Core.csproj.AssemblyReference.cache

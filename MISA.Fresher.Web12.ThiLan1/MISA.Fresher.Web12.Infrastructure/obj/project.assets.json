@@ -23,6 +23,9 @@
       "MISA.Fresher.Web12.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Dapper": "2.0.123"
+        },
         "compile": {
           "bin/placeholder/MISA.Fresher.Web12.Core.dll": {}
         },

@@ -15,5 +15,13 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Services
         /// <returns></returns>
         /// CreatedBy: HoaiPT(13/02/2022)
         string GetEmployeeCodeNew();
+
+
+        /// <summary>
+        /// Thực hiện xóa nhiều
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: HoaiPT(14/02/2022)
+        int DeleteManyService(List<string> listEmployeeId);
     }
 }
