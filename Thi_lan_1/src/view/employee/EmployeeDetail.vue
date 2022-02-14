@@ -383,7 +383,7 @@ export default {
                     me.$emit('reloadData', null); //Load lại dữ liệu table
                     break;
                 case 2:
-                    me.editMode = 1;
+                    me.$parent.editMode = 1;
                     await me.$parent.getCodeNew();
                     me.resetForm();
 
