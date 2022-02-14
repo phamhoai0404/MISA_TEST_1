@@ -10,8 +10,8 @@
             <div class="row-two-left">
                 <div class="m-button-group">
                     <div class="m-button-title">Thực hiện hàng loạt</div>
-                    <div class="m-button-icon"></div>
-                    <div class="m-button-function">
+                    <div class="m-button-icon" @click="isShowDeleteMany = !isShowDeleteMany"></div>
+                    <div class="m-button-function" v-if="actions===2 && isShowDeleteMany===true " @mouseleave="isShowDeleteMany = false">
                         <div @click="btnRemoveMany()"> Xóa</div>
                     </div>
                 </div>
@@ -157,9 +157,10 @@ export default {
 
             myTimeout: "",
             testExport: "Danh_sach_nhan_vien",
-            tessst: null,
 
-            actions: 0,//0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
+            actions: 0, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
+            isShowDeleteMany: false,
+            arrayEmployeeId: new Array(),
         }
     },
     created() {
@@ -184,27 +185,15 @@ export default {
     },
 
     methods: {
-        openMessage(){
+        openMessage() {
             var me = this;
-            me.isShowRemoveEmployee = !me.isShowRemoveEmployee;//Thực hiện đóng nếu mở hoặc mở nếu đóng
+            me.isShowRemoveEmployee = !me.isShowRemoveEmployee; //Thực hiện đóng nếu mở hoặc mở nếu đóng
         },
         btnRemoveMany() {
             var me = this;
-            me.isShowLoading = true; //Hiển thị đang load
-            var arr = new Array();
-            arr.push("6a763a51-4322-5c5a-b5d2-89b22d10517e");
-            arr.push("197fda97-5a35-781d-0e77-d9ebc53aac3d");
-            console.log(arr);
-            if (arr.length >= 1) {
-                axios.post('https://localhost:44338/api/v1/Employees/DeleteMany',arr)
-                    .then(function () {
-                        me.getData();
-                    })
-                    .catch(function (res) {
-                        console.error(res);
-                    })
-            }
-
+            console.log(me.arrayEmployeeId);
+            me.isShowDeleteMany = false;
+            me.isShowRemoveEmployee = true;
 
         },
         async getCodeNew() {
@@ -229,7 +218,6 @@ export default {
                 .then(function (res) {
                     me.listEmployee = res.data;
                     console.log(res.data);
-
                     me.isShowLoading = false;
                 })
                 .catch(function (res) {
@@ -257,6 +245,7 @@ export default {
             axios.get(`http://amis.manhnv.net/api/v1/Employees/filter?employeeFilter=${keyword}`)
                 .then(function (res) {
                     me.listEmployee = res.data.Data;
+                    
                     me.isShowLoading = false;
                 })
                 .catch(function (res) {
@@ -267,23 +256,46 @@ export default {
         //Thực hiện hàng loạt
         batchExecution() {
             var me = this;
+            me.isShowDeleteMany = false;
+            me.arrayEmployeeId = []; //Làm mới để chuẩn bị thêm toàn bộ hoặc không có gì
             if (!document.getElementById('hangloat').checked) {
+                me.actions = 2; //Có thể ấn hành động là xóa nhiều
+
                 for (let i = 0; i < me.listEmployee.length; i++) {
                     let id = me.listEmployee[i].EmployeeId;
                     document.getElementById(id).checked = true;
+                    me.arrayEmployeeId.push(id) //Add vào để chuẩn bị xóa
                 }
             } else {
-                for (let i = 0; i < me.listEmployee.length; i++) {
-                    let id = me.listEmployee[i].EmployeeId;
+                me.actions = 0; //Ấn không ra không hành động gì hết
+                me.removeAllChecked(me.listEmployee);
+            }
+        },
+        removeAllChecked(listEmployee) {
+            for (let i = 0; i < listEmployee.length; i++) {
+                let id = listEmployee[i].EmployeeId;
+                if(document.getElementById(id).checked)
                     document.getElementById(id).checked = false;
-                }
             }
         },
         removeOrBatchExecution(employeeId) {
+            var me = this;
+            me.isShowDeleteMany = false;
+
             if (document.getElementById(employeeId).checked) {
                 document.getElementById('hangloat').checked = false;
+                var index = me.arrayEmployeeId.indexOf(employeeId);
+                me.arrayEmployeeId.splice(index, 1);
+                for (let i = 0; i < me.listEmployee.length; i++) {
+                    let id = me.listEmployee[i].EmployeeId;
+                    if (id != employeeId && document.getElementById(id).checked) {
+                        return;
+                    }
+                }
+                me.actions = 0;
             } else {
-                var me = this;
+                me.actions = 2; //Có thể ấn hành động là xóa nhiều
+                me.arrayEmployeeId.push(employeeId);
                 for (let i = 0; i < me.listEmployee.length; i++) {
                     let id = me.listEmployee[i].EmployeeId;
                     if (id != employeeId && !document.getElementById(id).checked) {

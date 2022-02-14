@@ -3,7 +3,7 @@
     <div class="m-message-content">
         <div class="m-messages-body">
             <div class="m-mess-icon m-icon-warning"></div>
-            <div class="m-mess-title" >{{writeTextRemove()}}
+            <div class="m-mess-title">{{writeTextRemove()}}
             </div>
         </div>
         <div class="m-message-line"></div>
@@ -36,29 +36,49 @@ export default {
             var me = this;
             me.$emit('openMessageRemove');
         },
-        btnConfirmRemove() {
+        async btnConfirmRemove() {
             try {
                 var me = this;
-                axios.delete(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`)
-                    .then(function () {
-                        me.$emit('openMessageRemove'); //Đóng message 
-                        me.$emit('reloadData', null);  //Load lại table
-                    })
-                    .catch(function (res) {
-                        console.log(res);
-                    })
+                console.log(me.$parent.arrayEmployeeId.length);
+                await me.$parent.removeAllChecked(me.$parent.listEmployee); //Xóa hết checked
+
+                switch (me.action) {
+                    case 1: //Thực hiện xóa 1
+                        await axios.delete(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`)
+                            .then(function () {
+                                me.resetTable();
+                            })
+                        break;
+                    case 2: //Thực hiện xóa nhiều
+                        if (me.$parent.arrayEmployeeId.length >= 1) {
+
+                            await axios.post('https://localhost:44338/api/v1/Employees/DeleteMany', me.$parent.arrayEmployeeId)
+                                .then(function () {
+                                    me.resetTable();
+                                })
+                                .catch(function (res) {
+                                    console.error(res);
+                                })
+                        }
+                        break;
+                }
 
             } catch (error) {
                 console.error('Có lỗi xảy ra' + error);
             }
         },
+        resetTable() {
+            var me = this;
+            me.$parent.actions = 0;
+            me.$parent.arrayEmployeeId = []; //Làm mới lại
+            me.$emit('openMessageRemove'); //Đóng message 
+            me.$emit('reloadData', null); //Load lại table
+        },
         writeTextRemove() {
             var me = this;
-            console.log("đó là ");
-            console.log(me.action);
             switch (me.action) {
                 case 1:
-                    return  `Bạn có thực sự muốn xóa nhân viên <${me.employee.EmployeeCode}> không?`;
+                    return `Bạn có thực sự muốn xóa nhân viên <${me.employee.EmployeeCode}> không?`;
                 case 2:
                     return "Bạn thực sự có muốn xóa những nhân viên đã chọn không?";
                 default:

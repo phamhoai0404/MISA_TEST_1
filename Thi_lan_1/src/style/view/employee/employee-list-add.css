@@ -46,6 +46,10 @@
     box-sizing: border-box;
 }
 
+.row-two-top .row-two-left .m-button-group:hover {
+    cursor: pointer;
+}
+
 .row-two-top .row-two-left .m-button-group .m-button-title {
     padding-right: 4px;
     /* background-color: red; */
