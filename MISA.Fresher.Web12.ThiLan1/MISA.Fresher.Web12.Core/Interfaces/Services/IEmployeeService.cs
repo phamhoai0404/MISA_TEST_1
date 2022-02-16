@@ -23,5 +23,15 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Services
         /// <returns></returns>
         /// CreatedBy: HoaiPT(14/02/2022)
         int DeleteManyService(List<string> listEmployeeId);
+
+        /// <summary>
+        /// Thực hiện lấy dữ liệu và phân trang tìm kiếm
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        /// CreatedBy: HoaiPT(17/02/2022)
+        object GetPagingService(string searchText, int pageSize, int pageIndex);
     }
 }

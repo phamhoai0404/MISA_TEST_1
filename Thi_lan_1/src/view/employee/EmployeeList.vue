@@ -86,15 +86,15 @@
         </div>
         <div class="m-table-paging">
             <div class="m-paging-left">
-                Tổng số: <b v-if=" listEmployee!=null ">{{listEmployee.length}}</b>
-                <b v-if=" listEmployee==null ">0</b>
+                Tổng số: <b>{{totalRecord}}</b>
+
                 bản ghi
             </div>
             <div class="m-paging-right">
                 <div class="m-left">
                     <div class="m-combobox" style="width: 200px;" :class="{'selected': isShowPage}">
                         <input type="text" :value="pageTextInInput" readOnly>
-                        <button class="m-button-padding" @click="btnSelectPage()" > 
+                        <button class="m-button-padding" @click="btnSelectPage()">
                             <div class="m-icon-drown"></div>
                         </button>
                         <div class="m-combobox-data" v-if="isShowPage">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="m-right">
-                    <paginate v-model="pageAction" :page-count="totalPage" :page-range="3" :margin-pages="1" :click-handler="clickCallback" :prev-text="'Sau'" :next-text="'Trước'" :container-class="'m-page-number'" :page-class="'m-page-item'">
+                    <paginate v-model="pageAction" :page-count="totalPage" :page-range="3" :margin-pages="1" :click-handler="clickCallback" :prev-text="'Trước'" :next-text="'Sau'" :container-class="'m-page-number'" :page-class="'m-page-item'">
                     </paginate>
                 </div>
             </div>
@@ -145,7 +145,7 @@ export default {
             editMode: 1, //form thêm hoặc sửa: 1: thêm mới; 2: sửa
             employeeIdSelected: {}, //employee đang được chọn
 
-            keywordSearch: null,
+            keywordSearch: "",
 
             myTimeout: "", //Thực hiện cho setTimeout ở filer
             testExport: "Danh_sach_nhan_vien", //Tên của file export
@@ -154,13 +154,14 @@ export default {
             isShowDeleteMany: false, //Trạng thái xóa nhiều
             arrayEmployeeId: new Array(), //Nơi lưu trữ EmployeeId chuẩn bị xóa
 
-            totalPage: 10,
+            totalRecord: 0,
+            totalPage: 1,
             pageAction: 1,
             listPageText: [
                 "10", "20", "30", "50", "100"
             ],
             selectTextPage: 10,
-            isShowPage:false,
+            isShowPage: false,
         }
     },
     created() {
@@ -171,37 +172,50 @@ export default {
     },
     computed: {
         pageTextInInput: function () {
-            return this.selectTextPage +" bản ghi trên 1 trang";
+            return this.selectTextPage + " bản ghi trên 1 trang";
         }
     },
 
     watch: {
         //Phần này nên để lại để thực hiện phân trang đang làm 
-        keywordSearch: function (value) {
+        keywordSearch: function () {
             var me = this;
             clearTimeout(me.myTimeout);
             me.myTimeout = setTimeout(function () {
-                if (value) {
-                    me.getDataByKeywordSearch(value);
-                } else {
-                    me.getData();
-                }
+                  me.isShowLoading = true;
+                  me.showData();
             }, 1000);
         }
     },
 
     methods: {
-        btnSelectPage(){
+        /**
+         * Thay đổi trạng thái tắt mở của form select paging
+         * CreatedBy: HoaiPT(07/02/2022)
+         * 
+         */
+        btnSelectPage() {
             var me = this;
             me.isShowPage = !me.isShowPage;
         },
-        selectedPageText(index) {
+        async selectedPageText(index) {
             var me = this;
-            me.selectTextPage = me.listPageText[index];
-            me.isShowPage = false;
+
+            me.selectTextPage = me.listPageText[index];//Thực hiện gán số kích thước trang đã lựa chọn 
+            me.isShowLoading = true;//Show loading
+            me.pageAction = 1;//Hiển thị ở trang đầu tiên
+
+            await me.showData();//Thực hiện load lại dữ liệu trên table với đúng kích thước trang đã chọn
+
+            me.isShowPage = false;//Đóng form page
         },
-        clickCallback(number) {
-            console.log(number);
+        clickCallback(pageIndex) {
+            var me = this;
+            me.pageAction = pageIndex;//Thực hiện gián giá trị mới cho trang muốn đứng
+            me.isShowLoading = true;//Show loading
+
+            me.showData();//Load lại dữ liệu table
+
         },
         /**
          * Thay đổi trạng thái đóng mở của form MessageRemoveEmployee
@@ -236,17 +250,32 @@ export default {
                 })
         },
         /**
-         * Lấy toàn bộ dữ liệu
+         * Lấy toàn bộ dữ liệu về trạng thái ban đầu
          */
         getData() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
 
+            me.selectTextPage = 10; //Reset lại số lượng bản ghi trên 1 trang 
+            me.pageAction = 1; //Reset lại số trang  đang hiển thị
             me.isShowLoading = true; //Hiển thị đang load
-            axios.get('https://localhost:44338/api/v1/Employees')
+            me.keywordSearch = "";
+
+            me.showData();//Load dữ liệu
+
+           
+        },
+        /**
+         * Lấy và hiển thị dữ liệu
+         */
+        async showData(){
+            var me = this;
+             await axios.get(`https://localhost:44338/api/v1/Employees/getPaging?searchText=${me.keywordSearch}&pageIndex=${me.pageAction}&pageSize=${me.selectTextPage}`)
                 .then(function (res) {
-                    me.listEmployee = res.data; //Gán dữ liệu vào danh sách employee
-                    console.log(res.data);
+                    console.log(res);
+                    me.listEmployee = res.data.Data;
+                    me.totalPage = Number(res.data.TotalPage);
+                    me.totalRecord = res.data.TotalRecord;
                     me.isShowLoading = false;
                 })
                 .catch(function (res) {
@@ -269,21 +298,13 @@ export default {
                     console.err(res);
                 })
         },
-
-        ///Chỗ này chưa sửa
-        getDataByKeywordSearch(keyword) {
-            //Chắc chắn là con trỏ this đang ở đây;
+        btnRefresh(){
             var me = this;
-            me.isShowLoading = true;
-            axios.get(`http://amis.manhnv.net/api/v1/Employees/filter?employeeFilter=${keyword}`)
-                .then(function (res) {
-                    me.listEmployee = res.data.Data;
-
-                    me.isShowLoading = false;
-                })
-                .catch(function (res) {
-                    console.log(res);
-                })
+            if(me.keywordSearch !=""){//Nếu nó khác rỗng 
+                me.keywordSearch ="";//thì gián bằng rỗng sau thời gian thì nó sẽ xem sự thay đổi của biến keywordSearch in watch
+            }else{
+                me.getData();//Nếu không thì load lại dữ liệu
+            }
         },
 
         /**
@@ -315,6 +336,7 @@ export default {
                 if (document.getElementById(id).checked)
                     document.getElementById(id).checked = false;
             }
+            document.getElementById('hangloat').checked = false;
         },
         /**
          * Thực hiện khi click vào từng ô checked một
@@ -428,19 +450,6 @@ export default {
             this.employeeIdSelected = employee;
 
             this.isShowRemoveEmployee = true;
-
-        },
-        /**
-         * Thực hiện khi bấm refresh 
-         * (cái này chưa hoàn thiện vì nó liên quan đến phân trang)
-         */
-        btnRefresh() {
-            var me = this;
-            if (me.keywordSearch == null) {
-                me.getData(); //nếu mà ô tìm kiếm không có dữ liệu thì load lại dữ liệu
-            } else {
-                me.keywordSearch = null; //ô tìm kiếm có dữ liệu thì sẽ set về null rồi tự khắc ở phần watch nó sẽ theo dõi cái keyworkSearch để thực hiện load lại dữ liệu
-            }
 
         },
         /**

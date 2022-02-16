@@ -35,10 +35,18 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// <returns></returns>
         /// Created: HoaiPT(11/02/2022)
         [HttpGet("CodeNew")]
-        public IActionResult GetHoa()
+        public IActionResult GetCodeNew()
         {
-            var res= _employeeService.GetEmployeeCodeNew();
-            return StatusCode(200, res);
+            try
+            {
+                var res = _employeeService.GetEmployeeCodeNew();
+                return StatusCode(200, res);
+            }
+            catch (Exception ex)
+            {
+                return this.AllException(ex, null);
+            }
+           
         }
 
         [HttpPost("DeleteMany")]
@@ -54,14 +62,31 @@ namespace MISA.Fresher.Web12.API.Controllers
                 return this.AllException(ex, null);
             }
         }
-       
 
+        /// <summary>
+        /// Thực hiện phân trang lấy dữ liệu với từ khóa tìm kiếm
+        /// </summary>
+        /// <returns></returns>
+        /// Created: HoaiPT(17/02/2022)
+        [HttpGet("GetPaging")]
+        public IActionResult GetPaging(int pageIndex, int pageSize, string? searchText)
+        {
+            try
+            {
+                var res = _employeeService.GetPagingService(searchText,pageSize,pageIndex);
+                return StatusCode(200, res);
+            }
+            catch (Exception ex)
+            {
+                return this.AllException(ex, null);
+            }
+        }
 
         /// <summary>
         /// Thực hiện xuất ra file excel danh sách nhân viên
         /// </summary>
         /// <returns></returns>
-        [HttpGet("excel")]
+        [HttpGet("Excel")]
         public IActionResult exportExcel()
         {
             //Thực hiện tạo ra file excel mới và sau khi làm xong  đóng lại luôn

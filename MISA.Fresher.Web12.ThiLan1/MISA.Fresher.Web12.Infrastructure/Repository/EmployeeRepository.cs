@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Fresher.Web12.Infrastructure.Repository
 {
+
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
 
@@ -46,6 +47,33 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
                 //Thực hiện xóa hàng loạt
                 var res = SqlConnection.Execute(sqlCommand, param: parameters);
                 return res;
+            }
+        }
+
+        public object GetPaging(int pageIndex, int pageSize, string searchText)
+        {
+            using (SqlConnection = new MySqlConnection(ConnectionString))
+            {
+                var sql = $"Proc_GetEmployeePaging";
+                var parameters = new DynamicParameters();
+                parameters.Add("@m_SearchText", searchText);
+                parameters.Add("@m_PageIndex", pageIndex);
+                parameters.Add("@m_PageSize", pageSize);
+
+                parameters.Add("@m_TotalRecord", direction: System.Data.ParameterDirection.Output);
+                parameters.Add("@m_TotalPage", direction: System.Data.ParameterDirection.Output);
+
+                var entites = SqlConnection.Query(sql, param:parameters, commandType:System.Data.CommandType.StoredProcedure);//Thực hiện lấy các bản ghi
+                var totalRecord = parameters.Get<int>("@m_TotalRecord");//Lấy tổng số bản ghi
+                var totalPage = parameters.Get<int>("@m_TotalPage");//Lấy tổng số trang
+
+                return new
+                {
+                    Data = entites,
+                    TotalRecord = totalRecord,
+                    TotalPage = totalPage
+                };
+
             }
         }
     }

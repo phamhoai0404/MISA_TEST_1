@@ -24,5 +24,15 @@ namespace MISA.Fresher.Web12.Core.Interfaces.Infrastructure
         /// Created: HoaiPT(14/02/2022)
         int DeleteManyId(List<string> listEmployeeId);
 
+        /// <summary>
+        /// Thực hiện phân trang và tìm kiếm lấy dữ liệu
+        /// </summary>
+        /// <param name="pageIndex">Số thứ tự trang</param>
+        /// <param name="pageSize">Kích thước trang</param>
+        /// <param name="searchText">Từ khóa tìm kiếm</param>
+        /// <returns></returns>
+        /// Created: HoaiPT(17/02/2022)
+        object GetPaging(int pageIndex, int pageSize, string searchText);
+
     }
 }
