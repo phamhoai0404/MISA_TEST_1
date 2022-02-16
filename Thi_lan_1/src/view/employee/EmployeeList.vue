@@ -92,28 +92,20 @@
             </div>
             <div class="m-paging-right">
                 <div class="m-left">
-                    <div class="m-combobox" style="width: 200px;">
-                        <input type="text">
-                        <button><i class="fas fa-angle-down"></i></button>
-                        <div class="m-combobox-data" style="display: none;">
-                            <div class="m-combobox-item">Trạng thái 1</div>
-                            <div class="m-combobox-item">Trạng thái 2</div>
-                            <div class="m-combobox-item m-combobox-item-selected">Trạng thái 3</div>
+                    <div class="m-combobox" style="width: 200px;" :class="{'selected': isShowPage}">
+                        <input type="text" :value="pageTextInInput" readOnly>
+                        <button class="m-button-padding" @click="btnSelectPage()" > 
+                            <div class="m-icon-drown"></div>
+                        </button>
+                        <div class="m-combobox-data" v-if="isShowPage">
+                            <div v-for="(textPage,index) in listPageText" :key="index" class="m-combobox-item-page" @click='selectedPageText(index)' :class="{'selected': selectTextPage == textPage }">{{ textPage }} bản ghi trên 1 trang</div>
                         </div>
                     </div>
                 </div>
                 <div class="m-right">
-                    <button class="m-paging-title ">Trước</button>
-                    <div class="m-page-number-group">
-                        <button class="m-page-number">1</button>
-                        <button class="m-page-number">2</button>
-                        <button class="m-page-number">3</button>
-                        <button class="m-page-number m-page-active">4</button>
-                    </div>
-                    <button class="m-paging-title ">Sau</button>
-
+                    <paginate v-model="pageAction" :page-count="totalPage" :page-range="3" :margin-pages="1" :click-handler="clickCallback" :prev-text="'Sau'" :next-text="'Trước'" :container-class="'m-page-number'" :page-class="'m-page-item'">
+                    </paginate>
                 </div>
-
             </div>
 
         </div>
@@ -145,29 +137,42 @@ export default {
     },
     data() { //Các biến có trong component
         return {
-            listEmployee: null,//Danh sách employee
-            listDepartmentTable: null,//Danh sách Department
-            isShowLoading: false,//Trạng thái đầu tiên của Loading
-            isShowEmployeeDetail: false,//Trạng thái đầu tiên của form detail
-            isShowRemoveEmployee: false,//Trạng thái đầu tiên của form remove
-            editMode: 1,//form thêm hoặc sửa: 1: thêm mới; 2: sửa
-            employeeIdSelected: {},//employee đang được chọn
+            listEmployee: null, //Danh sách employee
+            listDepartmentTable: null, //Danh sách Department
+            isShowLoading: false, //Trạng thái đầu tiên của Loading
+            isShowEmployeeDetail: false, //Trạng thái đầu tiên của form detail
+            isShowRemoveEmployee: false, //Trạng thái đầu tiên của form remove
+            editMode: 1, //form thêm hoặc sửa: 1: thêm mới; 2: sửa
+            employeeIdSelected: {}, //employee đang được chọn
 
             keywordSearch: null,
 
-            myTimeout: "",//Thực hiện cho setTimeout ở filer
-            testExport: "Danh_sach_nhan_vien",//Tên của file export
+            myTimeout: "", //Thực hiện cho setTimeout ở filer
+            testExport: "Danh_sach_nhan_vien", //Tên của file export
 
             actions: 0, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
-            isShowDeleteMany: false,//Trạng thái xóa nhiều
-            arrayEmployeeId: new Array(),//Nơi lưu trữ EmployeeId chuẩn bị xóa
+            isShowDeleteMany: false, //Trạng thái xóa nhiều
+            arrayEmployeeId: new Array(), //Nơi lưu trữ EmployeeId chuẩn bị xóa
+
+            totalPage: 10,
+            pageAction: 1,
+            listPageText: [
+                "10", "20", "30", "50", "100"
+            ],
+            selectTextPage: 10,
+            isShowPage:false,
         }
     },
     created() {
         //Gọi API lấy dữ liệu
-        this.getDataListDepartment();//Thực hiện lấy danh sách phòng ban
-        this.getData();//Thực hiện load dữ liệu
+        this.getDataListDepartment(); //Thực hiện lấy danh sách phòng ban
+        this.getData(); //Thực hiện load dữ liệu
 
+    },
+    computed: {
+        pageTextInInput: function () {
+            return this.selectTextPage +" bản ghi trên 1 trang";
+        }
     },
 
     watch: {
@@ -186,6 +191,18 @@ export default {
     },
 
     methods: {
+        btnSelectPage(){
+            var me = this;
+            me.isShowPage = !me.isShowPage;
+        },
+        selectedPageText(index) {
+            var me = this;
+            me.selectTextPage = me.listPageText[index];
+            me.isShowPage = false;
+        },
+        clickCallback(number) {
+            console.log(number);
+        },
         /**
          * Thay đổi trạng thái đóng mở của form MessageRemoveEmployee
          */
@@ -199,8 +216,8 @@ export default {
         btnRemoveMany() {
             var me = this;
             console.log(me.arrayEmployeeId);
-            me.isShowDeleteMany = false;//Đóng xóa nhiều
-            me.isShowRemoveEmployee = true;//Mở MessageRemoveEmployee
+            me.isShowDeleteMany = false; //Đóng xóa nhiều
+            me.isShowRemoveEmployee = true; //Mở MessageRemoveEmployee
 
         },
         /**
@@ -211,7 +228,7 @@ export default {
             me.isShowLoading = true; //Hiển thị đang load
             await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
                 .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data;//Gán mã mới vào MessageRemoveEmployee 
+                    me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào MessageRemoveEmployee 
                     me.isShowLoading = false; //đóng load
                 })
                 .catch(function (res) {
@@ -228,7 +245,7 @@ export default {
             me.isShowLoading = true; //Hiển thị đang load
             axios.get('https://localhost:44338/api/v1/Employees')
                 .then(function (res) {
-                    me.listEmployee = res.data;//Gán dữ liệu vào danh sách employee
+                    me.listEmployee = res.data; //Gán dữ liệu vào danh sách employee
                     console.log(res.data);
                     me.isShowLoading = false;
                 })
@@ -246,13 +263,13 @@ export default {
             axios.get('https://localhost:44338/api/v1/Departments')
                 .then(function (res) {
                     console.log(res.data);
-                    me.listDepartmentTable = res.data;//Thực hiện gán vào danh sách Department
+                    me.listDepartmentTable = res.data; //Thực hiện gán vào danh sách Department
                 })
                 .catch(function (res) {
                     console.err(res);
                 })
         },
-        
+
         ///Chỗ này chưa sửa
         getDataByKeywordSearch(keyword) {
             //Chắc chắn là con trỏ this đang ở đây;
@@ -261,7 +278,7 @@ export default {
             axios.get(`http://amis.manhnv.net/api/v1/Employees/filter?employeeFilter=${keyword}`)
                 .then(function (res) {
                     me.listEmployee = res.data.Data;
-                    
+
                     me.isShowLoading = false;
                 })
                 .catch(function (res) {
@@ -274,7 +291,7 @@ export default {
          */
         batchExecution() {
             var me = this;
-            me.isShowDeleteMany = false;//Để nó bằng false tránh trường hợp cái action = 2, rồi isShowDeleteMany thì nó TỰ ĐỘNG mở ra cái xóa nhiều ra
+            me.isShowDeleteMany = false; //Để nó bằng false tránh trường hợp cái action = 2, rồi isShowDeleteMany thì nó TỰ ĐỘNG mở ra cái xóa nhiều ra
             me.arrayEmployeeId = []; //Làm mới để chuẩn bị thêm toàn bộ hoặc không có gì
             if (!document.getElementById('hangloat').checked) {
                 me.actions = 2; //Có thể ấn hành động là xóa nhiều
@@ -286,7 +303,7 @@ export default {
                 }
             } else {
                 me.actions = 0; //Ấn không ra không hành động gì hết
-                me.removeAllChecked(me.listEmployee);//Xóa bỏ hết checked
+                me.removeAllChecked(me.listEmployee); //Xóa bỏ hết checked
             }
         },
         /**
@@ -295,7 +312,7 @@ export default {
         removeAllChecked(listEmployee) {
             for (let i = 0; i < listEmployee.length; i++) {
                 let id = listEmployee[i].EmployeeId;
-                if(document.getElementById(id).checked)
+                if (document.getElementById(id).checked)
                     document.getElementById(id).checked = false;
             }
         },
@@ -316,7 +333,7 @@ export default {
                         return;
                     }
                 }
-                me.actions = 0;//Nếu mà tất cả đều không tích chọn thì sẽ không click vào thực hiện hàng loạt được
+                me.actions = 0; //Nếu mà tất cả đều không tích chọn thì sẽ không click vào thực hiện hàng loạt được
             } else {
                 me.actions = 2; //Có thể ấn hành động là xóa nhiều
                 me.arrayEmployeeId.push(employeeId);
@@ -326,7 +343,7 @@ export default {
                         return;
                     }
                 }
-                document.getElementById('hangloat').checked = true;//Nếu tất cả đều click chọn thì hàng loạt sẽ tích chọn
+                document.getElementById('hangloat').checked = true; //Nếu tất cả đều click chọn thì hàng loạt sẽ tích chọn
             }
         },
         /**
@@ -394,7 +411,7 @@ export default {
             me.isShowLoading = true; //Hiển thị đang load
             await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
                 .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data;//Gán mã mới vào 
+                    me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào 
                     me.isShowLoading = false; //đóng
                     me.isShowEmployeeDetail = true;
                 })
@@ -445,7 +462,7 @@ export default {
                 )
                 document.body.appendChild(link)
                 link.click();
-                me.isShowLoading = false;//Đóng Loading
+                me.isShowLoading = false; //Đóng Loading
             })
         }
     },

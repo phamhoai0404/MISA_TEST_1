@@ -4,10 +4,13 @@ import VueRouter from 'vue-router'
 import EmployeeList from './view/employee/EmployeeList.vue'
 import CustomerList from './view/customer/CustomerList.vue'
 import VCalendar from 'v-calendar';
+import Paginate from 'vuejs-paginate'
 
 
-Vue.use(VueRouter)
-Vue.use(VCalendar)
+
+Vue.use(VueRouter) //Thực hiện sử dụng vue router
+Vue.use(VCalendar) //Thực hiện thư viện của datepiker
+Vue.component('paginate', Paginate) //Thực hiện thư viện sử dụng phân trang
 
 Vue.config.productionTip = false
 
@@ -23,7 +26,7 @@ const router = new VueRouter({
     routes // short for `routes: routes`
 })
 
-
+//Thực hiện để thực hiện hành động bên ngoài click của thành phần nào đó
 Vue.directive('click-outside', {
     bind: function(el, binding, vnode) {
         window.event = function(event) {
@@ -33,9 +36,6 @@ Vue.directive('click-outside', {
         };
         document.body.addEventListener('click', window.event)
     },
-    // unbind: function() {
-    //     document.body.removeEventListener('click', this.event)
-    // },
 });
 
 new Vue({

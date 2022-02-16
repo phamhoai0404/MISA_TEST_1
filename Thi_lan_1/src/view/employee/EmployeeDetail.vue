@@ -66,7 +66,6 @@
                                         </div>
                                     </template>
                                 </v-date-picker>
-                                <!-- <input type="date" class="m-input" v-model="employee.DateOfBirth"> -->
                             </div>
                             <div class="m-content-radio " style="width: 58%">
                                 <div class="m-label">Giới tính</div>

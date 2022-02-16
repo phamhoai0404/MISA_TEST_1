@@ -20,12 +20,73 @@
     margin-left: 20px;
 }
 
-.m-page-number,
-.m-paging-title {
-    border: unset;
-    background: unset;
+.m-page-number {
+    display: flex;
+    list-style: none !important;
+    padding-left: 0px;
+}
+
+.m-page-number .m-page-item {
+    margin: 0 4px;
+    padding: 0 2px;
+}
+
+.m-page-number .m-page-item.active {
+    font-weight: 600;
+    padding: 0 6.5px;
+    border: 1px solid #bbb;
 }
 
 .m-page-active {
     font-weight: 600;
+}
+
+.m-combobox-data {
+    width: 100%;
+    position: absolute;
+    background-color: #fff;
+    top: -165px;
+    box-shadow: 1px 1px 2px #bfbdbd;
+    border-radius: 2px;
+    border: 1px solid #bbb;
+    z-index: 30;
+    right: -1px;
+}
+
+.m-combobox-data .m-combobox-item-page {
+    padding: 0 14px 0 10px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.m-combobox-data .m-combobox-item-page:hover {
+    background-color: #E9EBEE;
+    color: #2ca01c;
+}
+
+.m-combobox-item-page.selected {
+    background-color: #2ca01c !important;
+    color: white !important;
+}
+
+.m-combobox .m-button-padding {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.m-combobox .m-button-padding:hover {
+    background-color: #E9EBEE;
+}
+
+.m-combobox .m-button-padding .m-icon-drown {
+    height: 16px;
+    width: 16px !important;
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat;
+    background-position: -560px -360px;
+    box-sizing: border-box;
+}
+
+.m-combobox.selected {
+    border: 1px solid #2ca01c !important;
 }

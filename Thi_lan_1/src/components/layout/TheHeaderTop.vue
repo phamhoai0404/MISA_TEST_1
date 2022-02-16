@@ -5,11 +5,6 @@
                 <div class="m-combobox m-combobox-header">
                     <input type="text" value="CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ KHÁC" style="width: 410px" readonly>
                     <button id="btnCombobox" class="icon-dropdown-header"></button>
-                    <div class="m-combobox-data">
-                        <div class="m-combobox-item">Trạng thái 1</div>
-                        <div class="m-combobox-item">Trạng thái 2</div>
-                        <div class="m-combobox-item m-combobox-item-selected">Trạng thái 3</div>
-                    </div>
                 </div>
             </div>
             <div class="m-right">

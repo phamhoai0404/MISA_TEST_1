@@ -24,9 +24,14 @@ export default {
     components: {
         TheMenu,
         TheHeaderTop,
-
     },
-    
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+    },
 
 }
 </script>
