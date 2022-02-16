@@ -20,6 +20,9 @@ export default {
         'errorData',
     ],
     methods:{
+        /**
+         * Thực hiện khi click vào đóng
+         */
         btnCloseInfoEmployee(){
             var me = this;
             me.$emit('openInfoEmployee');

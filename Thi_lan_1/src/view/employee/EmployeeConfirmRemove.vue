@@ -25,28 +25,27 @@ export default {
     props: [
         'employee', 'action'
     ],
-    created() {
-        var me = this;
-        console.log("created");
-        console.log(me.action);
-
-    },
     methods: {
+        /**
+         * Thực hiện khi click vào cancel
+         */
         btnCancel() {
             var me = this;
             me.$emit('openMessageRemove');
         },
+        /**
+         * Thực hiện khi click vào xác nhận xóa
+         */
         async btnConfirmRemove() {
             try {
                 var me = this;
-                console.log(me.$parent.arrayEmployeeId.length);
                 await me.$parent.removeAllChecked(me.$parent.listEmployee); //Xóa hết checked
 
                 switch (me.action) {
                     case 1: //Thực hiện xóa 1
                         await axios.delete(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`)
                             .then(function () {
-                                me.resetTable();
+                                me.resetTable();//Làm mới lại table
                             })
                         break;
                     case 2: //Thực hiện xóa nhiều
@@ -54,7 +53,7 @@ export default {
 
                             await axios.post('https://localhost:44338/api/v1/Employees/DeleteMany', me.$parent.arrayEmployeeId)
                                 .then(function () {
-                                    me.resetTable();
+                                    me.resetTable();//Làm mới lại table
                                 })
                                 .catch(function (res) {
                                     console.error(res);
@@ -67,6 +66,9 @@ export default {
                 console.error('Có lỗi xảy ra' + error);
             }
         },
+        /**
+         * Thực hiện thiết lập lai Table
+         */
         resetTable() {
             var me = this;
             me.$parent.actions = 0;
@@ -74,12 +76,15 @@ export default {
             me.$emit('openMessageRemove'); //Đóng message 
             me.$emit('reloadData', null); //Load lại table
         },
+        /**
+         * Thực hiện hiển thị text phù hợp
+         */
         writeTextRemove() {
             var me = this;
             switch (me.action) {
-                case 1:
+                case 1://thực hiện xóa 1
                     return `Bạn có thực sự muốn xóa nhân viên <${me.employee.EmployeeCode}> không?`;
-                case 2:
+                case 2://Thực hiện xóa nhiều
                     return "Bạn thực sự có muốn xóa những nhân viên đã chọn không?";
                 default:
                     return "";

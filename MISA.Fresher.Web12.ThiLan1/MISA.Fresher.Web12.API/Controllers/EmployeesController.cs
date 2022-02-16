@@ -35,9 +35,10 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// <returns></returns>
         /// Created: HoaiPT(11/02/2022)
         [HttpGet("CodeNew")]
-        public string GetHoa()
+        public IActionResult GetHoa()
         {
-            return _employeeService.GetEmployeeCodeNew();
+            var res= _employeeService.GetEmployeeCodeNew();
+            return StatusCode(200, res);
         }
 
         [HttpPost("DeleteMany")]

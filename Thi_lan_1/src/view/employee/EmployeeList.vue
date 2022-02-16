@@ -145,32 +145,33 @@ export default {
     },
     data() { //Các biến có trong component
         return {
-            listEmployee: null,
-            listDepartmentTable: null,
-            isShowLoading: false,
-            isShowEmployeeDetail: false,
-            isShowRemoveEmployee: false,
-            editMode: 1,
-            employeeIdSelected: {},
+            listEmployee: null,//Danh sách employee
+            listDepartmentTable: null,//Danh sách Department
+            isShowLoading: false,//Trạng thái đầu tiên của Loading
+            isShowEmployeeDetail: false,//Trạng thái đầu tiên của form detail
+            isShowRemoveEmployee: false,//Trạng thái đầu tiên của form remove
+            editMode: 1,//form thêm hoặc sửa: 1: thêm mới; 2: sửa
+            employeeIdSelected: {},//employee đang được chọn
 
             keywordSearch: null,
 
-            myTimeout: "",
-            testExport: "Danh_sach_nhan_vien",
+            myTimeout: "",//Thực hiện cho setTimeout ở filer
+            testExport: "Danh_sach_nhan_vien",//Tên của file export
 
             actions: 0, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
-            isShowDeleteMany: false,
-            arrayEmployeeId: new Array(),
+            isShowDeleteMany: false,//Trạng thái xóa nhiều
+            arrayEmployeeId: new Array(),//Nơi lưu trữ EmployeeId chuẩn bị xóa
         }
     },
     created() {
         //Gọi API lấy dữ liệu
-        this.getDataListDepartment();
-        this.getData();
+        this.getDataListDepartment();//Thực hiện lấy danh sách phòng ban
+        this.getData();//Thực hiện load dữ liệu
 
     },
 
     watch: {
+        //Phần này nên để lại để thực hiện phân trang đang làm 
         keywordSearch: function (value) {
             var me = this;
             clearTimeout(me.myTimeout);
@@ -185,30 +186,41 @@ export default {
     },
 
     methods: {
+        /**
+         * Thay đổi trạng thái đóng mở của form MessageRemoveEmployee
+         */
         openMessage() {
             var me = this;
             me.isShowRemoveEmployee = !me.isShowRemoveEmployee; //Thực hiện đóng nếu mở hoặc mở nếu đóng
         },
+        /**
+         * Thực hiện khi click vào nút xóa nhiều
+         */
         btnRemoveMany() {
             var me = this;
             console.log(me.arrayEmployeeId);
-            me.isShowDeleteMany = false;
-            me.isShowRemoveEmployee = true;
+            me.isShowDeleteMany = false;//Đóng xóa nhiều
+            me.isShowRemoveEmployee = true;//Mở MessageRemoveEmployee
 
         },
+        /**
+         * Thực hiện lấy mã mới ở backend
+         */
         async getCodeNew() {
             var me = this;
             me.isShowLoading = true; //Hiển thị đang load
             await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
                 .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data;
-                    me.isShowLoading = false; //đóng
+                    me.employeeIdSelected.EmployeeCode = res.data;//Gán mã mới vào MessageRemoveEmployee 
+                    me.isShowLoading = false; //đóng load
                 })
                 .catch(function (res) {
                     console.error(res);
                 })
         },
-
+        /**
+         * Lấy toàn bộ dữ liệu
+         */
         getData() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
@@ -216,7 +228,7 @@ export default {
             me.isShowLoading = true; //Hiển thị đang load
             axios.get('https://localhost:44338/api/v1/Employees')
                 .then(function (res) {
-                    me.listEmployee = res.data;
+                    me.listEmployee = res.data;//Gán dữ liệu vào danh sách employee
                     console.log(res.data);
                     me.isShowLoading = false;
                 })
@@ -225,19 +237,23 @@ export default {
 
                 })
         },
-
+        /**
+         * Lấy danh sách phòng ban
+         */
         getDataListDepartment() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
             axios.get('https://localhost:44338/api/v1/Departments')
                 .then(function (res) {
                     console.log(res.data);
-                    me.listDepartmentTable = res.data;
+                    me.listDepartmentTable = res.data;//Thực hiện gán vào danh sách Department
                 })
                 .catch(function (res) {
                     console.err(res);
                 })
         },
+        
+        ///Chỗ này chưa sửa
         getDataByKeywordSearch(keyword) {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
@@ -253,10 +269,12 @@ export default {
                 })
         },
 
-        //Thực hiện hàng loạt
+        /**
+         * Hành động khi thực hiện vào hàng loạt
+         */
         batchExecution() {
             var me = this;
-            me.isShowDeleteMany = false;
+            me.isShowDeleteMany = false;//Để nó bằng false tránh trường hợp cái action = 2, rồi isShowDeleteMany thì nó TỰ ĐỘNG mở ra cái xóa nhiều ra
             me.arrayEmployeeId = []; //Làm mới để chuẩn bị thêm toàn bộ hoặc không có gì
             if (!document.getElementById('hangloat').checked) {
                 me.actions = 2; //Có thể ấn hành động là xóa nhiều
@@ -268,9 +286,12 @@ export default {
                 }
             } else {
                 me.actions = 0; //Ấn không ra không hành động gì hết
-                me.removeAllChecked(me.listEmployee);
+                me.removeAllChecked(me.listEmployee);//Xóa bỏ hết checked
             }
         },
+        /**
+         * Thực hiện làm mới xóa bỏ tất cả checked
+         */
         removeAllChecked(listEmployee) {
             for (let i = 0; i < listEmployee.length; i++) {
                 let id = listEmployee[i].EmployeeId;
@@ -278,6 +299,9 @@ export default {
                     document.getElementById(id).checked = false;
             }
         },
+        /**
+         * Thực hiện khi click vào từng ô checked một
+         */
         removeOrBatchExecution(employeeId) {
             var me = this;
             me.isShowDeleteMany = false;
@@ -292,7 +316,7 @@ export default {
                         return;
                     }
                 }
-                me.actions = 0;
+                me.actions = 0;//Nếu mà tất cả đều không tích chọn thì sẽ không click vào thực hiện hàng loạt được
             } else {
                 me.actions = 2; //Có thể ấn hành động là xóa nhiều
                 me.arrayEmployeeId.push(employeeId);
@@ -302,9 +326,12 @@ export default {
                         return;
                     }
                 }
-                document.getElementById('hangloat').checked = true;
+                document.getElementById('hangloat').checked = true;//Nếu tất cả đều click chọn thì hàng loạt sẽ tích chọn
             }
         },
+        /**
+         * Thực hiện hiển thị funtion
+         */
         showFunction(event, employee, index) {
 
             //Hiển thị function  
@@ -316,6 +343,9 @@ export default {
             //Truyền vào employee để bắt đầu thực hiện hành động
             this.employeeIdSelected = employee;
         },
+        /**
+         * Thực hiện truyền vào vị trị cho function
+         */
         positionFunction(y, index) {
             y = index != (this.listEmployee.length - 1) ? (y + 14) : (y - 105);
             document.getElementById('function-ground').style.position = 'fixed';
@@ -323,6 +353,9 @@ export default {
             document.getElementById('function-ground').style.top = `${y}px`;
 
         },
+        /**
+         * Thực hiện khi click vào ô thêm mới
+         */
         async showAddEmployeeDetail() {
             var me = this;
 
@@ -333,6 +366,9 @@ export default {
             await me.getCodeNewAndShowDialog();
 
         },
+        /**
+         * Thực hiện click vào nút sửa
+         */
         btnEditEmployeeDetail(employee) {
             // //Đóng hộp thoại function
             // document.getElementById('function-ground').style.display = 'none';
@@ -342,17 +378,23 @@ export default {
 
             this.isShowEmployeeDetail = true;
         },
+        /**
+         * Thực hiện khi click vào nhân bản
+         */
         btnDuplicate() {
             var me = this;
             me.editMode = 1; //Thực hiện thêm mới
             me.getCodeNewAndShowDialog();
         },
+        /**
+         * Thực hiện Lấy mã employeeCode mới và Thực hiện mở dialog phục vụ cho thêm mới và nhân bản
+         */
         async getCodeNewAndShowDialog() {
             var me = this;
             me.isShowLoading = true; //Hiển thị đang load
             await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
                 .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data;
+                    me.employeeIdSelected.EmployeeCode = res.data;//Gán mã mới vào 
                     me.isShowLoading = false; //đóng
                     me.isShowEmployeeDetail = true;
                 })
@@ -361,6 +403,9 @@ export default {
                 })
 
         },
+        /**
+         * Thực hiện mở Form xác nhận xóa
+         */
         showRemoveEmployee(employee) {
             //Thực hiện gán dữ liệu và mở message lên
             this.employeeIdSelected = employee;
@@ -368,6 +413,10 @@ export default {
             this.isShowRemoveEmployee = true;
 
         },
+        /**
+         * Thực hiện khi bấm refresh 
+         * (cái này chưa hoàn thiện vì nó liên quan đến phân trang)
+         */
         btnRefresh() {
             var me = this;
             if (me.keywordSearch == null) {
@@ -377,8 +426,10 @@ export default {
             }
 
         },
+        /**
+         * Thực hiện export Excel
+         */
         btnExportExcel() {
-            // alert("hoa");
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
             me.isShowLoading = true; //Hiển thị đang load
@@ -394,11 +445,14 @@ export default {
                 )
                 document.body.appendChild(link)
                 link.click();
-                me.isShowLoading = false;
+                me.isShowLoading = false;//Đóng Loading
             })
         }
     },
     filters: {
+        /**
+         * Thực hiện định dạng lại ngày
+         */
         formatDate: function (value) {
             if (value) {
                 value = new Date(value);
@@ -416,6 +470,9 @@ export default {
 
             return value;
         },
+        /**
+         * Thực hiện format giới tính
+         */
         formatGender(value) {
             switch (value) {
                 case 0:

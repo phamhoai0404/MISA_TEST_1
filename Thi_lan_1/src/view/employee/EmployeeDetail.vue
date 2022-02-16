@@ -283,7 +283,7 @@ export default {
                 me.employee.ModifiedDate = me.formatDateAndTimeNow();
 
                 switch (me.editMode) {
-                    case 1:
+                    case 1://Thực hiện thêm mới
                         await axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
                                 me.checkAction(value);
@@ -292,7 +292,7 @@ export default {
                                 me.openWarning(me);
                             })
                         break;
-                    case 2:
+                    case 2://Thực hiện sửa
                         await axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
                             .then(function () {
                                 me.checkAction(value);

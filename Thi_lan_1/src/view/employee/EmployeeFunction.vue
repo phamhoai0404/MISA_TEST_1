@@ -9,12 +9,18 @@
 <script>
 export default {
     methods: {
+        /**
+         * Thực hiện khi click vào nút xóa
+         */
         btnRemove() {
             var me = this;
             me.$parent.actions = 1;
             me.$emit('openRemoveEmployee');
         },
 
+         /**
+         * Thực hiện khi click vào nút nhân bản
+         */
         btnDuplication() {
             var me = this;
             me.$emit('openDuplication');
