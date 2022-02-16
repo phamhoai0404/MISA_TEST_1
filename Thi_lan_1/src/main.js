@@ -27,7 +27,7 @@ const router = new VueRouter({
 Vue.directive('click-outside', {
     bind: function(el, binding, vnode) {
         window.event = function(event) {
-            if (!(el == event.target || el.contains(event.target) || event.target.id == "clickFunction")) {
+            if (!(el == event.target || event.target.id == "clickFunction")) {
                 vnode.context[binding.expression](event);
             }
         };

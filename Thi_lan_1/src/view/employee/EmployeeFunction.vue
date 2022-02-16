@@ -10,18 +10,12 @@
 export default {
     methods: {
         btnRemove() {
-            //Đóng hộp thoại function
-            document.getElementById('function-ground').style.display = 'none';
-
             var me = this;
             me.$parent.actions = 1;
             me.$emit('openRemoveEmployee');
         },
 
         btnDuplication() {
-            //Đóng hộp thoại function
-            document.getElementById('function-ground').style.display = 'none';
-
             var me = this;
             me.$emit('openDuplication');
         },

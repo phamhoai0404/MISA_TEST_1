@@ -32,7 +32,7 @@
                             </div>
                             <div class="m-content-input" style="width: 58%;">
                                 <div class="m-label">Tên <span>*</span></div>
-                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!">
+                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!" @mouseleave="standardizeFullName()" >
                             </div>
                         </div>
                         <div class="m-content-combobox" style="padding: 0 0 12px 0">
@@ -169,7 +169,7 @@
     </div>
     <MessageInfoEmployee v-if="isShowInfoMessage" @openInfoEmployee="isShowInfoMessage =!isShowInfoMessage" :errorData='errorInfo' />
     <MessageWarningEmployee v-if="isShowWarningMessage" @openWarningMessage="isShowWarningMessage =!isShowWarningMessage" :employeeCode='employeeCode' />
-    <MessageConfirmEdit v-if="isShowEditMessage" @openEditEmployee="isShowEditMessage=!isShowEditMessage" @closeDialogDetail="closeDialogDetail()" @closeDialogDetailAndSave="btnSaveOnClick(1)" />
+    <MessageConfirmEdit v-if="isShowEditMessage" @openEditEmployee="isShowEditMessage=!isShowEditMessage" @closeDialogDetail="btnCancelDialogDetail()" @closeDialogDetailAndSave="btnSaveOnClick(1)" />
 </div>
 </template>
 
@@ -193,21 +193,20 @@ export default {
                 input: 'DD/MM/YYYY', //Dạng format của kiểu date
             },
 
-            isShowInfoMessage: false,
-            isShowWarningMessage: false,
-            isShowEditMessage: false,
+            isShowInfoMessage: false,//Trạng thái đầu tiên của form Thông tin lỗi
+            isShowWarningMessage: false,//Trạng thái đầu tiên của form cảnh báo lỗi
+            isShowEditMessage: false,//Trạng thái đầu tiên của form edit
 
-            isShowDepartment: false,
+            isShowDepartment: false,//Trạng thái đầu tiên của combobox department
             employeeCode: "",
 
-            errorInfo: "",
+            errorInfo: "",//Thông tin lỗi
 
             departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi thằng employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
         }
     },
     mounted() {
-        this.$refs.focusMe.focus();
-        console.log(this.employee);
+        this.$refs.focusMe.focus();//Tập trung vào ô mã đầu tiên
     },
 
     watch: {
@@ -229,37 +228,47 @@ export default {
     },
 
     methods: {
+        /**
+         * Thực hiện thay đổi trạng thái đóng mở của Department
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         btnSelectDepartment() {
             this.isShowDepartment = !this.isShowDepartment;
-
         },
+        /**
+         * Thực hiện thay đổi giá trị của DepartmentId, DepartmentName khi mà có sự lựa chọn thay đổi
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         selectedDepartment(index) {
-            this.isShowDepartment = !this.isShowDepartment;
-            this.employee.DepartmentId = this.listDepartment[index].DepartmentId;
-            this.employee.DepartmentName = this.listDepartment[index].DepartmentName;
-
-            this.departmentName = this.employee.DepartmentName; //Trung gian để css thôi
-
-        },
-        closeDialogDetail() {
             var me = this;
-            me.$emit('openDialog', null);
-            //Phải load lại data vì đây mình để model khi mà nó sửa thì bảng nó cũng ăn nên cần phải load lại
-            me.$emit('reloadData', null);
+            me.isShowDepartment = !me.isShowDepartment;
+            me.employee.DepartmentId = me.listDepartment[index].DepartmentId;
+            me.employee.DepartmentName = me.listDepartment[index].DepartmentName;
+
+            me.departmentName = me.employee.DepartmentName; //Trung gian để css thôi
+
         },
+
+        /**
+         * Hành động khi click vào nút dấu (x) ở Detail
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         btnCloseDialog() {
             var me = this;
-            me.isShowEditMessage = true;
+            me.isShowEditMessage = true;//Thực hiện mở form Edit của Detail
         },
+        /**
+         * Hành động khi ấn vào nút (Cất) hoặc (Cất và Thêm)
+         *CreatedBy: HoaiPT(7/02/2022)
+         */
         async btnSaveOnClick(value) {
             try {
+                var me = this;
+
                 //Validate dữ liệu nếu mà nó không thỏa mãn thì kết thúc luôn
-                if (!this.validateData()) {
+                if (!me.validateData()) {
                     return;
                 }
-
-                //Gọi API thực hiện add hoặc là update
-                var me = this;
 
                 //Phải format về dạng này thì nó mới nhận đúng
                 me.employee.DateOfBirth = me.formatDate(me.employee.DateOfBirth);
@@ -278,7 +287,6 @@ export default {
                         await axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
                                 me.checkAction(value);
-
                             })
                             .catch(function () {
                                 me.openWarning(me);
@@ -304,11 +312,19 @@ export default {
                 console.error('Lỗi gì đó ' + error);
             }
         },
+        /**
+         * Hành động Đóng form Detail
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         btnCancelDialogDetail() {
             var me = this;
             me.$emit('openDialog', null);
             me.$emit('reloadData', null);
         },
+        /**
+         * Thực hiện css cho ô input có giá trị bằng rỗng
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         inputOnChange(valueField, ee) {
             if (!valueField) {
                 ee.target.classList.add('m-border-red');
@@ -316,42 +332,61 @@ export default {
                 ee.target.classList.remove('m-border-red');
             }
         },
+        /**
+         * Thực hiện validate cho dữ liệu cho Form detail
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         validateData() {
+            var me = this;
             //Không được để trống mã, họ tên và đơn vị
-            if (!this.employee.EmployeeCode || !this.employee.FullName || !this.employee.DepartmentName) {
+            if (!me.employee.EmployeeCode || !me.employee.FullName || !me.employee.DepartmentName) {
 
                 //Phải style cho border nếu để trống
-                if (!this.employee.DepartmentName) {
+                if (!me.employee.DepartmentName) {
                     let departmentName = document.getElementById("departmentName");
                     departmentName.classList.add('m-border-red');
-                    this.errorInfo = "Đơn vị";
+                    me.errorInfo = "Đơn vị";
                 }
 
-                if (!this.employee.FullName) {
+                if (!me.employee.FullName) {
                     let employeeName = document.getElementById("employeeName");
                     employeeName.classList.add('m-border-red');
-                    this.errorInfo = "Tên";
+                    me.errorInfo = "Tên";
                 }
-                if (!this.employee.EmployeeCode) {
+                if (!me.employee.EmployeeCode) {
                     let employeeCode = document.getElementById("employeeCode");
                     employeeCode.classList.add('m-border-red');
-                    this.errorInfo = "Mã";
+                    me.errorInfo = "Mã";
                 }
 
                 //Hiển thị thông báo
-                this.isShowInfoMessage = true;
+                me.isShowInfoMessage = true;
                 return false;
             }
             return true;
 
         },
+
+        /**
+         * Thực hiện mở form cảnh báo lỗi trong form deatail
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         async openWarning(me) {
             await me.setEmployeeCode(me.employee.EmployeeCode);
             me.isShowWarningMessage = true;
         },
+        /**
+         * Thực hiện set mã code 
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         setEmployeeCode(value) {
-            this.employeeCode = value;
+            var me = this;
+            me.employeeCode = value;
         },
+        /**
+         * Định dạng dữ liệu kiểu datetime kiểu: YYYY-MM-DD
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         formatDate: function (value) {
             if (value) {
                 value = new Date(value);
@@ -364,6 +399,10 @@ export default {
             } else value = "";
             return value;
         },
+        /**
+         * Định dạng dữ liệu kiểu datetime  thời gian hiện tại kiểu: YYYY-MM-DDThh:dd:ss
+         *CreatedBy: HoaiPT(07/02/2022)
+         */
         formatDateAndTimeNow() {
             var curDate = new Date();
             let hours = curDate.getHours(); //Lấy giờ hiện tại
@@ -375,6 +414,12 @@ export default {
 
             return `${this.formatDate(curDate)}T${hours}:${minutes}:${seconds}`;
         },
+        /**
+         * Thực hiện kiểm tra xem là hành động (Cất) | (Cất và Thêm) để thực hiện phù hợp
+         * 1: Cất
+         * 2: Cất và Thêm
+         *CreatedBy: HoaiPT(7/02/2022)
+         */
         async checkAction(value) {
             var me = this;
             switch (value) {
@@ -382,32 +427,70 @@ export default {
                     me.$emit('openDialog', null); //Đóng dialog detail
                     me.$emit('reloadData', null); //Load lại dữ liệu table
                     break;
-                case 2:
-                    me.$parent.editMode = 1;
-                    await me.$parent.getCodeNew();
-                    me.resetForm();
+                case 2://Nếu là cất và thêm 
+                    me.$parent.editMode = 1;//Đây là hành động thêm mới
+                    await me.$parent.getCodeNew();//Lấy ở data mã code mới
+                    me.resetForm();//reset form 
 
-                    me.$refs.focusMe.focus();
+                    me.$refs.focusMe.focus();//Tập trung forcus ở ô Mã
                     break;
                 default:
                     break;
 
             }
         },
+        /**
+         * Làm mới form detail
+         *CreatedBy: HoaiPT(7/02/2022)
+         */
         resetForm() {
             var me = this;
             
+            //Làm mới toàn bộ để lại mã mới tự tăng
             for (var propName in me.employee) {
                 if(propName !="EmployeeCode"){
                     me.employee[propName] = null;
                 }     
             }
+            me.employee.Gender = "1";//Form mặc định Giới tính: Nam
+        },
+        /**
+         * Thực hiện chuẩn hóa lại tên
+         *CreatedBy: HoaiPT(7/02/2022)
+         */
+        async standardizeFullName(){
+            var me  = this;
+            me.employee.FullName = await me.standardizeString(me.employee.FullName);
+        },
+        /**
+         * Chuẩn hóa chuỗi String viết hoa những chữ cái đầu và bỏ khoảng trắng đầu và cuối
+         */
+        standardizeString(value) {
+            if (value) {
+                value = value.trim(); // chuẩn hóa đầu và cuối
+                value = value.split(" "); // cắt chuỗi
 
-            me.employee.Gender = "1";
-            console.log(me.employee);
+                //Thực hiện xóa bỏ những phần tử có có trị bằng ""
+                for (let i = 1; i < value.length; i++) {
+                    if ((value[i] == "")) //Nếu không có gí trị thì thực hiện xóa bỏ
+                    {
+                        value.splice(i, 1); //xóa 
+                        i--; //Phải lùi về 1 vì sau vòng for nó tăng lên 1
+                    }
+                }
+
+                //Thực hiện chuẩn hóa từng từ
+                for (let i = 0; i < value.length; i++) {
+                    value[i] = value[i].toLowerCase(); //Thực hiện từng từ một đều là chữ thường
+                    value[i] = value[i].charAt(0).toUpperCase() + value[i].substring(1); // In hoa chữ cái đầu tiên
+                }
+
+                return value.join(' '); //Nối các phần tử trở thành chuỗi đã chuẩn hóa rồi trả về
+            }
+
+            return null;
 
         }
-
     }
 }
 </script>
