@@ -117,35 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConnectionString" xml:space="preserve">
-    <value>Server = 13.229.200.157; Port = 3306; Database = MISA.WEB12.HOAIPT; User Id = dev; Password = 12345678</value>
-    <comment>Chuỗi kết nối với database</comment>
+  <data name="BankAccountNumber" xml:space="preserve">
+    <value>Số tài khoản</value>
   </data>
-  <data name="ErrorDateOfBirth" xml:space="preserve">
-    <value>Ngày sinh không được lớn hơn ngày hiện tại!</value>
+  <data name="BankName" xml:space="preserve">
+    <value>Tên ngân hàng</value>
   </data>
-  <data name="ErrorException" xml:space="preserve">
-    <value>Có lỗi xảy ra vui lòng liên hệ MISA để được trợ giúp!</value>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Ngày sinh</value>
   </data>
-  <data name="Gender_Female" xml:space="preserve">
-    <value>Nữ</value>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Tên đơn vị</value>
   </data>
-  <data name="Gender_Male" xml:space="preserve">
-    <value>Nam</value>
+  <data name="EmployeeCode" xml:space="preserve">
+    <value>Mã nhân viên</value>
   </data>
-  <data name="Gender_Other" xml:space="preserve">
-    <value>Khác</value>
+  <data name="FileNameExcel" xml:space="preserve">
+    <value>Danh_sach_nhan_vien.xlsx</value>
   </data>
-  <data name="InforDuplicate" xml:space="preserve">
-    <value>{0} đã được sử dụng, vui lòng sử dụng {0} khác!</value>
+  <data name="FullName" xml:space="preserve">
+    <value>Tên nhân viên</value>
   </data>
-  <data name="InforNotEmpty" xml:space="preserve">
-    <value>Thông tin {0} không được phép để trống!</value>
+  <data name="GenderName" xml:space="preserve">
+    <value>Giới tính</value>
   </data>
-  <data name="InforNotExistId" xml:space="preserve">
-    <value>Không tồn tại {0}Id này, vui lòng kiểm tra lại!</value>
+  <data name="Number" xml:space="preserve">
+    <value>STT</value>
   </data>
-  <data name="NotGuid" xml:space="preserve">
-    <value>00000000-0000-0000-0000-000000000000</value>
+  <data name="PositionName" xml:space="preserve">
+    <value>Chức danh</value>
+  </data>
+  <data name="TitleExcelExport" xml:space="preserve">
+    <value>DANH SÁCH NHÂN VIÊN</value>
   </data>
 </root>

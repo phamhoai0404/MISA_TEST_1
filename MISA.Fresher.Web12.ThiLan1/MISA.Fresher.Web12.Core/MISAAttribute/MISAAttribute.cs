@@ -9,6 +9,7 @@ namespace MISA.Fresher.Web12.Core.MISAAttribute
     /// <summary>
     /// Đánh dấu property không được để trống
     /// </summary>
+    /// Creteated
     [AttributeUsage(AttributeTargets.Property)]
     public class NotEmpty:Attribute
     {

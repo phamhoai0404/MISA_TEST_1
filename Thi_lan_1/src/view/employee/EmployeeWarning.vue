@@ -28,6 +28,7 @@ export default {
     methods: {
         /**
          * Thực hiện khi click vào đồng ý
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         btnCloseWarningMessage() {
             var me = this;

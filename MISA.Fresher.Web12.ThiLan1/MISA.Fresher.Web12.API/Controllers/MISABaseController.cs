@@ -92,8 +92,8 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// <summary>
         /// Thực hiện sửa theo mã
         /// </summary>
-        /// <param name="employeeId"></param>
-        /// <param name="employee"></param>
+        /// <param name="enityId"></param>
+        /// <param name="enity"></param>
         /// <returns></returns>
         /// Created: HoaiPT(07/02/2022)
         [HttpPut("{enityId}")]
@@ -139,10 +139,11 @@ namespace MISA.Fresher.Web12.API.Controllers
         #region Methods Exception
 
         /// <summary>
-        /// Khi do người lập trình code sai thì sẽ nhảy vào cái exception cuối cùng này
+        /// Khi có lỗi sẽ nhảy vào exception này
         /// </summary>
         /// <param name="ex">Error</param>
         /// <returns></returns>
+        /// Created: HoaiPT(07/02/2022)
         private IActionResult AllException(Exception ex, Object? enity)
         {
             if (typeof(MISAValidateException) == ex.GetType())

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MISA.Fresher.Web12.Core.Resourcs {
+namespace MISA.Fresher.Web12.Core.Resourcs.EntitiesVN {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MISA.Fresher.Web12.Core.Resourcs {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ResourceVN {
+    public class EmployeeVN {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ResourceVN() {
+        internal EmployeeVN() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MISA.Fresher.Web12.Core.Resourcs {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MISA.Fresher.Web12.Core.Resourcs.ResourceVN", typeof(ResourceVN).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MISA.Fresher.Web12.Core.Resourcs.EntitiesVN.EmployeeVN", typeof(EmployeeVN).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,92 +61,101 @@ namespace MISA.Fresher.Web12.Core.Resourcs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server = 13.229.200.157; Port = 3306; Database = MISA.WEB12.HOAIPT; User Id = dev; Password = 12345678.
+        ///   Looks up a localized string similar to Số tài khoản.
         /// </summary>
-        public static string ConnectionString {
+        public static string BankAccountNumber {
             get {
-                return ResourceManager.GetString("ConnectionString", resourceCulture);
+                return ResourceManager.GetString("BankAccountNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ngày sinh không được lớn hơn ngày hiện tại!.
+        ///   Looks up a localized string similar to Tên ngân hàng.
         /// </summary>
-        public static string ErrorDateOfBirth {
+        public static string BankName {
             get {
-                return ResourceManager.GetString("ErrorDateOfBirth", resourceCulture);
+                return ResourceManager.GetString("BankName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Có lỗi xảy ra vui lòng liên hệ MISA để được trợ giúp!.
+        ///   Looks up a localized string similar to Ngày sinh.
         /// </summary>
-        public static string ErrorException {
+        public static string DateOfBirth {
             get {
-                return ResourceManager.GetString("ErrorException", resourceCulture);
+                return ResourceManager.GetString("DateOfBirth", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nữ.
+        ///   Looks up a localized string similar to Tên đơn vị.
         /// </summary>
-        public static string Gender_Female {
+        public static string DepartmentName {
             get {
-                return ResourceManager.GetString("Gender_Female", resourceCulture);
+                return ResourceManager.GetString("DepartmentName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nam.
+        ///   Looks up a localized string similar to Mã nhân viên.
         /// </summary>
-        public static string Gender_Male {
+        public static string EmployeeCode {
             get {
-                return ResourceManager.GetString("Gender_Male", resourceCulture);
+                return ResourceManager.GetString("EmployeeCode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Khác.
+        ///   Looks up a localized string similar to Danh_sach_nhan_vien.xlsx.
         /// </summary>
-        public static string Gender_Other {
+        public static string FileNameExcel {
             get {
-                return ResourceManager.GetString("Gender_Other", resourceCulture);
+                return ResourceManager.GetString("FileNameExcel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} đã được sử dụng, vui lòng sử dụng {0} khác!.
+        ///   Looks up a localized string similar to Tên nhân viên.
         /// </summary>
-        public static string InforDuplicate {
+        public static string FullName {
             get {
-                return ResourceManager.GetString("InforDuplicate", resourceCulture);
+                return ResourceManager.GetString("FullName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thông tin {0} không được phép để trống!.
+        ///   Looks up a localized string similar to Giới tính.
         /// </summary>
-        public static string InforNotEmpty {
+        public static string GenderName {
             get {
-                return ResourceManager.GetString("InforNotEmpty", resourceCulture);
+                return ResourceManager.GetString("GenderName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Không tồn tại {0}Id này, vui lòng kiểm tra lại!.
+        ///   Looks up a localized string similar to STT.
         /// </summary>
-        public static string InforNotExistId {
+        public static string Number {
             get {
-                return ResourceManager.GetString("InforNotExistId", resourceCulture);
+                return ResourceManager.GetString("Number", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 00000000-0000-0000-0000-000000000000.
+        ///   Looks up a localized string similar to Chức danh.
         /// </summary>
-        public static string NotGuid {
+        public static string PositionName {
             get {
-                return ResourceManager.GetString("NotGuid", resourceCulture);
+                return ResourceManager.GetString("PositionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DANH SÁCH NHÂN VIÊN.
+        /// </summary>
+        public static string TitleExcelExport {
+            get {
+                return ResourceManager.GetString("TitleExcelExport", resourceCulture);
             }
         }
     }

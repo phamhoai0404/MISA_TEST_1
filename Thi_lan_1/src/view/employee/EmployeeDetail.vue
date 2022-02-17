@@ -208,6 +208,10 @@ export default {
     },
 
     watch: {
+        /**
+         * Theo dõi sự thay đổi của tên phòng ban
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
         departmentName: function (value) {
             if (!value) {
                 document.getElementById("departmentName").classList.add('m-border-red');
@@ -216,6 +220,10 @@ export default {
             }
         },
 
+        /**
+         * Theo dõi sự thay đổi của isShowDepartment phục vụ cho css thôi
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
         isShowDepartment: function (value) {
             if (value) {
                 document.getElementById("departmentName").classList.add('m-border-green');
@@ -312,6 +320,7 @@ export default {
         },
         /**
          * Thực hiện hủy hành động
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         btnCancelDialogDetail(){
             var me = this;

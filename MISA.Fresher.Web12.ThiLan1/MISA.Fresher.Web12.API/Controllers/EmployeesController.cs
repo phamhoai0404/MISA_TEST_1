@@ -49,6 +49,12 @@ namespace MISA.Fresher.Web12.API.Controllers
            
         }
 
+        /// <summary>
+        /// Thực hiện Xóa nhiều do Delete không truyền qua Body được nên là phải thông qua Post
+        /// </summary>
+        /// <param name="listEmployeeId">Truyền vào một mảng từ client truyền sang</param>
+        /// <returns></returns>
+        /// Created: HoaiPT(14/02/2022)
         [HttpPost("DeleteMany")]
         public IActionResult DeleteMany(List<string> listEmployeeId)
         {
@@ -86,6 +92,7 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// Thực hiện xuất ra file excel danh sách nhân viên
         /// </summary>
         /// <returns></returns>
+        /// Created: HoaiPT(14/02/2022)
         [HttpGet("Excel")]
         public IActionResult exportExcel()
         {
@@ -93,11 +100,11 @@ namespace MISA.Fresher.Web12.API.Controllers
             using (var workbook = new XLWorkbook())
             {
                 //Tạo ra sheet mới trong file excel có tên là DANH SÁCH NHÂN VIÊN
-                var worksheet = workbook.Worksheets.Add("DANH SÁCH NHÂN VIÊN");
+                var worksheet = workbook.Worksheets.Add(Core.Resourcs.EntitiesVN.EmployeeVN.TitleExcelExport);
 
                 //Thực hiện style cho title
                 var title = worksheet.Range("A1:I1");
-                title.Value = "DANH SÁCH NHÂN VIÊN";
+                title.Value = Core.Resourcs.EntitiesVN.EmployeeVN.TitleExcelExport;
                 title.Merge();
                 this.StyleTitle(title, 16, "Arial");
 
@@ -148,29 +155,14 @@ namespace MISA.Fresher.Web12.API.Controllers
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
                     //Trả về cho client file excel
-                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "test.xlsx");
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Core.Resourcs.EntitiesVN.EmployeeVN.FileNameExcel);
 
                 }
             }
 
         }
 
-        //[HttpDelete("deleteMany/{listEmployeeId}")]
-        //public IActionResult DeleteMany(string listEmployeeId)
-        //{
-        //    try
-        //    {
-        //        //Validate dữ liệu
-        //        var res = _employeeService.DeleteManyService(listEmployeeId);
 
-        //        return StatusCode(200, res);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, ex);
-        //    }
-
-        //}
         #endregion
 
         #region Method Private For Style Export Excel
@@ -179,6 +171,7 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// Thực hiện style cho border của cell excel
         /// </summary>
         /// <param name="titleTable"></param>
+        /// Created: HoaiPT(14/02/2022)
         private void StyleBorder(IXLRange titleTable)
         {
             titleTable.Style.Border.SetBottomBorder(XLBorderStyleValues.Thin);
@@ -191,8 +184,9 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// Thực hiện style cho tiêu đề với cỡ chữ, kiểu chữ
         /// </summary>
         /// <param name="titleTable"></param>
-        /// <param name="fontSize">cỡ chữ</param>
-        /// <param name="fontName">kiểu chữ</param>
+        /// <param name="fontSize">Cỡ chữ</param>
+        /// <param name="fontName">Kiểu chữ</param>
+        /// Created: HoaiPT(14/02/2022)
         private void StyleTitle(IXLRange titleTable, int fontSize, string fontName)
         {
             titleTable.Style.Font.Bold = true;
@@ -204,25 +198,27 @@ namespace MISA.Fresher.Web12.API.Controllers
         /// <summary>
         /// Thiết lập giá trị cho title table
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="first">dòng bắt đầu</param>
+        /// <param name="worksheet">Sheet thiết lập</param>
+        /// <param name="first">Dòng bắt đầu</param>
+        /// Created: HoaiPT(14/02/2022)
         private void SetValueTitle(IXLWorksheet worksheet, int first)
         {
-            worksheet.Cell(first, 1).Value = "STT";
-            worksheet.Cell(first, 2).Value = "Mã nhân viên";
-            worksheet.Cell(first, 3).Value = "Tên nhân viên";
-            worksheet.Cell(first, 4).Value = "Giới tính";
-            worksheet.Cell(first, 5).Value = "Ngày sinh";
-            worksheet.Cell(first, 6).Value = "Chức danh";
-            worksheet.Cell(first, 7).Value = "Tên đơn vị";
-            worksheet.Cell(first, 8).Value = "Số tài khoản";
-            worksheet.Cell(first, 9).Value = "Tên ngân hàng";
+            worksheet.Cell(first, 1).Value = Core.Resourcs.EntitiesVN.EmployeeVN.Number;
+            worksheet.Cell(first, 2).Value = Core.Resourcs.EntitiesVN.EmployeeVN.EmployeeCode;
+            worksheet.Cell(first, 3).Value = Core.Resourcs.EntitiesVN.EmployeeVN.FullName;
+            worksheet.Cell(first, 4).Value = Core.Resourcs.EntitiesVN.EmployeeVN.GenderName;
+            worksheet.Cell(first, 5).Value = Core.Resourcs.EntitiesVN.EmployeeVN.DateOfBirth;
+            worksheet.Cell(first, 6).Value = Core.Resourcs.EntitiesVN.EmployeeVN.PositionName;
+            worksheet.Cell(first, 7).Value = Core.Resourcs.EntitiesVN.EmployeeVN.DepartmentName;
+            worksheet.Cell(first, 8).Value = Core.Resourcs.EntitiesVN.EmployeeVN.BankAccountNumber;
+            worksheet.Cell(first, 9).Value = Core.Resourcs.EntitiesVN.EmployeeVN.BankName;
         }
 
         /// <summary>
         /// Thiết lập độ rộng của từng cột cell A, B, C
         /// </summary>
         /// <param name="worksheet"></param>
+        /// Created: HoaiPT(14/02/2022)
         private void SetColumnWidth(IXLWorksheet worksheet)
         {
             worksheet.Column("A").Width = 4;
@@ -237,6 +233,11 @@ namespace MISA.Fresher.Web12.API.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// Thiết ngoại lệ exception sẽ vào đây
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// Created: HoaiPT(07/02/2022)
         private IActionResult AllException(Exception ex, Object? enity)
         {
             if (typeof(MISAValidateException) == ex.GetType())

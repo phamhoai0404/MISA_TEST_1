@@ -49,7 +49,6 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
                 return res;
             }
         }
-
         public object GetPaging(int pageIndex, int pageSize, string searchText)
         {
             using (SqlConnection = new MySqlConnection(ConnectionString))

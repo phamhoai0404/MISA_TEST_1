@@ -162,7 +162,11 @@ namespace MISA.Fresher.Web12.Core.Entities
         [PropertyName("Người cập nhật")]
         public string? ModifiedBy { get; set; }
 
-       
+        /// <summary>
+        /// Tên giới tính
+        /// (Propertity bỏ qua khi thực hiện post hay put
+        /// (Vì không có trong cơ sử dữ liệu))
+        /// </summary>
         [NotMapSQL]
         public string? GenderName
         {
@@ -182,6 +186,11 @@ namespace MISA.Fresher.Web12.Core.Entities
             }
         }
 
+        /// <summary>
+        /// Tên phòng ban
+        /// (Propertity bỏ qua khi thực hiện post hay put
+        /// (Vì không có trong cơ sử dữ liệu))
+        /// </summary>
         [NotMapSQL]
         public string? DepartmentName { get; set; }
         #endregion

@@ -22,6 +22,7 @@ export default {
     methods:{
         /**
          * Thực hiện khi click vào đóng
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         btnCloseInfoEmployee(){
             var me = this;

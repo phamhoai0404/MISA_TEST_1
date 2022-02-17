@@ -28,6 +28,7 @@ export default {
     methods: {
         /**
          * Thực hiện khi click vào cancel
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         btnCancel() {
             var me = this;
@@ -35,6 +36,8 @@ export default {
         },
         /**
          * Thực hiện khi click vào xác nhận xóa
+         * CreatedBy: HoaiPT(08/02/2022)
+         * UpdatedBy: HoaiPT(14/02/2022)
          */
         async btnConfirmRemove() {
             try {
@@ -68,16 +71,18 @@ export default {
         },
         /**
          * Thực hiện thiết lập lai Table
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         resetTable() {
             var me = this;
-            me.$parent.actions = 0;
+            me.$parent.actions = 0;//Thể hiện không phải là xóa cũng không phải là xóa nhiều
             me.$parent.arrayEmployeeId = []; //Làm mới lại
             me.$emit('openMessageRemove'); //Đóng message 
             me.$emit('reloadData', null); //Load lại table
         },
         /**
          * Thực hiện hiển thị text phù hợp
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         writeTextRemove() {
             var me = this;

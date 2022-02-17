@@ -87,7 +87,6 @@
         <div class="m-table-paging">
             <div class="m-paging-left">
                 Tổng số: <b>{{totalRecord}}</b>
-
                 bản ghi
             </div>
             <div class="m-paging-right">
@@ -98,7 +97,8 @@
                             <div class="m-icon-drown"></div>
                         </button>
                         <div class="m-combobox-data" v-if="isShowPage">
-                            <div v-for="(textPage,index) in listPageText" :key="index" class="m-combobox-item-page" @click='selectedPageText(index)' :class="{'selected': selectTextPage == textPage }">{{ textPage }} bản ghi trên 1 trang</div>
+                            <div v-for="(textPage,index) in listPageText" :key="index" class="m-combobox-item-page" 
+                            @click='selectedPageText(index)' :class="{'selected': selectTextPage == textPage }">{{ textPage }} bản ghi trên 1 trang</div>
                         </div>
                     </div>
                 </div>
@@ -145,26 +145,27 @@ export default {
             editMode: 1, //form thêm hoặc sửa: 1: thêm mới; 2: sửa
             employeeIdSelected: {}, //employee đang được chọn
 
-            keywordSearch: "",
-
+            keywordSearch: "",//Từ khóa tìm kiếm mặc định ban đầu bằng empty
             myTimeout: "", //Thực hiện cho setTimeout ở filer
+
             testExport: "Danh_sach_nhan_vien", //Tên của file export
 
             actions: 0, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
             isShowDeleteMany: false, //Trạng thái xóa nhiều
             arrayEmployeeId: new Array(), //Nơi lưu trữ EmployeeId chuẩn bị xóa
 
-            totalRecord: 0,
-            totalPage: 1,
-            pageAction: 1,
+            totalRecord: 0,//Tổng số bản ghi ban đầu là 0
+            totalPage: 1,//Tổng số trang ban đầu là 1
+            pageAction: 1,//Trang đang thực hiện
             listPageText: [
                 "10", "20", "30", "50", "100"
             ],
-            selectTextPage: 10,
-            isShowPage: false,
+            selectTextPage: 10,//Kích thước trang
+            isShowPage: false,//Trạng thái ban đầu của form Page là đóng
         }
     },
     created() {
+
         //Gọi API lấy dữ liệu
         this.getDataListDepartment(); //Thực hiện lấy danh sách phòng ban
         this.getData(); //Thực hiện load dữ liệu
@@ -182,6 +183,7 @@ export default {
             var me = this;
             clearTimeout(me.myTimeout);
             me.myTimeout = setTimeout(function () {
+                  me.pageAction = 1;
                   me.isShowLoading = true;
                   me.showData();
             }, 1000);
@@ -197,6 +199,10 @@ export default {
             var me = this;
             me.isShowPage = !me.isShowPage;
         },
+        /**
+         * Thực hiện hành động khi chọn kích thước trang 
+         * CreatedBy: HoaiPT(17/02/2022)
+         */
         async selectedPageText(index) {
             var me = this;
 
@@ -208,6 +214,10 @@ export default {
 
             me.isShowPage = false;//Đóng form page
         },
+        /**
+         * Hành động khi chọn vào trang bất kì ở paging
+         * CreatedBy: HoaiPT(17/02/2022)
+         */
         clickCallback(pageIndex) {
             var me = this;
             me.pageAction = pageIndex;//Thực hiện gián giá trị mới cho trang muốn đứng
@@ -218,6 +228,7 @@ export default {
         },
         /**
          * Thay đổi trạng thái đóng mở của form MessageRemoveEmployee
+         * CreatedBy: HoaiPT(17/02/2022)
          */
         openMessage() {
             var me = this;
@@ -225,16 +236,16 @@ export default {
         },
         /**
          * Thực hiện khi click vào nút xóa nhiều
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         btnRemoveMany() {
             var me = this;
-            console.log(me.arrayEmployeeId);
             me.isShowDeleteMany = false; //Đóng xóa nhiều
             me.isShowRemoveEmployee = true; //Mở MessageRemoveEmployee
-
         },
         /**
          * Thực hiện lấy mã mới ở backend
+         * CreatedBy: HoaiPT(15/02/2022)
          */
         async getCodeNew() {
             var me = this;
@@ -250,6 +261,7 @@ export default {
         },
         /**
          * Lấy toàn bộ dữ liệu về trạng thái ban đầu
+         * CreatedBy: HoaiPT(17/02/2022)
          */
         getData() {
             //Chắc chắn là con trỏ this đang ở đây;
@@ -266,16 +278,16 @@ export default {
         },
         /**
          * Lấy và hiển thị dữ liệu
+         * CreatedBy: HoaiPT(17/02/2022)
          */
         async showData(){
             var me = this;
              await axios.get(`https://localhost:44338/api/v1/Employees/getPaging?searchText=${me.keywordSearch}&pageIndex=${me.pageAction}&pageSize=${me.selectTextPage}`)
                 .then(function (res) {
-                    console.log(res);
-                    me.listEmployee = res.data.Data;
-                    me.totalPage = Number(res.data.TotalPage);
-                    me.totalRecord = res.data.TotalRecord;
-                    me.isShowLoading = false;
+                    me.listEmployee = res.data.Data;//Thực hiện gián listEmployee vào với kích thước trang, từ khóa tìm kiếm và trang đang đứng
+                    me.totalPage = Number(res.data.TotalPage);//Gán vào tổng số trang
+                    me.totalRecord = res.data.TotalRecord;//Gán vào tổng số bản ghi
+                    me.isShowLoading = false;//Đóng loading
                 })
                 .catch(function (res) {
                     console.log(res);
@@ -284,19 +296,23 @@ export default {
         },
         /**
          * Lấy danh sách phòng ban
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         getDataListDepartment() {
             //Chắc chắn là con trỏ this đang ở đây;
             var me = this;
             axios.get('https://localhost:44338/api/v1/Departments')
                 .then(function (res) {
-                    console.log(res.data);
                     me.listDepartmentTable = res.data; //Thực hiện gán vào danh sách Department
                 })
                 .catch(function (res) {
                     console.err(res);
                 })
         },
+        /**
+         * Hành động khi click vào nút refresh
+         * CreatedBy: HoaiPT(17/02/2022)
+         */
         btnRefresh(){
             var me = this;
             if(me.keywordSearch !=""){//Nếu nó khác rỗng 
@@ -308,6 +324,7 @@ export default {
 
         /**
          * Hành động khi thực hiện vào hàng loạt
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         batchExecution() {
             var me = this;
@@ -328,6 +345,8 @@ export default {
         },
         /**
          * Thực hiện làm mới xóa bỏ tất cả checked
+         * CreatedBy: HoaiPT(08/02/2022)
+         * UpdatedBy: HoaiPT(14/02/2022)
          */
         removeAllChecked(listEmployee) {
             for (let i = 0; i < listEmployee.length; i++) {
@@ -339,6 +358,9 @@ export default {
         },
         /**
          * Thực hiện khi click vào từng ô checked một
+         * CreatedBy: HoaiPT(08/02/2022)
+         * UpdatedBy: HoaiPT(14/02/2022)
+         * 
          */
         removeOrBatchExecution(employeeId) {
             var me = this;
@@ -369,6 +391,7 @@ export default {
         },
         /**
          * Thực hiện hiển thị funtion
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         showFunction(event, employee, index) {
 
@@ -383,6 +406,7 @@ export default {
         },
         /**
          * Thực hiện truyền vào vị trị cho function
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         positionFunction(y, index) {
             y = index != (this.listEmployee.length - 1) ? (y + 14) : (y - 105);
@@ -393,31 +417,32 @@ export default {
         },
         /**
          * Thực hiện khi click vào ô thêm mới
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         async showAddEmployeeDetail() {
             var me = this;
 
             //Khởi tạo đối tượng rỗng với giá trị của giới tính mặc định là Nam và gán giá trị editMode = 1 là thuộc kiểu thêm
             me.editMode = 1;
-            me.employeeIdSelected = {};
+            me.employeeIdSelected = {};//Khởi tạo giá trị rỗng
             me.employeeIdSelected.Gender = "1";
             await me.getCodeNewAndShowDialog();
 
         },
         /**
          * Thực hiện click vào nút sửa
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         btnEditEmployeeDetail(employee) {
-            // //Đóng hộp thoại function
-            // document.getElementById('function-ground').style.display = 'none';
+            var me = this;
+            me.editMode = 2; //Thể hiện là đang sửa
+            me.employeeIdSelected = employee;//Gán employee bằng employee đang chọn
 
-            this.editMode = 2; //Thể hiện là đang sửa
-            this.employeeIdSelected = employee;
-
-            this.isShowEmployeeDetail = true;
+            me.isShowEmployeeDetail = true;//Thực hiện mở form detail
         },
         /**
          * Thực hiện khi click vào nhân bản
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         btnDuplicate() {
             var me = this;
@@ -426,6 +451,8 @@ export default {
         },
         /**
          * Thực hiện Lấy mã employeeCode mới và Thực hiện mở dialog phục vụ cho thêm mới và nhân bản
+         * CreatedBy: HoaiPT(08/02/2022)
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         async getCodeNewAndShowDialog() {
             var me = this;
@@ -434,25 +461,27 @@ export default {
                 .then(function (res) {
                     me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào 
                     me.isShowLoading = false; //đóng
-                    me.isShowEmployeeDetail = true;
+                    me.isShowEmployeeDetail = true;//mở form detail
                 })
                 .catch(function (res) {
                     console.error(res);
-                })
+                });
 
         },
         /**
          * Thực hiện mở Form xác nhận xóa
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         showRemoveEmployee(employee) {
             //Thực hiện gán dữ liệu và mở message lên
             this.employeeIdSelected = employee;
 
-            this.isShowRemoveEmployee = true;
+            this.isShowRemoveEmployee = true;//Mở fil
 
         },
         /**
          * Thực hiện export Excel
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         btnExportExcel() {
             //Chắc chắn là con trỏ this đang ở đây;
@@ -462,13 +491,13 @@ export default {
                 responseType: 'blob',
             }).then((response) => {
                 const url = URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
+                const link = document.createElement('a');//Tạo ra một element mới là thẻ a
+                link.href = url;//Thẻ a này có đường dẫn là file excel trả về từ database
                 link.setAttribute(
                     'download',
-                    `${this.testExport}-${new Date().toLocaleDateString()}.xlsx`
+                    `${this.testExport}-${new Date().toLocaleDateString()}.xlsx`//File excel tải về có dạng như vậy
                 )
-                document.body.appendChild(link)
+                document.body.appendChild(link);//Thêm đường link mới này vào trong file html
                 link.click();
                 me.isShowLoading = false; //Đóng Loading
             })
@@ -477,6 +506,7 @@ export default {
     filters: {
         /**
          * Thực hiện định dạng lại ngày
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         formatDate: function (value) {
             if (value) {
@@ -497,6 +527,7 @@ export default {
         },
         /**
          * Thực hiện format giới tính
+         * CreatedBy: HoaiPT(08/02/2022)
          */
         formatGender(value) {
             switch (value) {

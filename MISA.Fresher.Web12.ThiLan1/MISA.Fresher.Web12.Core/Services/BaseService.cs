@@ -76,8 +76,9 @@ namespace MISA.Fresher.Web12.Core.Services
         /// <summary>
         /// Thực hiện kiểm tra dữ liệu không được để trống 
         /// </summary>
-        /// <param name="entity">cả đối tượng truyền vào</param>
+        /// <param name="entity">Cả đối tượng truyền vào</param>
         /// <exception cref="MISAValidateException"></exception>
+        /// CreatedBy: HoaiPT(07/02/2022)
         private void ValidateNotEmpty(MISAEntity entity)
         {
             //Lấy ra tất cả các porperty được đánh dấu là NotEmpty không được để trống 
@@ -114,6 +115,7 @@ namespace MISA.Fresher.Web12.Core.Services
         /// </summary>
         /// <param name="entityId">id truyền vào để kiểm tra</param>
         /// <exception cref="MISAValidateException"></exception>
+        /// CreatedBy: HoaiPT(07/02/2022)
         private void ValidateExistId(Guid entityId)
         {
             if (!_baseRepository.ExistId(entityId))
@@ -129,6 +131,7 @@ namespace MISA.Fresher.Web12.Core.Services
         /// <param name="id">khóa chính</param>
         /// <param name="entity">cả đối tượng</param>
         /// <exception cref="MISAValidateException"></exception>
+        /// CreatedBy: HoaiPT(07/02/2022)
         private void ValidateNotDuplicate_IsUpate(bool isUpdate, Guid? id, MISAEntity entity)
         {
             //Lấy ra tất cả các porperty được đánh dấu là NotDuplicate không được để trống 
@@ -164,15 +167,18 @@ namespace MISA.Fresher.Web12.Core.Services
         ///Validate dữ liệu riêng của từng class khác nhau khi thực hiện thêm mới
         /// </summary>
         /// <param name="entity">Cả đối tượng enity</param>
+        /// CreatedBy: HoaiPT(07/02/2022)
         protected virtual void ValidateInsertCustomer(MISAEntity entity)
         {
 
         }
+
         /// <summary>
         /// Validate dữ liệu riêng của từng class khác nhau khi thực hiện cập nhật
         /// </summary>
         /// <param name="entityId">Khóa của enity</param>
         /// <param name="entity">Cả đối tượng enity</param>
+        /// CreatedBy: HoaiPT(07/02/2022)
         protected virtual void ValidateUpdateCustomer(Guid entityId, MISAEntity entity)
         {
 

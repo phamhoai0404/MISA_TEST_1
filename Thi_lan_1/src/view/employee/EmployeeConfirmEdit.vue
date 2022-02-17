@@ -12,7 +12,7 @@
                 <button class="m-button m-button-not-color" @click="btnCancelCloseDialog()">Hủy</button>
             </div>
             <div class="m-footer-right">
-                <button class="m-button m-button-not-color"  @click="btnCloseDialog()" >Không</button>
+                <button class="m-button m-button-not-color" @click="btnCloseDialog()">Không</button>
                 <button class="m-button" @click="btnCloseDialogAndSave()">Có</button>
 
             </div>
@@ -24,15 +24,27 @@
 <script>
 export default {
     methods: {
+        /**
+         * Thực hiện click vào nút hủy
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
         btnCancelCloseDialog() {
             var me = this;
             me.$emit('openEditEmployee');
         },
-        btnCloseDialog(){
+        /**
+         * Thực hiện click vào nút không
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
+        btnCloseDialog() {
             var me = this;
             me.$emit('closeDialogDetail');
         },
-        btnCloseDialogAndSave(){
+        /**
+         * Thực hiện click vào nút cất
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
+        btnCloseDialogAndSave() {
             var me = this;
             me.$emit('openEditEmployee');
             me.$emit('closeDialogDetailAndSave');

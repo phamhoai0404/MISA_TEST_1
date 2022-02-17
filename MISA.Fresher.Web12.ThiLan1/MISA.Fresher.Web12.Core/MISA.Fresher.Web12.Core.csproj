@@ -11,6 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resourcs\EntitiesVN\DepartmentVN.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DepartmentVN.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resourcs\EntitiesVN\EmployeeVN.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmployeeVN.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resourcs\ResourceVN.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -19,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resourcs\EntitiesVN\DepartmentVN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DepartmentVN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resourcs\EntitiesVN\EmployeeVN.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmployeeVN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resourcs\ResourceVN.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceVN.Designer.cs</LastGenOutput>

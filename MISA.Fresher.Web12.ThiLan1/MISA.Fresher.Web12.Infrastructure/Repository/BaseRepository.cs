@@ -15,7 +15,7 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
     {
         #region Property
         //1.Khai báo thông tin của CSDL
-        protected string ConnectionString = "Server = 13.229.200.157; Port = 3306; Database = MISA.WEB12.HOAIPT; User Id = dev; Password = 12345678";
+        protected string ConnectionString = Core.Resourcs.ResourceVN.ConnectionString;
 
         //2.Khởi tạo kết nối
         protected MySqlConnection SqlConnection;
@@ -245,14 +245,15 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
         /// <summary>
         /// Thực hiện kiểm tra propName với giá trị là propValue đã tồn tại?
         /// </summary>
-        /// <param name="isUpate"></param>
-        /// <param name="id"></param>
+        /// <param name="isUpate"> True: là update; False: không phải là update</param>
+        /// <param name="id">Khóa chính truyền vào</param>
         /// <param name="propName"></param>
         /// <param name="propValue"></param>
         /// <returns>
         /// true: đã tồn tại
         /// false: chưa tồn tại
         /// </returns>
+        /// CreatedBy: HoaiPT(26/01/2022)
         public bool CheckDuplicate_IsUpdate(bool isUpate, Guid? id, string propName, string propValue)
         {
             //Thực hiện khởi tạo kết nối và sau khi làm xong là nó tự ngắt kết nối luôn

@@ -11,21 +11,27 @@ export default {
     methods: {
         /**
          * Thực hiện khi click vào nút xóa
+         * CreatedBy: HoaiPT(08/02/2022)
+         * UpdatedBy: HoaiPT(14/02/2022)
          */
         btnRemove() {
             var me = this;
-            me.$parent.actions = 1;
+            me.$parent.actions = 1;//Thể hiện là đang xóa 1
             me.$emit('openRemoveEmployee');
         },
-
          /**
          * Thực hiện khi click vào nút nhân bản
+         * CreatedBy: HoaiPT(14/02/2022)
          */
         btnDuplication() {
             var me = this;
             me.$emit('openDuplication');
         },
-        hideFunction() { //Thực hiện ẩn khi click vào bất kì cái nào khác function-ground với khác event.target.id == "clickFunction"
+        /**
+         * Thực hiện ẩn khi click vào bất kì cái nào khác function-ground với khác event.target.id == "clickFunction"
+         * CreatedBy: HoaiPT(08/02/2022)
+         */
+        hideFunction() { 
             if (window.document.getElementById('function-ground')) {
                 var functionGroup = window.document.getElementById('function-ground').style.display;
 
