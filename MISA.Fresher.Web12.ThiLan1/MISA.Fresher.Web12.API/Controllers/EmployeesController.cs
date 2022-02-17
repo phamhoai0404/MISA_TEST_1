@@ -134,6 +134,11 @@ namespace MISA.Fresher.Web12.API.Controllers
                 this.StyleBorder(rangeData);//Thiết lập các border cho cell của data 
                 rangeData.Style.Font.SetFontName("Times New Roman");//Thiết lập font chữ cho từng cell của data là dạng Times New Roman
 
+                //Căn giữa cho dòng excel
+                var rangeDateOfBirth = worksheet.Range($"E4:E{index - 1}");
+                rangeDateOfBirth.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
+
                 //Thiết lập độ rộng cho các cột của sheet A, B, C
                 this.SetColumnWidth(worksheet);
 
@@ -231,7 +236,6 @@ namespace MISA.Fresher.Web12.API.Controllers
             worksheet.Column("I").Width = 40;
         }
         #endregion
-
 
         private IActionResult AllException(Exception ex, Object? enity)
         {

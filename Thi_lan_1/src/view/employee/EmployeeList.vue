@@ -192,7 +192,6 @@ export default {
         /**
          * Thay đổi trạng thái tắt mở của form select paging
          * CreatedBy: HoaiPT(07/02/2022)
-         * 
          */
         btnSelectPage() {
             var me = this;

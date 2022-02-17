@@ -140,6 +140,12 @@
 
 .m-content-combobox .m-dialog-combobox .m-dialog-combobox-data .m-dialog-combobox-item:hover {
     background-color: rgba(187, 187, 187, 0.239);
+    color: #2ca01c;
+}
+
+.m-dialog-combobox-item.selected {
+    background-color: #50c740 !important;
+    color: white !important;
 }
 
 .m-dialog .m-dialog-content .m-content-combobox .m-dialog-combobox input {

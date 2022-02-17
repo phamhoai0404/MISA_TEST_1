@@ -37,13 +37,13 @@
                         </div>
                         <div class="m-content-combobox" style="padding: 0 0 12px 0">
                             <div class="m-label">Đơn vị <span>*</span> </div>
-                            <div class="m-dialog-combobox" id="departmentName" @mouseleave="isShowDepartment = false" @mouseover="isShowDepartment = true">
+                            <div class="m-dialog-combobox" id="departmentName"  @mouseover="isShowDepartment = true" @mouseleave="isShowDepartment = false"> 
                                 <input type="text" v-model="employee.DepartmentName" readonly title="Đơn vị không được để trống!">
                                 <button class="" @click='btnSelectDepartment()'>
                                     <div class="m-icon-button m-icon-down"></div>
                                 </button>
                                 <div class="m-dialog-combobox-data" v-if="isShowDepartment">
-                                    <div v-for="(department,index) in listDepartment" :key="index" class="m-dialog-combobox-item " @click='selectedDepartment(index)'>{{ department.DepartmentName }}</div>
+                                    <div v-for="(department,index) in listDepartment" :key="index" class="m-dialog-combobox-item" :class="{'selected': department.DepartmentId == employee.DepartmentId}" @click='selectedDepartment(index)'>{{ department.DepartmentName }}</div>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,6 @@ export default {
         MessageConfirmEdit
     },
     props: ['editMode', 'employee', 'listDepartment'],
-
     data() {
         return {
             masks: {
@@ -201,7 +200,7 @@ export default {
 
             errorInfo: "",//Thông tin lỗi
 
-            departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi thằng employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
+            departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
         }
     },
     mounted() {
@@ -254,7 +253,7 @@ export default {
          */
         btnCloseDialog() {
             var me = this;
-            me.isShowEditMessage = true;//Thực hiện mở form Edit của Detail
+            me.isShowEditMessage = true;//Thực hiện mở form Edit của Detail    
         },
         /**
          * Hành động khi ấn vào nút (Cất) hoặc (Cất và Thêm)
@@ -312,13 +311,11 @@ export default {
             }
         },
         /**
-         * Hành động Đóng form Detail
-         *CreatedBy: HoaiPT(07/02/2022)
+         * Thực hiện hủy hành động
          */
-        btnCancelDialogDetail() {
+        btnCancelDialogDetail(){
             var me = this;
-            me.$emit('openDialog', null);
-            me.$emit('reloadData', null);
+            me.$parent.isShowEmployeeDetail = false;
         },
         /**
          * Thực hiện css cho ô input có giá trị bằng rỗng
@@ -346,7 +343,6 @@ export default {
                     departmentName.classList.add('m-border-red');
                     me.errorInfo = "Đơn vị";
                 }
-
                 if (!me.employee.FullName) {
                     let employeeName = document.getElementById("employeeName");
                     employeeName.classList.add('m-border-red');
@@ -428,6 +424,9 @@ export default {
                     break;
                 case 2://Nếu là cất và thêm 
                     me.$parent.editMode = 1;//Đây là hành động thêm mới
+                    me.$parent.isShowLoading = true;//Load lại dữ liệu
+                    await me.$parent.showData();
+
                     await me.$parent.getCodeNew();//Lấy ở data mã code mới
                     me.resetForm();//reset form 
 

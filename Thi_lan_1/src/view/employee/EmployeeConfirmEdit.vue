@@ -26,7 +26,6 @@ export default {
     methods: {
         btnCancelCloseDialog() {
             var me = this;
-            
             me.$emit('openEditEmployee');
         },
         btnCloseDialog(){

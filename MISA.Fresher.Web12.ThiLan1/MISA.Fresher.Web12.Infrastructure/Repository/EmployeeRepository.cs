@@ -69,9 +69,9 @@ namespace MISA.Fresher.Web12.Infrastructure.Repository
 
                 return new
                 {
-                    Data = entites,
-                    TotalRecord = totalRecord,
-                    TotalPage = totalPage
+                    Data = entites,//Trả về bảng
+                    TotalRecord = totalRecord,//Trả về tổng số bản ghi
+                    TotalPage = totalPage//Trả về tổng số trang
                 };
 
             }
