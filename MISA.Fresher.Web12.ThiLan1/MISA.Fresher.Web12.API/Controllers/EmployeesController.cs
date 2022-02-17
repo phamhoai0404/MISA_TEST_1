@@ -162,7 +162,6 @@ namespace MISA.Fresher.Web12.API.Controllers
 
         }
 
-
         #endregion
 
         #region Method Private For Style Export Excel

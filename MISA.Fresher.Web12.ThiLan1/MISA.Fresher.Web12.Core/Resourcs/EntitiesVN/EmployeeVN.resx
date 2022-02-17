@@ -147,6 +147,9 @@
   <data name="PositionName" xml:space="preserve">
     <value>Chức danh</value>
   </data>
+  <data name="RegexEmployeeCode" xml:space="preserve">
+    <value>^NV-[0-9]+$</value>
+  </data>
   <data name="TitleExcelExport" xml:space="preserve">
     <value>DANH SÁCH NHÂN VIÊN</value>
   </data>

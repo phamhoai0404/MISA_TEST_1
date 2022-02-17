@@ -88,6 +88,15 @@ namespace MISA.Fresher.Web12.Core.Resourcs {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Không đúng định dạng mã nhân viên!.
+        /// </summary>
+        public static string ErrorFormatCode {
+            get {
+                return ResourceManager.GetString("ErrorFormatCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nữ.
         /// </summary>
         public static string Gender_Female {

@@ -27,17 +27,17 @@
                     <div class="m-dialog-left">
                         <div class="m-row-one">
                             <div class="m-content-input" style="width: 40%;">
-                                <div class="m-label">Mã <span>*</span></div>
-                                <input type="text" ref='focusMe' class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event)" id="employeeCode" title="Mã không được để trống!">
+                                <div class="m-label" title="Mã không được để trống!">Mã <span>*</span></div>
+                                <input type="text" ref='focusMe' class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event)" id="employeeCode" >
                             </div>
                             <div class="m-content-input" style="width: 58%;">
                                 <div class="m-label">Tên <span>*</span></div>
-                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!" @mouseleave="standardizeFullName()" >
+                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!" @mouseleave="standardizeFullName()">
                             </div>
                         </div>
                         <div class="m-content-combobox" style="padding: 0 0 12px 0">
                             <div class="m-label">Đơn vị <span>*</span> </div>
-                            <div class="m-dialog-combobox" id="departmentName"  @mouseover="isShowDepartment = true" @mouseleave="isShowDepartment = false"> 
+                            <div class="m-dialog-combobox" id="departmentName" @mouseleave="isShowDepartment = false">
                                 <input type="text" v-model="employee.DepartmentName" readonly title="Đơn vị không được để trống!">
                                 <button class="" @click='btnSelectDepartment()'>
                                     <div class="m-icon-button m-icon-down"></div>
@@ -193,20 +193,20 @@ export default {
                 input: 'DD/MM/YYYY', //Dạng format của kiểu date
             },
 
-            isShowInfoMessage: false,//Trạng thái đầu tiên của form Thông tin lỗi
-            isShowWarningMessage: false,//Trạng thái đầu tiên của form cảnh báo lỗi
-            isShowEditMessage: false,//Trạng thái đầu tiên của form edit
+            isShowInfoMessage: false, //Trạng thái đầu tiên của form Thông tin lỗi
+            isShowWarningMessage: false, //Trạng thái đầu tiên của form cảnh báo lỗi
+            isShowEditMessage: false, //Trạng thái đầu tiên của form edit
 
-            isShowDepartment: false,//Trạng thái đầu tiên của combobox department
+            isShowDepartment: false, //Trạng thái đầu tiên của combobox department
             employeeCode: "",
 
-            errorInfo: "",//Thông tin lỗi
+            errorInfo: "", //Thông tin lỗi
 
             departmentName: null, //Phải tạo cái trung gian này vì nếu theo dõi employee thì employee thay đổi thằng khác thì nó sẽ ảnh hưởng đến departmentName
         }
     },
     mounted() {
-        this.$refs.focusMe.focus();//Tập trung vào ô mã đầu tiên
+        this.$refs.focusMe.focus(); //Tập trung vào ô mã đầu tiên
     },
 
     watch: {
@@ -263,7 +263,7 @@ export default {
          */
         btnCloseDialog() {
             var me = this;
-            me.isShowEditMessage = true;//Thực hiện mở form Edit của Detail    
+            me.isShowEditMessage = true; //Thực hiện mở form Edit của Detail    
         },
         /**
          * Hành động khi ấn vào nút (Cất) hoặc (Cất và Thêm)
@@ -274,7 +274,7 @@ export default {
                 var me = this;
 
                 //Validate dữ liệu nếu mà nó không thỏa mãn thì kết thúc luôn
-                if (!me.validateData()) {
+                if (! await me.validateData()) {
                     return;
                 }
 
@@ -291,7 +291,7 @@ export default {
                 me.employee.ModifiedDate = me.formatDateAndTimeNow();
 
                 switch (me.editMode) {
-                    case mylib.misaEnum.editMode.Add://Thực hiện thêm mới
+                    case mylib.misaEnum.editMode.Add: //Thực hiện thêm mới
                         await axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
                                 me.checkAction(value);
@@ -300,7 +300,7 @@ export default {
                                 me.openWarning(me);
                             })
                         break;
-                    case mylib.misaEnum.editMode.Edit://Thực hiện sửa
+                    case mylib.misaEnum.editMode.Edit: //Thực hiện sửa
                         await axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
                             .then(function () {
                                 me.checkAction(value);
@@ -324,7 +324,7 @@ export default {
          * Thực hiện hủy hành động
          * CreatedBy: HoaiPT(08/02/2022)
          */
-        btnCancelDialogDetail(){
+        btnCancelDialogDetail() {
             var me = this;
             me.$parent.isShowEmployeeDetail = false;
         },
@@ -343,36 +343,56 @@ export default {
          * Thực hiện validate cho dữ liệu cho Form detail
          *CreatedBy: HoaiPT(07/02/2022)
          */
-        validateData() {
+        async validateData() {
             var me = this;
             //Không được để trống mã, họ tên và đơn vị
             if (!me.employee.EmployeeCode || !me.employee.FullName || !me.employee.DepartmentName) {
-
+                me.errorInfo ="";
                 //Phải style cho border nếu để trống
-                if (!me.employee.DepartmentName) {
-                    let departmentName = document.getElementById("departmentName");
-                    departmentName.classList.add('m-border-red');
-                    me.errorInfo = "Đơn vị";
+                if (!me.employee.EmployeeCode) {
+                    let employeeCode = document.getElementById("employeeCode");
+                    employeeCode.classList.add('m-border-red');
+                    me.errorInfo += "Mã";
                 }
                 if (!me.employee.FullName) {
                     let employeeName = document.getElementById("employeeName");
                     employeeName.classList.add('m-border-red');
-                    me.errorInfo = "Tên";
+                    me.errorInfo += me.errorInfo!=""? ", Tên": "Tên";
                 }
-                if (!me.employee.EmployeeCode) {
-                    let employeeCode = document.getElementById("employeeCode");
-                    employeeCode.classList.add('m-border-red');
-                    me.errorInfo = "Mã";
+                if (!me.employee.DepartmentName) {
+                    let departmentName = document.getElementById("departmentName");
+                    departmentName.classList.add('m-border-red');
+                   me.errorInfo += me.errorInfo!=""? ", Đơn vị":"Đơn vị";
                 }
+                me.errorInfo +=" không được để trống.";
 
                 //Hiển thị thông báo
                 me.isShowInfoMessage = true;
                 return false;
             }
-            return true;
+
+            //Validate mã nhân viên
+            return await me.validateEmployeeCode();
 
         },
+        /**
+         * Thực hiện validate dữ liệu cho mã nhân viên
+         * CreatedBy: HoaiPT(17/07/2022)
+         */
+        validateEmployeeCode(){
+            var me = this;
+            let temp =  /^NV-[0-9]+$/.test(me.employee.EmployeeCode);
+            console.log(temp);
+            if(temp == false){
+                me.errorInfo = mylib.resourcs["VI"].errorEmployeeCode;
 
+                // Hiển thị thông báo
+                me.isShowInfoMessage = true;
+                return false;
+            }
+            return true;
+            
+        },
         /**
          * Thực hiện mở form cảnh báo lỗi trong form deatail
          *CreatedBy: HoaiPT(07/02/2022)
@@ -433,15 +453,15 @@ export default {
                     me.$emit('openDialog', null); //Đóng dialog detail
                     me.$emit('reloadData', null); //Load lại dữ liệu table
                     break;
-                case 2://Nếu là cất và thêm 
-                    me.$parent.editMode = mylib.misaEnum.editMode.Add;//Đây là hành động thêm mới
-                    me.$parent.isShowLoading = true;//Load lại dữ liệu
+                case 2: //Nếu là cất và thêm 
+                    me.$parent.editMode = mylib.misaEnum.editMode.Add; //Đây là hành động thêm mới
+                    me.$parent.isShowLoading = true; //Load lại dữ liệu
                     await me.$parent.showData();
 
-                    await me.$parent.getCodeNew();//Lấy ở data mã code mới
-                    me.resetForm();//reset form 
+                    await me.$parent.getCodeNew(); //Lấy ở data mã code mới
+                    me.resetForm(); //reset form 
 
-                    me.$refs.focusMe.focus();//Tập trung forcus ở ô Mã
+                    me.$refs.focusMe.focus(); //Tập trung forcus ở ô Mã
                     break;
                 default:
                     break;
@@ -454,21 +474,21 @@ export default {
          */
         resetForm() {
             var me = this;
-            
+
             //Làm mới toàn bộ để lại mã mới tự tăng
             for (var propName in me.employee) {
-                if(propName !="EmployeeCode"){
+                if (propName != "EmployeeCode") {
                     me.employee[propName] = null;
-                }     
+                }
             }
-            me.employee.Gender = mylib.misaEnum.gender.Male;//Form mặc định Giới tính: Nam
+            me.employee.Gender = mylib.misaEnum.gender.Male; //Form mặc định Giới tính: Nam
         },
         /**
          * Thực hiện chuẩn hóa lại tên
          *CreatedBy: HoaiPT(7/02/2022)
          */
-        async standardizeFullName(){
-            var me  = this;
+        async standardizeFullName() {
+            var me = this;
             me.employee.FullName = await me.standardizeString(me.employee.FullName);
         },
         /**

@@ -3,7 +3,7 @@
     <div class="m-message-content">
         <div class="m-messages-body">
             <div class="m-mess-icon m-icon-info"></div>
-            <div class="m-mess-title"> {{ errorData }} không được để trống.
+            <div class="m-mess-title"> {{ errorData }} 
             </div>
         </div>
         <div class="m-message-line"></div>

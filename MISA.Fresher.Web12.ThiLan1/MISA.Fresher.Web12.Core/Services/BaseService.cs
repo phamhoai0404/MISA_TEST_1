@@ -93,7 +93,7 @@ namespace MISA.Fresher.Web12.Core.Services
 
                 //Lấy ra tên của property vì anh bảo là có thể một thuộc tính có nhiều cái PropertyName nên nó có thể là một mảng
                 var propertyNames = prop.GetCustomAttributes(typeof(PropertyName), true);
-                if (propertyNames.Length > 0)
+                 if (propertyNames.Length > 0)
                 {
                     nameDisplay = (propertyNames[0] as PropertyName).Name;
                 }

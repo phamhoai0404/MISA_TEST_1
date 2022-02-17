@@ -5,6 +5,7 @@ using MISA.Fresher.Web12.Core.Exceptions;
 using MISA.Fresher.Web12.Core.Interfaces.Infrastructure;
 using MISA.Fresher.Web12.Core.Interfaces.Services;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MISA.Fresher.Web12.Core.Services
 {
@@ -29,11 +30,17 @@ namespace MISA.Fresher.Web12.Core.Services
         {
             //2. Ngày sinh không được lớn hơn ngày hiện tại
             this.ValidateDateOfBirth(employee.DateOfBirth);
+
+            //3. Phải có định dạng mẫu employee NV-[]
+            this.ValidateEmployeeCode(employee.EmployeeCode);
         }
         protected override void ValidateUpdateCustomer(Guid employeeId, Employee employee)
         {
-            //1. Ngày sinh không được lớn hơn ngày hiện tại
+            //2. Ngày sinh không được lớn hơn ngày hiện tại
             this.ValidateDateOfBirth(employee.DateOfBirth);
+
+            //3. Phải có định dạng mẫu employee NV-[]
+            this.ValidateEmployeeCode(employee.EmployeeCode);
         }
 
         /// <summary>
@@ -49,6 +56,21 @@ namespace MISA.Fresher.Web12.Core.Services
             }
         }
 
+        /// <summary>
+        /// Thực hiện validate Mã phải có định dạng NV-
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: HoaiPT(17/02/2022)
+        private void ValidateEmployeeCode(string employeeCode)
+        {
+            string strRegex = @Core.Resourcs.EntitiesVN.EmployeeVN.RegexEmployeeCode;
+
+            Regex regexCode = new Regex(strRegex);
+            if (!regexCode.IsMatch(employeeCode))
+            {
+                throw new MISAValidateException(String.Format(Core.Resourcs.ResourceVN.ErrorFormatCode));
+            }
+        }
 
         public string GetEmployeeCodeNew()
         {

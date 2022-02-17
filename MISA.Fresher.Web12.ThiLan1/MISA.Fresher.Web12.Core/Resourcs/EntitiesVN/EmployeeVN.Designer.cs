@@ -151,6 +151,15 @@ namespace MISA.Fresher.Web12.Core.Resourcs.EntitiesVN {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ^NV-[0-9]+$.
+        /// </summary>
+        public static string RegexEmployeeCode {
+            get {
+                return ResourceManager.GetString("RegexEmployeeCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DANH SÁCH NHÂN VIÊN.
         /// </summary>
         public static string TitleExcelExport {

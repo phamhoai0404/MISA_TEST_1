@@ -5,6 +5,7 @@ var resourcs = {
         fileNameExport: "Danh_sach_nhan_vien",
         deleteMulti: "Bạn thực sự có muốn xóa những nhân viên đã chọn không?",
         confirmEdit: "Dữ liệu đã bị thay đổi bạn có muốn cất không?",
+        errorEmployeeCode: "Mã nhân viên không đúng định dạng!",
     }
 }
 var misaEnum = {
