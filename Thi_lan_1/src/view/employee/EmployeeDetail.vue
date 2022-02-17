@@ -178,6 +178,8 @@ import MessageWarningEmployee from '@/view/employee/EmployeeWarning.vue'
 import MessageConfirmEdit from '@/view/employee/EmployeeConfirmEdit.vue'
 import axios from 'axios'
 
+import * as mylib from '../../js/resourcs'
+
 export default {
     components: {
         MessageInfoEmployee,
@@ -281,7 +283,7 @@ export default {
                 me.employee.IdentityDate = me.formatDate(me.employee.IdentityDate);
 
                 //Lưu lại thời gian tạo nếu là tạo nhân viên mới
-                if (me.editMode == 1) {
+                if (me.editMode == mylib.misaEnum.editMode.Add) {
                     me.employee.CreatedDate = me.formatDateAndTimeNow();
                 }
 
@@ -289,7 +291,7 @@ export default {
                 me.employee.ModifiedDate = me.formatDateAndTimeNow();
 
                 switch (me.editMode) {
-                    case 1://Thực hiện thêm mới
+                    case mylib.misaEnum.editMode.Add://Thực hiện thêm mới
                         await axios.post('https://localhost:44338/api/v1/Employees', me.employee)
                             .then(function () {
                                 me.checkAction(value);
@@ -298,7 +300,7 @@ export default {
                                 me.openWarning(me);
                             })
                         break;
-                    case 2://Thực hiện sửa
+                    case mylib.misaEnum.editMode.Edit://Thực hiện sửa
                         await axios.put(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`, me.employee)
                             .then(function () {
                                 me.checkAction(value);
@@ -432,7 +434,7 @@ export default {
                     me.$emit('reloadData', null); //Load lại dữ liệu table
                     break;
                 case 2://Nếu là cất và thêm 
-                    me.$parent.editMode = 1;//Đây là hành động thêm mới
+                    me.$parent.editMode = mylib.misaEnum.editMode.Add;//Đây là hành động thêm mới
                     me.$parent.isShowLoading = true;//Load lại dữ liệu
                     await me.$parent.showData();
 
@@ -459,7 +461,7 @@ export default {
                     me.employee[propName] = null;
                 }     
             }
-            me.employee.Gender = "1";//Form mặc định Giới tính: Nam
+            me.employee.Gender = mylib.misaEnum.gender.Male;//Form mặc định Giới tính: Nam
         },
         /**
          * Thực hiện chuẩn hóa lại tên

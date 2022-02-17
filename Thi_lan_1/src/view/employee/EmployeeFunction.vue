@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import * as mylib from '../../js/resourcs'
 export default {
     methods: {
         /**
@@ -16,7 +17,7 @@ export default {
          */
         btnRemove() {
             var me = this;
-            me.$parent.actions = 1;//Thể hiện là đang xóa 1
+            me.$parent.actions = mylib.misaEnum.actionDelete.One;//Thể hiện là đang xóa 1
             me.$emit('openRemoveEmployee');
         },
          /**

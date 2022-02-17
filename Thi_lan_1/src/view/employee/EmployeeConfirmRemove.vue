@@ -21,6 +21,8 @@
 
 <script>
 import axios from 'axios'
+import * as mylib from '../../js/resourcs'
+
 export default {
     props: [
         'employee', 'action'
@@ -43,15 +45,16 @@ export default {
             try {
                 var me = this;
                 await me.$parent.removeAllChecked(me.$parent.listEmployee); //Xóa hết checked
+                document.getElementById('hangloat').checked = false;
 
                 switch (me.action) {
-                    case 1: //Thực hiện xóa 1
+                    case mylib.misaEnum.actionDelete.One: //Thực hiện xóa 1
                         await axios.delete(`https://localhost:44338/api/v1/Employees/${me.employee.EmployeeId}`)
                             .then(function () {
                                 me.resetTable();//Làm mới lại table
                             })
                         break;
-                    case 2: //Thực hiện xóa nhiều
+                    case mylib.misaEnum.actionDelete.Multi: //Thực hiện xóa nhiều
                         if (me.$parent.arrayEmployeeId.length >= 1) {
 
                             await axios.post('https://localhost:44338/api/v1/Employees/DeleteMany', me.$parent.arrayEmployeeId)
@@ -65,8 +68,8 @@ export default {
                         break;
                 }
 
-            } catch (error) {
-                console.error('Có lỗi xảy ra' + error);
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
             }
         },
         /**
@@ -75,7 +78,7 @@ export default {
          */
         resetTable() {
             var me = this;
-            me.$parent.actions = 0;//Thể hiện không phải là xóa cũng không phải là xóa nhiều
+            me.$parent.actions = mylib.misaEnum.actionDelete.NoAction;//Thể hiện không phải là xóa cũng không phải là xóa nhiều
             me.$parent.arrayEmployeeId = []; //Làm mới lại
             me.$emit('openMessageRemove'); //Đóng message 
             me.$emit('reloadData', null); //Load lại table
@@ -87,10 +90,10 @@ export default {
         writeTextRemove() {
             var me = this;
             switch (me.action) {
-                case 1://thực hiện xóa 1
+                case mylib.misaEnum.actionDelete.One://thực hiện xóa 1
                     return `Bạn có thực sự muốn xóa nhân viên <${me.employee.EmployeeCode}> không?`;
-                case 2://Thực hiện xóa nhiều
-                    return "Bạn thực sự có muốn xóa những nhân viên đã chọn không?";
+                case mylib.misaEnum.actionDelete.Multi://Thực hiện xóa nhiều
+                    return mylib.resourcs["VI"].deleteMulti;
                 default:
                     return "";
             }

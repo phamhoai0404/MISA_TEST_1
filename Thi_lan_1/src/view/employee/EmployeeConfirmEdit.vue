@@ -3,7 +3,7 @@
     <div class="m-message-content">
         <div class="m-messages-body">
             <div class="m-mess-icon m-exclamation-question"></div>
-            <div class="m-mess-title">Dữ liệu đã bị thay đổi bạn có muốn cất không?
+            <div class="m-mess-title">{{titleForm}}
             </div>
         </div>
         <div class="m-message-line"></div>
@@ -22,7 +22,13 @@
 </template>
 
 <script>
+import * as mylib from '../../js/resourcs'
 export default {
+    data(){
+        return {
+            titleForm: mylib.resourcs["VI"].confirmEdit,
+        }
+    },
     methods: {
         /**
          * Thực hiện click vào nút hủy

@@ -8,6 +8,8 @@ import Paginate from 'vuejs-paginate'
 
 
 
+
+
 Vue.use(VueRouter) //Thực hiện sử dụng vue router
 Vue.use(VCalendar) //Thực hiện thư viện của datepiker
 Vue.component('paginate', Paginate) //Thực hiện thư viện sử dụng phân trang

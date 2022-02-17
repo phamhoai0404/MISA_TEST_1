@@ -11,7 +11,7 @@
                 <div class="m-button-group">
                     <div class="m-button-title">Thực hiện hàng loạt</div>
                     <div class="m-button-icon" @click="isShowDeleteMany = !isShowDeleteMany"></div>
-                    <div class="m-button-function" v-if="actions===2 && isShowDeleteMany===true " @mouseleave="isShowDeleteMany = false">
+                    <div class="m-button-function" v-if="actions=== 2 && isShowDeleteMany===true " @mouseleave="isShowDeleteMany = false">
                         <div @click="btnRemoveMany()"> Xóa</div>
                     </div>
                 </div>
@@ -97,8 +97,7 @@
                             <div class="m-icon-drown"></div>
                         </button>
                         <div class="m-combobox-data" v-if="isShowPage">
-                            <div v-for="(textPage,index) in listPageText" :key="index" class="m-combobox-item-page" 
-                            @click='selectedPageText(index)' :class="{'selected': selectTextPage == textPage }">{{ textPage }} bản ghi trên 1 trang</div>
+                            <div v-for="(textPage,index) in listPageText" :key="index" class="m-combobox-item-page" @click='selectedPageText(index)' :class="{'selected': selectTextPage == textPage }">{{ textPage }} bản ghi trên 1 trang</div>
                         </div>
                     </div>
                 </div>
@@ -127,6 +126,9 @@ import EmployeeDetail from '@/view/employee/EmployeeDetail.vue'
 import MessageRemoveEmployee from '@/view/employee/EmployeeConfirmRemove.vue'
 import EmployeeFunction from '@/view/employee/EmployeeFunction.vue'
 import axios from 'axios'
+
+import * as mylib from '../../js/resourcs'
+
 export default {
     components: {
         ButtonAdd,
@@ -142,26 +144,24 @@ export default {
             isShowLoading: false, //Trạng thái đầu tiên của Loading
             isShowEmployeeDetail: false, //Trạng thái đầu tiên của form detail
             isShowRemoveEmployee: false, //Trạng thái đầu tiên của form remove
-            editMode: 1, //form thêm hoặc sửa: 1: thêm mới; 2: sửa
+            editMode: mylib.misaEnum.editMode.Add, //form thêm hoặc sửa: 1: thêm mới; 2: sửa
             employeeIdSelected: {}, //employee đang được chọn
 
-            keywordSearch: "",//Từ khóa tìm kiếm mặc định ban đầu bằng empty
+            keywordSearch: "", //Từ khóa tìm kiếm mặc định ban đầu bằng empty
             myTimeout: "", //Thực hiện cho setTimeout ở filer
 
-            testExport: "Danh_sach_nhan_vien", //Tên của file export
+            testExport: mylib.resourcs["VI"].fileNameExport, //Tên của file export
 
-            actions: 0, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
+            actions: mylib.misaEnum.actionDelete.NoAction, //0 là không thực hiện gì, 1: thực hiện xóa một bản ghi, 2: thực hiện xóa nhiều
             isShowDeleteMany: false, //Trạng thái xóa nhiều
             arrayEmployeeId: new Array(), //Nơi lưu trữ EmployeeId chuẩn bị xóa
 
-            totalRecord: 0,//Tổng số bản ghi ban đầu là 0
-            totalPage: 1,//Tổng số trang ban đầu là 1
-            pageAction: 1,//Trang đang thực hiện
-            listPageText: [
-                "10", "20", "30", "50", "100"
-            ],
-            selectTextPage: 10,//Kích thước trang
-            isShowPage: false,//Trạng thái ban đầu của form Page là đóng
+            totalRecord: 0, //Tổng số bản ghi ban đầu là 0
+            totalPage: 1, //Tổng số trang ban đầu là 1
+            pageAction: 1, //Trang đang thực hiện
+            listPageText: mylib.data.listPageSize,
+            selectTextPage: 10, //Kích thước trang
+            isShowPage: false, //Trạng thái ban đầu của form Page là đóng
         }
     },
     created() {
@@ -170,10 +170,12 @@ export default {
         this.getDataListDepartment(); //Thực hiện lấy danh sách phòng ban
         this.getData(); //Thực hiện load dữ liệu
 
+        console.log(mylib.resourcs["VI"].errorMsg);
+
     },
     computed: {
         pageTextInInput: function () {
-            return this.selectTextPage + " bản ghi trên 1 trang";
+            return this.selectTextPage + mylib.resourcs["VI"].titlePage;
         }
     },
 
@@ -183,9 +185,9 @@ export default {
             var me = this;
             clearTimeout(me.myTimeout);
             me.myTimeout = setTimeout(function () {
-                  me.pageAction = 1;
-                  me.isShowLoading = true;
-                  me.showData();
+                me.pageAction = 1;
+                me.isShowLoading = true;
+                me.showData();
             }, 1000);
         }
     },
@@ -206,13 +208,13 @@ export default {
         async selectedPageText(index) {
             var me = this;
 
-            me.selectTextPage = me.listPageText[index];//Thực hiện gán số kích thước trang đã lựa chọn 
-            me.isShowLoading = true;//Show loading
-            me.pageAction = 1;//Hiển thị ở trang đầu tiên
+            me.selectTextPage = me.listPageText[index]; //Thực hiện gán số kích thước trang đã lựa chọn 
+            me.isShowLoading = true; //Show loading
+            me.pageAction = 1; //Hiển thị ở trang đầu tiên
 
-            await me.showData();//Thực hiện load lại dữ liệu trên table với đúng kích thước trang đã chọn
+            await me.showData(); //Thực hiện load lại dữ liệu trên table với đúng kích thước trang đã chọn
 
-            me.isShowPage = false;//Đóng form page
+            me.isShowPage = false; //Đóng form page
         },
         /**
          * Hành động khi chọn vào trang bất kì ở paging
@@ -220,10 +222,10 @@ export default {
          */
         clickCallback(pageIndex) {
             var me = this;
-            me.pageAction = pageIndex;//Thực hiện gián giá trị mới cho trang muốn đứng
-            me.isShowLoading = true;//Show loading
+            me.pageAction = pageIndex; //Thực hiện gián giá trị mới cho trang muốn đứng
+            me.isShowLoading = true; //Show loading
 
-            me.showData();//Load lại dữ liệu table
+            me.showData(); //Load lại dữ liệu table
 
         },
         /**
@@ -248,16 +250,21 @@ export default {
          * CreatedBy: HoaiPT(15/02/2022)
          */
         async getCodeNew() {
-            var me = this;
-            me.isShowLoading = true; //Hiển thị đang load
-            await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
-                .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào MessageRemoveEmployee 
-                    me.isShowLoading = false; //đóng load
-                })
-                .catch(function (res) {
-                    console.error(res);
-                })
+            try {
+                var me = this;
+                me.isShowLoading = true; //Hiển thị đang load
+                await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
+                    .then(function (res) {
+                        me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào MessageRemoveEmployee 
+                        me.isShowLoading = false; //đóng load
+                    })
+                    .catch(function (res) {
+                        console.error(res);
+                    })
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
+            }
+
         },
         /**
          * Lấy toàn bộ dữ liệu về trạng thái ban đầu
@@ -272,53 +279,62 @@ export default {
             me.isShowLoading = true; //Hiển thị đang load
             me.keywordSearch = "";
 
-            me.showData();//Load dữ liệu
+            me.showData(); //Load dữ liệu
 
-           
         },
         /**
          * Lấy và hiển thị dữ liệu
          * CreatedBy: HoaiPT(17/02/2022)
          */
-        async showData(){
-            var me = this;
-             await axios.get(`https://localhost:44338/api/v1/Employees/getPaging?searchText=${me.keywordSearch}&pageIndex=${me.pageAction}&pageSize=${me.selectTextPage}`)
-                .then(function (res) {
-                    me.listEmployee = res.data.Data;//Thực hiện gián listEmployee vào với kích thước trang, từ khóa tìm kiếm và trang đang đứng
-                    me.totalPage = Number(res.data.TotalPage);//Gán vào tổng số trang
-                    me.totalRecord = res.data.TotalRecord;//Gán vào tổng số bản ghi
-                    me.isShowLoading = false;//Đóng loading
-                })
-                .catch(function (res) {
-                    console.log(res);
+        async showData() {
+            try {
+                var me = this;
+                await axios.get(`https://localhost:44338/api/v1/Employees/getPaging?searchText=${me.keywordSearch}&pageIndex=${me.pageAction}&pageSize=${me.selectTextPage}`)
+                    .then(function (res) {
+                        me.listEmployee = res.data.Data; //Thực hiện gián listEmployee vào với kích thước trang, từ khóa tìm kiếm và trang đang đứng
+                        me.totalPage = Number(res.data.TotalPage); //Gán vào tổng số trang
+                        me.totalRecord = res.data.TotalRecord; //Gán vào tổng số bản ghi
+                        me.isShowLoading = false; //Đóng loading
+                    })
+                    .catch(function (res) {
+                        console.log(res);
 
-                })
+                    })
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
+            }
+
         },
         /**
          * Lấy danh sách phòng ban
          * CreatedBy: HoaiPT(08/02/2022)
          */
         getDataListDepartment() {
-            //Chắc chắn là con trỏ this đang ở đây;
-            var me = this;
-            axios.get('https://localhost:44338/api/v1/Departments')
-                .then(function (res) {
-                    me.listDepartmentTable = res.data; //Thực hiện gán vào danh sách Department
-                })
-                .catch(function (res) {
-                    console.err(res);
-                })
+            try {
+                //Chắc chắn là con trỏ this đang ở đây;
+                var me = this;
+                axios.get('https://localhost:44338/api/v1/Departments')
+                    .then(function (res) {
+                        me.listDepartmentTable = res.data; //Thực hiện gán vào danh sách Department
+                    })
+                    .catch(function (res) {
+                        console.err(res);
+                    })
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
+            }
+
         },
         /**
          * Hành động khi click vào nút refresh
          * CreatedBy: HoaiPT(17/02/2022)
          */
-        btnRefresh(){
+        btnRefresh() {
             var me = this;
-            if(me.keywordSearch !=""){//Nếu nó khác rỗng 
-                me.keywordSearch ="";//thì gián bằng rỗng sau thời gian thì nó sẽ xem sự thay đổi của biến keywordSearch in watch
-            }else{
-                me.getData();//Nếu không thì load lại dữ liệu
+            if (me.keywordSearch != "") { //Nếu nó khác rỗng 
+                me.keywordSearch = ""; //thì gián bằng rỗng sau thời gian thì nó sẽ xem sự thay đổi của biến keywordSearch in watch
+            } else {
+                me.getData(); //Nếu không thì load lại dữ liệu
             }
         },
 
@@ -331,7 +347,7 @@ export default {
             me.isShowDeleteMany = false; //Để nó bằng false tránh trường hợp cái action = 2, rồi isShowDeleteMany thì nó TỰ ĐỘNG mở ra cái xóa nhiều ra
             me.arrayEmployeeId = []; //Làm mới để chuẩn bị thêm toàn bộ hoặc không có gì
             if (!document.getElementById('hangloat').checked) {
-                me.actions = 2; //Có thể ấn hành động là xóa nhiều
+                me.actions = mylib.misaEnum.actionDelete.Multi; //Có thể ấn hành động là xóa nhiều
 
                 for (let i = 0; i < me.listEmployee.length; i++) {
                     let id = me.listEmployee[i].EmployeeId;
@@ -339,7 +355,7 @@ export default {
                     me.arrayEmployeeId.push(id) //Add vào để chuẩn bị xóa
                 }
             } else {
-                me.actions = 0; //Ấn không ra không hành động gì hết
+                me.actions = mylib.misaEnum.actionDelete.NoAction; //Ấn không ra không hành động gì hết
                 me.removeAllChecked(me.listEmployee); //Xóa bỏ hết checked
             }
         },
@@ -354,7 +370,6 @@ export default {
                 if (document.getElementById(id).checked)
                     document.getElementById(id).checked = false;
             }
-            document.getElementById('hangloat').checked = false;
         },
         /**
          * Thực hiện khi click vào từng ô checked một
@@ -376,9 +391,9 @@ export default {
                         return;
                     }
                 }
-                me.actions = 0; //Nếu mà tất cả đều không tích chọn thì sẽ không click vào thực hiện hàng loạt được
+                me.actions = mylib.misaEnum.actionDelete.NoAction; //Nếu mà tất cả đều không tích chọn thì sẽ không click vào thực hiện hàng loạt được
             } else {
-                me.actions = 2; //Có thể ấn hành động là xóa nhiều
+                me.actions = mylib.misaEnum.actionDelete.Multi; //Có thể ấn hành động là xóa nhiều
                 me.arrayEmployeeId.push(employeeId);
                 for (let i = 0; i < me.listEmployee.length; i++) {
                     let id = me.listEmployee[i].EmployeeId;
@@ -423,8 +438,8 @@ export default {
             var me = this;
 
             //Khởi tạo đối tượng rỗng với giá trị của giới tính mặc định là Nam và gán giá trị editMode = 1 là thuộc kiểu thêm
-            me.editMode = 1;
-            me.employeeIdSelected = {};//Khởi tạo giá trị rỗng
+            me.editMode = mylib.misaEnum.editMode.Add;
+            me.employeeIdSelected = {}; //Khởi tạo giá trị rỗng
             me.employeeIdSelected.Gender = "1";
             await me.getCodeNewAndShowDialog();
 
@@ -435,10 +450,10 @@ export default {
          */
         btnEditEmployeeDetail(employee) {
             var me = this;
-            me.editMode = 2; //Thể hiện là đang sửa
-            me.employeeIdSelected = employee;//Gán employee bằng employee đang chọn
+            me.editMode = mylib.misaEnum.editMode.Edit; //Thể hiện là đang sửa
+            me.employeeIdSelected = employee; //Gán employee bằng employee đang chọn
 
-            me.isShowEmployeeDetail = true;//Thực hiện mở form detail
+            me.isShowEmployeeDetail = true; //Thực hiện mở form detail
         },
         /**
          * Thực hiện khi click vào nhân bản
@@ -446,7 +461,7 @@ export default {
          */
         btnDuplicate() {
             var me = this;
-            me.editMode = 1; //Thực hiện thêm mới
+            me.editMode = mylib.misaEnum.editMode.Add; //Thực hiện thêm mới
             me.getCodeNewAndShowDialog();
         },
         /**
@@ -455,17 +470,21 @@ export default {
          * CreatedBy: HoaiPT(14/02/2022)
          */
         async getCodeNewAndShowDialog() {
-            var me = this;
-            me.isShowLoading = true; //Hiển thị đang load
-            await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
-                .then(function (res) {
-                    me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào 
-                    me.isShowLoading = false; //đóng
-                    me.isShowEmployeeDetail = true;//mở form detail
-                })
-                .catch(function (res) {
-                    console.error(res);
-                });
+            try {
+                var me = this;
+                me.isShowLoading = true; //Hiển thị đang load
+                await axios.get('https://localhost:44338/api/v1/Employees/CodeNew')
+                    .then(function (res) {
+                        me.employeeIdSelected.EmployeeCode = res.data; //Gán mã mới vào 
+                        me.isShowLoading = false; //đóng
+                        me.isShowEmployeeDetail = true; //mở form detail
+                    })
+                    .catch(function (res) {
+                        console.error(res);
+                    });
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
+            }
 
         },
         /**
@@ -476,7 +495,7 @@ export default {
             //Thực hiện gán dữ liệu và mở message lên
             this.employeeIdSelected = employee;
 
-            this.isShowRemoveEmployee = true;//Mở fil
+            this.isShowRemoveEmployee = true; //Mở fil
 
         },
         /**
@@ -484,23 +503,28 @@ export default {
          * CreatedBy: HoaiPT(14/02/2022)
          */
         btnExportExcel() {
-            //Chắc chắn là con trỏ this đang ở đây;
-            var me = this;
-            me.isShowLoading = true; //Hiển thị đang load
-            axios.get('https://localhost:44338/api/v1/Employees/excel', {
-                responseType: 'blob',
-            }).then((response) => {
-                const url = URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');//Tạo ra một element mới là thẻ a
-                link.href = url;//Thẻ a này có đường dẫn là file excel trả về từ database
-                link.setAttribute(
-                    'download',
-                    `${this.testExport}-${new Date().toLocaleDateString()}.xlsx`//File excel tải về có dạng như vậy
-                )
-                document.body.appendChild(link);//Thêm đường link mới này vào trong file html
-                link.click();
-                me.isShowLoading = false; //Đóng Loading
-            })
+            try {
+                //Chắc chắn là con trỏ this đang ở đây;
+                var me = this;
+                me.isShowLoading = true; //Hiển thị đang load
+                axios.get('https://localhost:44338/api/v1/Employees/excel', {
+                    responseType: 'blob',
+                }).then((response) => {
+                    const url = URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a'); //Tạo ra một element mới là thẻ a
+                    link.href = url; //Thẻ a này có đường dẫn là file excel trả về từ database
+                    link.setAttribute(
+                        'download',
+                        `${this.testExport}-${new Date().toLocaleDateString()}.xlsx` //File excel tải về có dạng như vậy
+                    )
+                    document.body.appendChild(link); //Thêm đường link mới này vào trong file html
+                    link.click();
+                    me.isShowLoading = false; //Đóng Loading
+                })
+            } catch {
+                console.log(mylib.resourcs["VI"].errorMsg);
+            }
+
         }
     },
     filters: {
@@ -531,14 +555,14 @@ export default {
          */
         formatGender(value) {
             switch (value) {
-                case 0:
-                    value = "Nữ";
+                case mylib.misaEnum.genderNumber.Female.Value:
+                    value = mylib.misaEnum.genderNumber.Female.Text;
                     break;
-                case 1:
-                    value = "Nam";
+                case mylib.misaEnum.genderNumber.Male.Value:
+                    value = mylib.misaEnum.genderNumber.Male.Text;
                     break;
-                case 2:
-                    value = "Khác";
+                case mylib.misaEnum.genderNumber.Other.Value:
+                    value = mylib.misaEnum.genderNumber.Other.Text;
                     break;
                 default:
                     value = "";
