@@ -6,6 +6,9 @@ var resourcs = {
         deleteMulti: "Bạn thực sự có muốn xóa những nhân viên đã chọn không?",
         confirmEdit: "Dữ liệu đã bị thay đổi bạn có muốn cất không?",
         errorEmployeeCode: "Mã nhân viên không đúng định dạng!",
+        notNullFullName: "Tên không được phép để trống!",
+        notNullEmployeeCode: "Mã không được phép để trống!",
+        notNullDepartmentName: "Đơn vị không được phép để trống!"
     }
 }
 var misaEnum = {

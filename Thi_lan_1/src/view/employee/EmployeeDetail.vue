@@ -3,15 +3,15 @@
     <div class="m-dialog-content">
         <div class="m-dialog-header">
             <div class="m-dialog-title">
-                <div class="m-title">Thông tin nhân viên</div>
+                <div class="m-title" data-title="xiinh gái">Thông tin nhân viên</div>
                 <div class="m-checkbox">
                     <input type="checkbox" id="khachhang" />
-                    <label class="m-label" for="khachhang">
+                    <label class="m-label" for="khachhang" style="font-family: Notosans;">
                         <span></span> &nbsp; &nbsp;&nbsp;Là khách hàng</label>
                 </div>
                 <div class="m-checkbox">
                     <input type="checkbox" id="cungcap" />
-                    <label class="m-label" for="cungcap"> <span></span> &nbsp; &nbsp;&nbsp;Là nhà cung cấp</label>
+                    <label class="m-label" for="cungcap" style="font-family: Notosans;"> <span></span> &nbsp; &nbsp;&nbsp;Là nhà cung cấp</label>
                 </div>
             </div>
             <div class="m-dialog-close">
@@ -27,18 +27,18 @@
                     <div class="m-dialog-left">
                         <div class="m-row-one">
                             <div class="m-content-input" style="width: 40%;">
-                                <div class="m-label" title="Mã không được để trống!">Mã <span>*</span></div>
-                                <input type="text" ref='focusMe' class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event)" id="employeeCode" >
+                                <div class="m-label">Mã <span>*</span></div>
+                                <input type="text" ref='focusMe' class="m-input" v-model="employee.EmployeeCode" @input="inputOnChange(employee.EmployeeCode, $event, 1)" id="employeeCode">
                             </div>
                             <div class="m-content-input" style="width: 58%;">
                                 <div class="m-label">Tên <span>*</span></div>
-                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event)" id="employeeName" title="Tên không được để trống!" @mouseleave="standardizeFullName()">
+                                <input type="text" class="m-input" v-model="employee.FullName" @input="inputOnChange(employee.FullName, $event,2)" id="employeeName" @mouseleave="standardizeFullName()">
                             </div>
                         </div>
                         <div class="m-content-combobox" style="padding: 0 0 12px 0">
                             <div class="m-label">Đơn vị <span>*</span> </div>
                             <div class="m-dialog-combobox" id="departmentName" @mouseleave="isShowDepartment = false">
-                                <input type="text" v-model="employee.DepartmentName" readonly title="Đơn vị không được để trống!">
+                                <input type="text" v-model="employee.DepartmentName" readonly>
                                 <button class="" @click='btnSelectDepartment()'>
                                     <div class="m-icon-button m-icon-down"></div>
                                 </button>
@@ -95,7 +95,7 @@
                         </div>
                         <div class="m-row-one">
                             <div class="m-content-input" style="width: 58%;">
-                                <div class="m-label">Số CMND</div>
+                                <div class="m-label" title="Số Chứng minh nhân dân">Số CMND</div>
                                 <input type="text" class="m-input" v-model="employee.IdentityNumber">
                             </div>
                             <div class="m-content-input" style="width: 40%;">
@@ -126,11 +126,11 @@
                     </div>
                     <div class="m-row-two">
                         <div class="m-content-input">
-                            <div class="m-label">ĐT di động</div>
+                            <div class="m-label" title="Điện thoại di động">ĐT di động</div>
                             <input type="text" class="m-input" v-model="employee.MobilephoneNumber">
                         </div>
                         <div class="m-content-input">
-                            <div class="m-label">ĐT cố định</div>
+                            <div class="m-label" title="Điện thoại cố định">ĐT cố định</div>
                             <input type="text" class="m-input" v-model="employee.TelephoneNumber">
                         </div>
                         <div class="m-content-input">
@@ -160,8 +160,8 @@
                     <button class="m-button m-button-not-color " @click="btnCancelDialogDetail()">Hủy</button>
                 </div>
                 <div class="m-footer-right ">
-                    <button class="m-button m-button-not-color" @click="btnSaveOnClick(1)">Cất</button>
-                    <button class="m-button" @click="btnSaveOnClick(2)">Cất và Thêm</button>
+                    <button class="m-button m-button-not-color" @click="btnSaveOnClick(1)" v-shortkey="['ctrl', 's']" @shortkey="btnSaveOnClick(1)" title="Thêm (Ctrl+S)">Cất</button>
+                    <button class="m-button" @click="btnSaveOnClick(2)" v-shortkey="['ctrl', 'shift', 's']" @shortkey="btnSaveOnClick(2)" title="Cất và Thêm (Ctrl+Shift+S)">Cất và Thêm</button>
                 </div>
             </div>
         </div>
@@ -217,8 +217,10 @@ export default {
         departmentName: function (value) {
             if (!value) {
                 document.getElementById("departmentName").classList.add('m-border-red');
+                document.getElementById("departmentName").setAttribute("title",mylib.resourcs["VI"].notNullDepartmentName);
             } else {
                 document.getElementById("departmentName").classList.remove('m-border-red');
+                document.getElementById("departmentName").setAttribute("title","");
             }
         },
 
@@ -274,7 +276,7 @@ export default {
                 var me = this;
 
                 //Validate dữ liệu nếu mà nó không thỏa mãn thì kết thúc luôn
-                if (! await me.validateData()) {
+                if (!await me.validateData()) {
                     return;
                 }
 
@@ -332,39 +334,52 @@ export default {
          * Thực hiện css cho ô input có giá trị bằng rỗng
          *CreatedBy: HoaiPT(07/02/2022)
          */
-        inputOnChange(valueField, ee) {
+        inputOnChange(valueField, ee, value) {
             if (!valueField) {
                 ee.target.classList.add('m-border-red');
+                if (value == 1) {
+                    value = mylib.resourcs["VI"].notNullEmployeeCode;
+                } else {
+                    value = mylib.resourcs["VI"].notNullFullName;
+                }
+                ee.target.setAttribute("title", value);
             } else {
                 ee.target.classList.remove('m-border-red');
+                ee.target.setAttribute("title", "");
             }
         },
         /**
          * Thực hiện validate cho dữ liệu cho Form detail
          *CreatedBy: HoaiPT(07/02/2022)
+         *UpdatedBy: HoaiPT(21/02/2022)
          */
         async validateData() {
             var me = this;
             //Không được để trống mã, họ tên và đơn vị
             if (!me.employee.EmployeeCode || !me.employee.FullName || !me.employee.DepartmentName) {
-                me.errorInfo ="";
+                me.errorInfo = "";
                 //Phải style cho border nếu để trống
                 if (!me.employee.EmployeeCode) {
                     let employeeCode = document.getElementById("employeeCode");
                     employeeCode.classList.add('m-border-red');
+                    employeeCode.setAttribute("title", mylib.resourcs["VI"].notNullEmployeeCode);
                     me.errorInfo += "Mã";
                 }
                 if (!me.employee.FullName) {
                     let employeeName = document.getElementById("employeeName");
                     employeeName.classList.add('m-border-red');
-                    me.errorInfo += me.errorInfo!=""? ", Tên": "Tên";
+                    employeeName.setAttribute("title", mylib.resourcs["VI"].notNullFullName);
+
+                    me.errorInfo += me.errorInfo != "" ? ", Tên" : "Tên";
                 }
                 if (!me.employee.DepartmentName) {
                     let departmentName = document.getElementById("departmentName");
                     departmentName.classList.add('m-border-red');
-                   me.errorInfo += me.errorInfo!=""? ", Đơn vị":"Đơn vị";
+                    departmentName.setAttribute("title", mylib.resourcs["VI"].notNullDepartmentName);
+
+                    me.errorInfo += me.errorInfo != "" ? ", Đơn vị" : "Đơn vị";
                 }
-                me.errorInfo +=" không được để trống.";
+                me.errorInfo += " không được để trống.";
 
                 //Hiển thị thông báo
                 me.isShowInfoMessage = true;
@@ -379,19 +394,26 @@ export default {
          * Thực hiện validate dữ liệu cho mã nhân viên
          * CreatedBy: HoaiPT(17/07/2022)
          */
-        validateEmployeeCode(){
+        validateEmployeeCode() {
             var me = this;
-            let temp =  /^NV-[0-9]+$/.test(me.employee.EmployeeCode);
+            let temp = /^NV-[0-9]+$/.test(me.employee.EmployeeCode);
             console.log(temp);
-            if(temp == false){
+            if (temp == false) {
+                let employeeCode = document.getElementById("employeeCode");
+
+                //Thiết lập css cho border
+                employeeCode.classList.add('m-border-red');
+                employeeCode.setAttribute("title", mylib.resourcs["VI"].errorEmployeeCode );
+
+                //Thiết lập dữ liệu lỗi cho form Infor
                 me.errorInfo = mylib.resourcs["VI"].errorEmployeeCode;
 
-                // Hiển thị thông báo
+                // Hiển thị thông báo cho form
                 me.isShowInfoMessage = true;
                 return false;
             }
             return true;
-            
+
         },
         /**
          * Thực hiện mở form cảnh báo lỗi trong form deatail

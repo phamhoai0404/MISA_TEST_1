@@ -3,7 +3,7 @@
             <div class="m-left">
                 <div class="icon"></div>
                 <div class="m-combobox m-combobox-header">
-                    <input type="text" value="CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ KHÁC" style="width: 410px" readonly>
+                    <input type="text" value="CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ KHÁC" style="width: 415px;  font-family: Notosans-Semi-bold;" readonly>
                     <button id="btnCombobox" class="icon-dropdown-header"></button>
                 </div>
             </div>

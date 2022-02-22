@@ -32,7 +32,7 @@
 }
 
 .m-page-number .m-page-item.active {
-    font-weight: 600;
+    font-family: Notosans-Bold;
     padding: 0 6.5px;
     border: 1px solid #bbb;
 }

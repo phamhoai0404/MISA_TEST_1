@@ -14,6 +14,7 @@
 .employee-list .row-one .row-title {
     font-size: 25px;
     font-weight: 800;
+    font-family: Notosans-Semi-bold;
 }
 
 .employee-list .row-two {
@@ -52,6 +53,7 @@
 
 .row-two-top .row-two-left .m-button-group .m-button-title {
     padding-right: 4px;
+    font-family: Notosans-Semi-bold;
     /* background-color: red; */
 }
 

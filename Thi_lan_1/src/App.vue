@@ -10,7 +10,6 @@
                 <router-view></router-view>
             </div>
         </div>
-
     </div>
 </div>
 </template>
@@ -19,18 +18,15 @@
 import TheMenu from '@/components/layout/TheMenu.vue'
 import TheHeaderTop from '@/components/layout/TheHeaderTop.vue'
 
+
 export default {
     name: 'App',
     components: {
         TheMenu,
         TheHeaderTop,
     },
-    data() {
-        return {
-            
-        }
-    },
     methods: {
+
     },
 
 }
@@ -72,4 +68,5 @@ export default {
     box-sizing: border-box;
 
 }
+
 </style>

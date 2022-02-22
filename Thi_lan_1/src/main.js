@@ -7,7 +7,7 @@ import VCalendar from 'v-calendar';
 import Paginate from 'vuejs-paginate'
 
 
-
+Vue.use(require('vue-shortkey')) //Dùng để sử dụng phím tắt
 
 
 Vue.use(VueRouter) //Thực hiện sử dụng vue router

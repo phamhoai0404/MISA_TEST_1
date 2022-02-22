@@ -84,13 +84,14 @@
 .m-header-top .m-right .m-name {
     font-weight: 600;
     font-size: 14px;
+    font-family: Notosans-Semi-bold;
 }
 
 .m-header-top .m-right .m-icon {
-    width: 24px;
-    background-image: url(../../assets/icon/option.png);
-    background-repeat: no-repeat;
-    background-size: 15px 24px;
-    background-position: center center;
+    width: 14px;
+    height: 14px;
+    background-color: red;
     margin: 0 16px;
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat;
+    background-position: -1076px -32px;
 }

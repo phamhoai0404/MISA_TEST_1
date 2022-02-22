@@ -8,7 +8,8 @@
     outline: none;
     border: none;
     cursor: pointer;
-    font-family: Notosans;
+    font-family: Notosans-Semi-bold;
+    ;
     font-size: 13px;
     font-weight: 600 !important;
 }

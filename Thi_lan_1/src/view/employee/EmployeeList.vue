@@ -1,7 +1,7 @@
 <template>
 <div class="employee-list">
     <div class="row-one">
-        <div class="row-title">Nhân viên</div>
+        <div class="row-title" >Nhân viên</div>
         <ButtonAdd @showDialog='showAddEmployeeDetail()' />
     </div>
 
@@ -22,7 +22,7 @@
                 </div>
                 <div class="button- btn-refresh" title="Lấy lại dữ liệu" @click="btnRefresh()">
                 </div>
-                <div class="button- btn-excel " title="Xuất re Excel" @click="btnExportExcel()">
+                <div class="button- btn-excel " title="Xuất ra Excel" @click="btnExportExcel()">
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                         <th style="min-width:155px">TÊN NHÂN VIÊN</th>
                         <th style="min-width:70px">GIỚI TÍNH</th>
                         <th style="min-width:88px" class="text-align-center">NGÀY SINH</th>
-                        <th style="min-width:120px">SỐ CMTND</th>
+                        <th style="min-width:120px" title="Số Chứng minh nhân dân">SỐ CMND</th>
                         <th style="min-width:100px;">CHỨC DANH</th>
                         <th style="min-width:150px">TÊN ĐƠN VỊ</th>
                         <th style="min-width:100px">SỐ TÀI KHOẢN</th>
@@ -165,13 +165,9 @@ export default {
         }
     },
     created() {
-
         //Gọi API lấy dữ liệu
         this.getDataListDepartment(); //Thực hiện lấy danh sách phòng ban
         this.getData(); //Thực hiện load dữ liệu
-
-        console.log(mylib.resourcs["VI"].errorMsg);
-
     },
     computed: {
         pageTextInInput: function () {
@@ -188,7 +184,7 @@ export default {
                 me.pageAction = 1;
                 me.isShowLoading = true;
                 me.showData();
-            }, 1000);
+            }, 500);
         }
     },
 
@@ -331,11 +327,9 @@ export default {
          */
         btnRefresh() {
             var me = this;
-            if (me.keywordSearch != "") { //Nếu nó khác rỗng 
-                me.keywordSearch = ""; //thì gián bằng rỗng sau thời gian thì nó sẽ xem sự thay đổi của biến keywordSearch in watch
-            } else {
-                me.getData(); //Nếu không thì load lại dữ liệu
-            }
+            me.isShowLoading = true;
+            me.showData();
+
         },
 
         /**

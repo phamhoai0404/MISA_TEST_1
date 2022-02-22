@@ -91,6 +91,7 @@
 .m-menu .m-menu-body .menu-item.router-link-active {
     border-left: 6px solid green;
     background-color: #ebedf026;
+    font-family: Notosans-Bold;
     font-weight: 600;
     /* color: #fff;
     text-decoration: none; */

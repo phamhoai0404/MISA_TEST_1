@@ -56,6 +56,7 @@ body {
     font-weight: 500;
     color: #000000;
     margin-bottom: 4px;
+    font-family: Notosans-Semi-Bold;
 }
 
 .text-align-center {
@@ -68,4 +69,30 @@ body {
 
 .text-align-right {
     text-align: right !important;
+}
+
+[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+[data-title]:after {
+    content: attr(data-title);
+    background-color: #454545;
+    color: white;
+    position: absolute;
+    bottom: -1.6em;
+    left: 100%;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 99999;
+    visibility: hidden;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+[data-title] {
+    position: relative;
 }

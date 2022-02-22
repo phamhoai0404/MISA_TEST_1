@@ -13,6 +13,7 @@
         "v-calendar": "^2.3.4",
         "vue": "^2.6.11",
         "vue-router": "^3.5.3",
+        "vue-shortkey": "^3.1.7",
         "vuejs-paginate": "^2.1.0"
     },
     "devDependencies": {
